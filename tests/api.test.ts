@@ -3,7 +3,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { buildApp } from '../src/api/app';
+import { buildApp } from '../src/api/app.js';
 
 function participants() {
   return [

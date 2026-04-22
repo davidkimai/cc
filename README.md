@@ -1,14 +1,26 @@
 # acp
 
+Attention Coordination Protocol.
+
 `acp` stands for `Attention Coordination Protocol`.
 
 This repository is the protocol-first home for `Relay`, the product implementation of ACP.
 
-Relay is a thin coordination layer for running bounded discussion cycles with two comparable conditions:
+Relay helps groups reason together under load.
+
+It is a thin coordination layer for running bounded discussion cycles with two comparable conditions:
 - `intervention`: routed participant digests with plain-language explanations
 - `baseline_thread`: a chronological thread on the same canonical cycle model
 
 Relay is built around a single ACP contract, two operator surfaces, and a set of reusable Relay Blocks packaged as Agent Skills-compatible units.
+
+## Why ACP exists
+
+Most discussion systems still default to broadcast feeds and let salience sort itself out after the fact.
+ACP takes a different approach: it treats discussion as an attention-allocation problem.
+
+The protocol defines how a cycle moves from prompt to contribution, from contribution to release, and from release to reflection, audit, telemetry, and export.
+Relay is the working product surface over that protocol.
 
 ## What the product does
 

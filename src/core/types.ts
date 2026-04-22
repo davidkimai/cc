@@ -128,7 +128,7 @@ export const telemetryEventSchema = z.object({
   surface: participantSurfaceSchema,
   targetId: z.string().optional(),
   condition: cycleConditionSchema,
-  metadata: z.record(z.unknown()).default({}),
+  metadata: z.record(z.string(), z.unknown()).default({}),
   createdAt: z.string().min(1),
 });
 export type TelemetryEvent = z.infer<typeof telemetryEventSchema>;
@@ -139,7 +139,7 @@ export const auditEventSchema = z.object({
   actorType: z.enum(['operator', 'system', 'participant']),
   actorId: z.string().min(1),
   action: z.string().min(1),
-  detail: z.record(z.unknown()).default({}),
+  detail: z.record(z.string(), z.unknown()).default({}),
   createdAt: z.string().min(1),
 });
 export type AuditEvent = z.infer<typeof auditEventSchema>;
@@ -249,7 +249,7 @@ export const participantEventInputSchema = z.object({
   eventType: participantEventTypeSchema,
   targetId: z.string().optional(),
   surface: participantSurfaceSchema.default('participant_web'),
-  metadata: z.record(z.unknown()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 export type ParticipantEventInput = z.infer<typeof participantEventInputSchema>;
 

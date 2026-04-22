@@ -2,9 +2,9 @@ import Fastify, { type FastifyInstance } from 'fastify';
 import fastifyStatic from '@fastify/static';
 import path from 'node:path';
 
-import { exportModeSchema } from '../core/types';
-import { FileStore } from '../services/file-store';
-import { CycleService } from '../services/cycle-service';
+import { exportModeSchema } from '../core/types.js';
+import { FileStore } from '../services/file-store.js';
+import { CycleService } from '../services/cycle-service.js';
 
 function parseError(error: unknown): { statusCode: number; message: string } {
   const message = error instanceof Error ? error.message : 'Unknown error';

@@ -1,16 +1,20 @@
 import { mkdir, readdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { cycleRecordSchema, type CycleRecord } from '../core/types';
+import { cycleRecordSchema, type CycleRecord } from '../core/types.js';
 
 function sortByUpdatedAt(a: CycleRecord, b: CycleRecord): number {
   return b.updatedAt.localeCompare(a.updatedAt);
 }
 
+function isCycleRecord(value: CycleRecord | null): value is CycleRecord {
+  return value !== null;
+}
+
 export class FileStore {
   private readonly cyclesDir: string;
 
-  constructor(baseDir = path.resolve(process.cwd(), '.owes-data')) {
+  constructor(baseDir = path.resolve(process.cwd(), '.acp-data')) {
     this.cyclesDir = path.join(baseDir, 'cycles');
   }
 
@@ -26,7 +30,7 @@ export class FileStore {
         .filter((entry) => entry.isFile() && entry.name.endsWith('.json'))
         .map((entry) => this.getCycle(entry.name.replace(/\.json$/, ''))),
     );
-    return records.filter(Boolean).sort(sortByUpdatedAt) as CycleRecord[];
+    return records.filter(isCycleRecord).sort(sortByUpdatedAt);
   }
 
   async getCycle(cycleId: string): Promise<CycleRecord | null> {

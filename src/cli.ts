@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { exportModeSchema } from './core/types';
-import { CycleService } from './services/cycle-service';
+import { exportModeSchema } from './core/types.js';
+import { CycleService } from './services/cycle-service.js';
 
 function parseJson(value: string | undefined): unknown {
   if (!value) {

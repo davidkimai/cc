@@ -7,7 +7,7 @@ import {
   type ExportMode,
   type RoutingDecision,
   type TelemetryEvent,
-} from '../core/types';
+} from '../core/types.js';
 
 function tokenize(value: string): Set<string> {
   return new Set(

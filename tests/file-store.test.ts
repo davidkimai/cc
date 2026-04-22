@@ -3,13 +3,17 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { FileStore } from '../src/services/file-store';
+import type { CycleRecord } from '../src/core/types.js';
+import { FileStore } from '../src/services/file-store.js';
 
 const dirs: string[] = [];
 
 afterEach(async () => {
   while (dirs.length) {
-    await rm(dirs.pop(), { recursive: true, force: true });
+    const dir = dirs.pop();
+    if (dir) {
+      await rm(dir, { recursive: true, force: true });
+    }
   }
 });
 
@@ -18,7 +22,7 @@ describe('FileStore', () => {
     const dir = await mkdtemp(path.join(os.tmpdir(), 'acp-store-'));
     dirs.push(dir);
     const store = new FileStore(dir);
-    const cycle = {
+    const cycle: CycleRecord = {
       id: 'cycle_store',
       title: 'Persistence check',
       prompt: 'What should persist?',

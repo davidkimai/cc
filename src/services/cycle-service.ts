@@ -21,9 +21,9 @@ import {
   parseFeedbackInput,
   parseParticipantEventInput,
   parseResponseInput,
-} from '../core/types';
-import { FileStore } from './file-store';
-import { buildDigests, buildExportContent, buildRoutingDecisions, computeMetrics } from './pipeline';
+} from '../core/types.js';
+import { FileStore } from './file-store.js';
+import { buildDigests, buildExportContent, buildRoutingDecisions, computeMetrics } from './pipeline.js';
 
 function now(): string {
   return new Date().toISOString();

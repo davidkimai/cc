@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildDigests, buildExportContent, buildRoutingDecisions, computeMetrics } from '../src/services/pipeline';
+import type { CycleRecord } from '../src/core/types.js';
+import { buildDigests, buildExportContent, buildRoutingDecisions, computeMetrics } from '../src/services/pipeline.js';
 
-function interventionCycle() {
+function interventionCycle(): CycleRecord {
   return {
     id: 'cycle_1',
     title: 'Intervention analysis',

@@ -3,8 +3,9 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { CycleService } from '../src/services/cycle-service';
-import { FileStore } from '../src/services/file-store';
+import type { CycleRecord } from '../src/core/types.js';
+import { CycleService } from '../src/services/cycle-service.js';
+import { FileStore } from '../src/services/file-store.js';
 
 function participants() {
   return [
@@ -24,7 +25,10 @@ async function createService() {
 
 afterEach(async () => {
   while (dirs.length) {
-    await rm(dirs.pop(), { recursive: true, force: true });
+    const dir = dirs.pop();
+    if (dir) {
+      await rm(dir, { recursive: true, force: true });
+    }
   }
 });
 
@@ -50,11 +54,12 @@ describe('CycleService', () => {
     cycle = await service.releaseCycle(cycle.id);
     const participantView = await service.getParticipantView(cycle.id, 'p1');
     expect(participantView.mode).toBe('digest');
-    expect(participantView.digest?.items.length).toBeGreaterThan(0);
+    expect(participantView.digest).toBeDefined();
+    expect(participantView.digest!.items.length).toBeGreaterThan(0);
 
     cycle = await service.submitResponse(cycle.id, {
       participantId: 'p1',
-      parentContributionId: participantView.digest.items[0].contributionId,
+      parentContributionId: participantView.digest!.items[0].contributionId,
       body: 'The tradeoff needs explicit sequencing.',
     });
     cycle = await service.submitFeedback(cycle.id, {
@@ -89,6 +94,7 @@ describe('CycleService', () => {
     cycle = await service.submitContribution(cycle.id, { participantId: 'p2', body: 'Prioritize new hiring.' });
     cycle = await service.submitContribution(cycle.id, { participantId: 'p3', body: 'Sequence both.' });
     cycle = await service.closeSubmissions(cycle.id);
+    await expect(service.runRouting(cycle.id)).rejects.toThrow(/only available for intervention/i);
     cycle = await service.releaseCycle(cycle.id);
 
     const participantView = await service.getParticipantView(cycle.id, 'p2');
@@ -97,6 +103,5 @@ describe('CycleService', () => {
     expect(cycle.routingDecisions).toHaveLength(0);
     expect(cycle.digests).toHaveLength(0);
 
-    await expect(service.runRouting(cycle.id)).rejects.toThrow(/only available for intervention/i);
   });
 });
