@@ -15,7 +15,7 @@ afterEach(async () => {
 
 describe('FileStore', () => {
   it('round-trips canonical cycle artifacts', async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'bo-store-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'acp-store-'));
     dirs.push(dir);
     const store = new FileStore(dir);
     const cycle = {

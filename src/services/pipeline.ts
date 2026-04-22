@@ -284,7 +284,7 @@ export function computeMetrics(cycle: CycleRecord): CycleMetrics {
 function renderAnalysis(cycle: CycleRecord): string {
   const metrics = cycle.metrics ?? computeMetrics(cycle);
   return [
-    `# Composable Coordination Analysis Export`,
+    `# ACP Analysis Export`,
     '',
     `- cycle_id: ${cycle.id}`,
     `- title: ${cycle.title}`,
@@ -311,7 +311,7 @@ function renderAnalysis(cycle: CycleRecord): string {
 
 function renderAudit(cycle: CycleRecord): string {
   return [
-    `# Composable Coordination Audit Export`,
+    `# ACP Audit Export`,
     '',
     `- cycle_id: ${cycle.id}`,
     `- condition: ${cycle.condition}`,
@@ -331,7 +331,7 @@ function renderAudit(cycle: CycleRecord): string {
 
 function renderMinimal(cycle: CycleRecord): string {
   return [
-    `# Composable Coordination Minimal Export`,
+    `# ACP Minimal Export`,
     '',
     `- cycle_id: ${cycle.id}`,
     `- title: ${cycle.title}`,

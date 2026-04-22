@@ -1,11 +1,11 @@
 ---
 name: participant-web-operator
-description: Use this skill when you need to operate the Composable Coordination web app for participant submission, digest reading, baseline thread reading, response flow, or operator UI QA.
+description: Use this skill when you need to operate the Relay web app for participant submission, digest reading, baseline thread reading, response flow, or operator UI QA.
 ---
 
 # When to use this skill
 
-Use this skill for browser-driven workflow execution against the Composable Coordination web surface.
+Use this skill for browser-driven workflow execution against the Relay web surface.
 
 # When not to use this skill
 

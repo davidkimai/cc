@@ -1,11 +1,11 @@
 ---
 name: deliberation-cycle
-description: Use this skill when you need to run or inspect a full Composable Coordination cycle from creation through archive using the canonical cycle lifecycle.
+description: Use this skill when you need to run or inspect a full ACP cycle from creation through archive using the canonical cycle lifecycle.
 ---
 
 # When to use this skill
 
-Use this skill when the task is about running the end-to-end Composable Coordination protocol rather than one isolated step.
+Use this skill when the task is about running the end-to-end ACP lifecycle rather than one isolated step.
 
 # When not to use this skill
 

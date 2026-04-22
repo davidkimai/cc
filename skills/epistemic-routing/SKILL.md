@@ -1,6 +1,6 @@
 ---
 name: epistemic-routing
-description: Use this skill when you need to compute or inspect Composable Coordination routing decisions, including bridge exposure and recipient load constraints.
+description: Use this skill when you need to compute or inspect ACP routing decisions, including bridge exposure and recipient load constraints.
 ---
 
 # When to use this skill

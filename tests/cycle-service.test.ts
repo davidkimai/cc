@@ -17,7 +17,7 @@ function participants() {
 const dirs: string[] = [];
 
 async function createService() {
-  const dir = await mkdtemp(path.join(os.tmpdir(), 'bo-service-'));
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'acp-service-'));
   dirs.push(dir);
   return new CycleService(new FileStore(dir));
 }
@@ -72,7 +72,7 @@ describe('CycleService', () => {
     expect(cycle.auditEvents.some((event) => event.action === 'cycle_replayed')).toBe(true);
 
     const analysis = await service.exportCycle(cycle.id, 'analysis');
-    expect(analysis.content).toContain('Composable Coordination Analysis Export');
+    expect(analysis.content).toContain('ACP Analysis Export');
   });
 
   it('runs baseline cycles on the same model without routing or digests', async () => {

@@ -1,6 +1,6 @@
 ---
 name: pilot-analysis
-description: Use this skill when you need to compute or inspect Composable Coordination metrics, telemetry, or export outputs for intervention and baseline cycles.
+description: Use this skill when you need to compute or inspect ACP metrics, telemetry, or export outputs for intervention and baseline cycles.
 ---
 
 # When to use this skill

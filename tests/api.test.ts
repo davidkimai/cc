@@ -13,12 +13,12 @@ function participants() {
   ];
 }
 
-describe('cc API', () => {
+describe('acp API', () => {
   let dataDir: string;
   let app: Awaited<ReturnType<typeof buildApp>>;
 
   beforeAll(async () => {
-    dataDir = await mkdtemp(path.join(os.tmpdir(), 'bo-api-'));
+    dataDir = await mkdtemp(path.join(os.tmpdir(), 'acp-api-'));
     app = await buildApp({ dataDir });
   });
 

@@ -1,12 +1,14 @@
-# cc
+# acp
 
-`cc` stands for `Composable Coordination`.
+`acp` stands for `Attention Coordination Protocol`.
 
-It is a thin coordination layer for running bounded discussion cycles with two comparable conditions:
+This repository is the protocol-first home for `Relay`, the product implementation of ACP.
+
+Relay is a thin coordination layer for running bounded discussion cycles with two comparable conditions:
 - `intervention`: routed participant digests with plain-language explanations
 - `baseline_thread`: a chronological thread on the same canonical cycle model
 
-The product is built around a single protocol contract, two operator surfaces, and a set of reusable coordination blocks packaged as Agent Skills-compatible units.
+Relay is built around a single ACP contract, two operator surfaces, and a set of reusable Relay Blocks packaged as Agent Skills-compatible units.
 
 ## What the product does
 
@@ -16,11 +18,18 @@ The product is built around a single protocol contract, two operator surfaces, a
 - releases either routed digests or a baseline thread depending on condition
 - captures participant responses, feedback, telemetry, audit events, and exports
 - exposes both a web surface and a CLI over the same protocol core
-- packages reusable coordination blocks in `skills/`
+- packages reusable Relay Blocks in `skills/`
+
+## Naming hierarchy
+
+Use this repository with a 3-layer framing:
+- Protocol: `Attention Coordination Protocol (ACP)`
+- Product: `Relay`
+- Blocks: `Relay Blocks`
 
 ## Product framing
 
-`cc` is not a social platform and not an AI discussant.
+`Relay` is not a social platform and not an AI discussant.
 
 The system acts as a coordinator at the attention-allocation layer:
 - routing
@@ -30,7 +39,7 @@ The system acts as a coordinator at the attention-allocation layer:
 - operator audit
 - baseline condition parity
 
-The skills in `skills/` are best understood as composable blocks of this coordination layer, not as the source of truth for protocol semantics.
+The blocks in `skills/` are best understood as Relay Blocks over ACP, not as the source of truth for protocol semantics.
 
 ## Repository layout
 
@@ -41,7 +50,7 @@ src/
   services/           cycle orchestration, persistence, routing, metrics
 public/               participant + operator SPA
 tests/                API, service, pipeline, and persistence coverage
-skills/               Agent Skills-compatible coordination blocks
+skills/               Agent Skills-compatible Relay Blocks
 ```
 
 ## Key runtime surfaces
@@ -70,9 +79,9 @@ npm run cli -- cycle list
 npm run cli -- participant view <cycleId> <participantId>
 ```
 
-## Coordination blocks
+## Relay Blocks
 
-The initial coordination blocks are:
+The initial Relay Blocks are:
 - `deliberation-cycle`
 - `epistemic-routing`
 - `digest-and-explanation`
@@ -82,9 +91,9 @@ The initial coordination blocks are:
 - `research-cli-operator`
 - `baseline-thread-runner`
 - `pilot-analysis`
-- `cc-openclaw`
+- `relay-openclaw`
 
-These are packaged as Agent Skills-compatible blocks so the coordination layer can be reused across compatible agents and runtimes without collapsing the application into prompt text.
+These are packaged as Agent Skills-compatible Relay Blocks so the coordination layer can be reused across compatible agents and runtimes without collapsing the application into prompt text.
 
 ## Local development
 
@@ -101,12 +110,12 @@ npm run dev
 The server defaults to:
 - host: `127.0.0.1`
 - port: `4317`
-- data dir: `.cc-data/`
+- data dir: `.acp-data/`
 
 Environment variables:
-- `CC_HOST`
-- `CC_PORT`
-- `CC_DATA_DIR`
+- `ACP_HOST`
+- `ACP_PORT`
+- `ACP_DATA_DIR`
 
 ## Build and test
 
@@ -120,4 +129,4 @@ npm test
 
 This repository contains the product implementation.
 It does not include the original proposal positioning as the product identity.
-`Beyond Overload` was the initial proposal name; `cc` is the product name.
+`Beyond Overload` was the initial proposal name; `Relay` is the product name, and `acp` is the protocol-first repository name.

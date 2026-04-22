@@ -1,6 +1,6 @@
 ---
 name: operator-audit
-description: Use this skill when you need to inspect Composable Coordination audit events, telemetry, exports, or replay behavior for an operator workflow.
+description: Use this skill when you need to inspect ACP audit events, telemetry, exports, or replay behavior for a Relay operator workflow.
 ---
 
 # When to use this skill

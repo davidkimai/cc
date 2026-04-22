@@ -1,6 +1,6 @@
 ---
 name: overload-governance
-description: Use this skill when you need to enforce Composable Coordination digest size limits, pacing, and bounded participant reading burden.
+description: Use this skill when you need to enforce ACP digest size limits, pacing, and bounded participant reading burden.
 ---
 
 # When to use this skill

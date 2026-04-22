@@ -1,6 +1,6 @@
 ---
-name: cc-openclaw
-description: Use this skill when you need OpenClaw-specific guidance for loading or operating the Composable Coordination skills suite in an Agent Skills-compatible runtime.
+name: relay-openclaw
+description: Use this skill when you need OpenClaw-specific guidance for loading or operating Relay Blocks in an Agent Skills-compatible runtime.
 ---
 
 # When to use this skill
@@ -9,7 +9,7 @@ Use this skill when the runtime environment is OpenClaw or another closely compa
 
 # When not to use this skill
 
-Do not use this skill to redefine the Composable Coordination protocol or product behavior.
+Do not use this skill to redefine ACP or Relay behavior.
 
 # Inputs expected
 
@@ -18,7 +18,7 @@ Do not use this skill to redefine the Composable Coordination protocol or produc
 
 # Steps
 
-1. Load the relevant Composable Coordination package from the local `skills/` directory.
+1. Load the relevant Relay Block from the local `skills/` directory.
 2. Keep protocol truth in the application and specs, not in the runtime adapter.
 3. Use the CLI, API, or web surface according to the narrower package selected.
 

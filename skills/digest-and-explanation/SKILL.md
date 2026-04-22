@@ -1,6 +1,6 @@
 ---
 name: digest-and-explanation
-description: Use this skill when you need to inspect participant digests, explanations, or intervention release outputs after routing is complete.
+description: Use this skill when you need to inspect ACP digest outputs, participant explanations, or intervention release state after routing is complete.
 ---
 
 # When to use this skill

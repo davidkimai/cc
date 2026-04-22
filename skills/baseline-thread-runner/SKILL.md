@@ -1,6 +1,6 @@
 ---
 name: baseline-thread-runner
-description: Use this skill when you need to run or inspect the Composable Coordination baseline thread condition under the same canonical cycle model.
+description: Use this skill when you need to run or inspect the Relay baseline thread condition under the same canonical cycle model.
 ---
 
 # When to use this skill
