@@ -1,6 +1,6 @@
 ---
 name: research-cli-operator
-description: Use this skill when you need to run Relay cycle management, export, or participant-view workflows through the CLI.
+description: Use this skill when you need to run Relay CLI workflows, the first ACP implementation, for cycle management, export, or participant-view operations.
 ---
 
 # When to use this skill

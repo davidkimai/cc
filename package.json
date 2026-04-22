@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Attention Coordination Protocol (ACP) with Relay as the product surface and Relay Blocks as the modular workflow layer.",
+  "description": "Attention Coordination Protocol (ACP), with Relay as the first implementation and Relay Blocks as the modular workflow layer.",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.json",
     "dev": "tsx watch src/server.ts",

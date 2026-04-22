@@ -1,6 +1,6 @@
 ---
 name: relay-openclaw
-description: Use this skill when you need OpenClaw-specific guidance for loading or operating Relay Blocks in an Agent Skills-compatible runtime.
+description: Use this skill when you need OpenClaw-specific guidance for loading or operating Relay Blocks over ACP in an Agent Skills-compatible runtime.
 ---
 
 # When to use this skill
