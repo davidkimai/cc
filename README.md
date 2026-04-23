@@ -1,117 +1,136 @@
-# acp
+# ACP
 
-Attention Coordination Protocol.
+ACP stands for `Attention Coordination Protocol`.
 
-`acp` stands for `Attention Coordination Protocol`.
+This repo is the main home for ACP and for `Relay`, the first working implementation of the protocol.
 
-This repository is the protocol-first home for `Relay`, the first working implementation of ACP.
+ACP is built for one simple problem: most group discussion tools show everything to everyone and hope people sort it out themselves. That breaks down fast. Important ideas get buried, early posts get too much attention, and people who are slower or more careful get pushed out.
 
-ACP is a reusable democratic coordination primitive for discussion under load.
-Relay is the reference implementation used to validate that primitive in practice.
+ACP takes a different approach. It treats discussion as a coordination problem.
 
-The system is designed around bounded discussion cycles with two comparable conditions:
-- `intervention`: routed participant digests with plain-language explanations
-- `baseline_thread`: a chronological thread on the same canonical cycle model
+Instead of one open feed, ACP runs a discussion in clear stages:
+- people submit one main contribution
+- the system prepares either a routed digest or a simple thread view
+- people respond after release
+- the cycle is logged, measured, and exported for review
 
-Relay is built around a single ACP contract, two operator surfaces, and a set of reusable Relay Blocks packaged as Agent Skills-compatible units.
+## What this repo contains
 
-## Why ACP exists
+This repo has three connected layers:
+- `ACP`: the protocol and source of truth
+- `Relay`: the first product built on that protocol
+- `Relay Blocks`: reusable operating blocks for agents and operator workflows
 
-Most discussion systems still default to broadcast feeds and let salience sort itself out after the fact.
-ACP takes a different approach: it treats discussion as an attention-allocation problem.
+In practice, that means this repo includes:
+- the protocol contract
+- a working web app
+- a working CLI
+- a local API server
+- cycle storage and export logic
+- tests
+- pilot runbooks and evaluation materials
+- reusable Relay Blocks under `skills/`
 
-ACP defines how a cycle moves from prompt to contribution, from contribution to release, and from release to reflection, audit, telemetry, and export.
-Relay is the first implementation used to validate ACP through a working participant surface, operator surface, and empirical comparison against a baseline thread.
+## What Relay does today
 
-## Strategic framing
+Relay already supports:
+- creating discussion cycles
+- running both supported conditions:
+  - `intervention`: a routed digest with explanations
+  - `baseline_thread`: a normal chronological thread on the same cycle model
+- collecting one main contribution per participant
+- releasing outputs at the right stage
+- collecting responses and feedback
+- recording audit events and telemetry
+- generating exports for analysis and review
+- inspecting cycles through both the web app and the CLI
 
-This repository should be read using a 3-layer hierarchy:
-- Protocol: `Attention Coordination Protocol (ACP)`
-- Reference implementation: `Relay`
-- Modular layer: `Relay Blocks`
+## How to read the repo
 
-That distinction is deliberate.
-ACP is the reusable standardizing layer.
-Relay is the first implementation, not the whole conceptual object.
-Relay Blocks are reusable operational units over ACP rather than the source of truth for protocol semantics.
+If you are new here, use this order:
 
-## What Relay does
+1. Start with the protocol and implementation specs in `docs/specs/`
+2. Look at the web and CLI entry points in `public/` and `src/`
+3. Look at pilot and evaluation materials in `docs/pilot/` and `docs/evaluation/`
+4. Look at `skills/` for Relay Blocks and agent-facing helpers
 
-- creates and manages discussion cycles
-- collects one primary contribution per participant during the submission window
-- runs intervention routing and digest generation under bounded load constraints
-- releases either routed digests or a baseline thread depending on condition
-- captures participant responses, feedback, telemetry, audit events, and exports
-- exposes both a web surface and a CLI over the same protocol core
-- packages reusable Relay Blocks in `skills/`
+## Source of truth
 
-## Relay framing
+The canonical implementation specs live in `docs/specs/`.
 
-`Relay` is not a social platform and not an AI discussant.
+Start with:
+- `ACP_TECHNICAL_SPEC.md`
+- `ACP_PROTOCOL_CONTRACT_SPEC.md`
+- `ACP_TELEMETRY_EVALUATION_SPEC.md`
+- `RELAY_BLOCKS_SPEC.md`
+- `ACP_IMPLEMENTATION_ORCHESTRATION_SPEC.md`
 
-The system acts as a coordinator at the attention-allocation layer:
-- routing
-- digest construction
-- explanation
-- overload governance
-- operator audit
-- baseline condition parity
+The main implementation-child specs include:
+- `RELAY_REFERENCE_IMPLEMENTATION_SPEC.md`
+- `RELAY_WEB_APP_SPEC.md`
+- `RELAY_OPERATOR_CLI_HEADLESS_SPEC.md`
+- `ACP_HTTP_API_SPEC.md`
+- `ACP_COORDINATION_ENGINE_SPEC.md`
+- `ACP_PERSISTENCE_EXPORT_SPEC.md`
+- `ACP_PILOT_OPERATIONS_SPEC.md`
+- `ACP_EVALUATION_INSTRUMENT_SPEC.md`
+- `RELAY_BLOCKS_EXECUTION_SPEC.md`
+- `ACP_AGENT_EXECUTION_CONTRACT.md`
+- `ACP_RELEASE_DEPLOYMENT_SPEC.md`
 
-The blocks in `skills/` are best understood as Relay Blocks over ACP, not as the source of truth for protocol semantics.
+If code and older notes disagree, `docs/specs/` wins.
+
+## Main surfaces
+
+### Web app
+
+Relay includes one browser surface with two roles:
+- operator view for creating, running, and inspecting cycles
+- participant view for reading prompts, submitting contributions, reading outputs, and sending feedback
+
+### CLI
+
+Relay also includes a CLI for headless and scripted work.
+
+It supports:
+- cycle creation and lifecycle actions
+- participant view lookup
+- contribution, response, feedback, and event submission
+- inspection of audit events, telemetry, metrics, routing decisions, digests, and exports
+
+## Relay Blocks
+
+The `skills/` directory contains Relay Blocks.
+
+These are reusable helpers for operating Relay and ACP through compatible agents and runtimes. The highest-value blocks now include helper scripts and references for:
+- CLI operation
+- pilot analysis
+- participant surface preflight checks
+- runtime loadout validation
+
+## Pilot materials
+
+This repo now includes concrete pilot materials in `docs/`:
+- deployment notes and release smoke checks
+- pilot runbooks and operator checklists
+- participant communication templates
+- post-cycle survey and interview guide
+- qualitative coding and missingness templates
+
+These materials are here so running the fellowship pilot does not depend on improvised procedure.
 
 ## Repository layout
 
 ```text
-src/
-  api/                HTTP API
-  core/               canonical schemas and runtime config
-  services/           cycle orchestration, persistence, routing, metrics
-public/               participant + operator SPA
-tests/                API, service, pipeline, and persistence coverage
-skills/               Agent Skills-compatible Relay Blocks
+src/                 server, API, core types, services, CLI
+public/              Relay web app
+skills/              Relay Blocks
+tests/               automated tests
+docs/specs/          canonical specs
+docs/pilot/          pilot runbooks and checklists
+docs/evaluation/     survey and interview materials
+docs/deployment/     release and deployment notes
 ```
-
-## Reference implementation surfaces
-
-### Web app
-
-The Relay web surface provides:
-- operator cycle creation and lifecycle control
-- participant prompt reading and contribution submission
-- participant digest or thread reading depending on condition
-- participant response and feedback flows
-- metrics, audit, and export inspection
-
-### CLI
-
-The Relay CLI provides:
-- cycle create/list/show/open/close/release/archive/replay/export
-- participant view
-- contribution, response, feedback, and telemetry event submission
-
-Examples:
-
-```bash
-npm run cli -- cycle create '{"title":"Housing tradeoffs","prompt":"What tradeoffs matter most?","condition":"intervention","participants":[{"id":"p1","name":"Alice","role":"participant"},{"id":"p2","name":"Bob","role":"participant"}]}'
-npm run cli -- cycle list
-npm run cli -- participant view <cycleId> <participantId>
-```
-
-## Relay Blocks
-
-The initial Relay Blocks are:
-- `deliberation-cycle`
-- `epistemic-routing`
-- `digest-and-explanation`
-- `overload-governance`
-- `operator-audit`
-- `participant-web-operator`
-- `research-cli-operator`
-- `baseline-thread-runner`
-- `pilot-analysis`
-- `relay-openclaw`
-
-These are packaged as Agent Skills-compatible Relay Blocks so ACP can be operationalized across compatible agents and runtimes without collapsing the protocol into prompt text.
 
 ## Local development
 
@@ -125,10 +144,10 @@ npm install
 npm run dev
 ```
 
-The server defaults to:
+Default local settings:
 - host: `127.0.0.1`
 - port: `4317`
-- data dir: `.acp-data/`
+- data directory: `.acp-data/`
 
 Environment variables:
 - `ACP_HOST`
@@ -143,13 +162,25 @@ npm run typecheck
 npm test
 ```
 
-## Current scope
+A GitHub Actions workflow also runs the same checks for the repo.
 
-This repository contains:
-- the ACP contract as the primary framing object
-- Relay as the first implementation
-- Relay Blocks as the modular operational layer
+## Current status
 
-`Beyond Overload` was the initial proposal name.
-`Relay` is the implementation name.
-`acp` is the protocol-first repository name.
+This repo is no longer just a proposal scaffold.
+
+It is already:
+- a protocol-first codebase
+- a working reference implementation
+- a spec-driven implementation repo
+- a pilot-preparation repo with operational materials
+
+It is still early. The system is usable and coherent, but it is not yet the final fellowship output.
+
+## Naming note
+
+`Beyond Overload` was the original proposal name.
+
+Current naming:
+- `ACP` is the protocol
+- `Relay` is the first implementation
+- `Relay Blocks` are the reusable operating blocks
