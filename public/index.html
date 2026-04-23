@@ -7,107 +7,159 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">Relay</p>
-        <h1>Relay is the first implementation of ACP</h1>
-      </div>
-      <div class="topbar-meta">
-        <span id="connection-state" class="status-chip status-chip--neutral">Connecting</span>
-        <span id="route-state" class="status-chip status-chip--neutral">operator</span>
-      </div>
-    </header>
-
-    <div id="toast" class="toast" hidden></div>
-
-    <main class="layout">
-      <section class="panel panel--operator">
-        <div class="panel-header">
-          <div>
-            <p class="section-label">Relay operator surface</p>
-            <h2>Cycle management</h2>
-          </div>
-          <button id="refresh-cycles" class="ghost-button">Refresh</button>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="topbar__identity">
+          <p class="eyebrow">Attention Coordination Protocol</p>
+          <h1>Relay is the first implementation of ACP.</h1>
+          <p class="topbar__summary">
+            A protocol-first surface for bounded collective reasoning, with one operator workspace and one participant workspace over the same cycle model.
+          </p>
         </div>
-
-        <form id="create-cycle-form" class="stacked-form">
-          <div class="field-grid">
-            <label>
-              <span>Title</span>
-              <input name="title" required placeholder="Housing policy tradeoffs" />
-            </label>
-            <label>
-              <span>Condition</span>
-              <select name="condition">
-                <option value="intervention">Intervention</option>
-                <option value="baseline_thread">Baseline thread</option>
-              </select>
-            </label>
+        <div class="topbar__controls">
+          <div class="mode-switch" role="tablist" aria-label="Relay surface mode">
+            <button id="mode-operator" class="mode-switch__button is-active" type="button" role="tab" aria-selected="true">
+              Operator
+            </button>
+            <button id="mode-participant" class="mode-switch__button" type="button" role="tab" aria-selected="false">
+              Participant
+            </button>
           </div>
-          <label>
-            <span>Prompt</span>
-            <textarea name="prompt" rows="4" required placeholder="What tradeoffs should this group weigh?"></textarea>
-          </label>
-          <label>
-            <span>Participants</span>
-            <textarea
-              name="participants"
-              rows="5"
-              required
-              placeholder="p1,Alice&#10;p2,Bob&#10;p3,Carol"
-            ></textarea>
-          </label>
-          <div class="field-grid">
-            <label>
-              <span>Max digest items</span>
-              <input name="maxDigestItems" type="number" min="1" max="12" value="4" />
-            </label>
-            <label>
-              <span>Max bridge items</span>
-              <input name="maxBridgeItems" type="number" min="0" max="4" value="1" />
-            </label>
+          <div class="status-row">
+            <span id="connection-state" class="status-chip status-chip--neutral">Connecting</span>
+            <span id="route-state" class="status-chip status-chip--neutral">operator</span>
           </div>
-          <button type="submit">Create cycle</button>
-        </form>
+        </div>
+      </header>
 
-        <div class="operator-body">
-          <aside>
-            <div id="cycle-list" class="list"></div>
-          </aside>
-          <section id="operator-detail" class="detail-card empty-state">
-            Select or create a cycle.
+      <div id="toast" class="toast" hidden></div>
+
+      <main class="workspace">
+        <aside class="sidebar">
+          <section class="sidebar-panel" id="shared-cycle-panel">
+            <div class="sidebar-panel__header">
+              <div>
+                <p class="eyebrow">Shared cycle model</p>
+                <h2>Cycle navigator</h2>
+              </div>
+              <button id="refresh-cycles" class="button button--ghost" type="button">Refresh</button>
+            </div>
+            <div class="status-stack">
+              <span id="cycle-count" class="muted-copy">No cycles loaded.</span>
+              <span id="surface-caption" class="muted-copy">Operator workspace active.</span>
+            </div>
+            <div id="cycle-list" class="list" aria-live="polite"></div>
           </section>
-        </div>
-      </section>
 
-      <section class="panel panel--participant">
-        <div class="panel-header">
-          <div>
-            <p class="section-label">Relay participant surface</p>
-            <h2>Prompt, digest, thread, response</h2>
-          </div>
-        </div>
+          <section class="sidebar-panel" id="participant-context-panel">
+            <div class="sidebar-panel__header">
+              <div>
+                <p class="eyebrow">Participant routing</p>
+                <h2>View selector</h2>
+              </div>
+            </div>
+            <div class="stack">
+              <label class="field">
+                <span>Cycle</span>
+                <select id="participant-cycle-select"></select>
+              </label>
+              <label class="field">
+                <span>Participant</span>
+                <select id="participant-select"></select>
+              </label>
+              <button id="load-participant-view" class="button" type="button">Load participant view</button>
+              <p id="participant-selection-status" class="muted-copy">Pick a cycle and participant to load the ACP-derived participant mode.</p>
+            </div>
+          </section>
+        </aside>
 
-        <div class="participant-toolbar">
-          <label>
-            <span>Cycle</span>
-            <select id="participant-cycle-select"></select>
-          </label>
-          <label>
-            <span>Participant</span>
-            <select id="participant-select"></select>
-          </label>
-          <button id="load-participant-view">Load view</button>
-        </div>
+        <section class="surface">
+          <section id="operator-surface" class="surface-panel">
+            <div class="surface-panel__header">
+              <div>
+                <p class="eyebrow">Relay operator surface</p>
+                <h2>Cycle control, inspection, and export</h2>
+                <p>Run intervention and baseline cycles on the same ACP contract without dropping into the CLI.</p>
+              </div>
+            </div>
 
-        <section id="participant-detail" class="detail-card empty-state">
-          Pick a cycle and participant to load the canonical participant view.
+            <div class="panel-grid panel-grid--operator">
+              <article class="card card--form">
+                <div class="card__header">
+                  <div>
+                    <p class="eyebrow">Create</p>
+                    <h3>Open a new cycle</h3>
+                  </div>
+                </div>
+                <form id="create-cycle-form" class="stack">
+                  <div class="split">
+                    <label class="field">
+                      <span>Title</span>
+                      <input name="title" required placeholder="Housing policy tradeoffs" />
+                    </label>
+                    <label class="field">
+                      <span>Condition</span>
+                      <select name="condition">
+                        <option value="intervention">Intervention</option>
+                        <option value="baseline_thread">Baseline Thread</option>
+                      </select>
+                    </label>
+                  </div>
+                  <label class="field">
+                    <span>Prompt</span>
+                    <textarea name="prompt" rows="4" required placeholder="What tradeoffs should this group weigh?"></textarea>
+                  </label>
+                  <label class="field">
+                    <span>Participants</span>
+                    <textarea name="participants" rows="5" required placeholder="p1,Alice&#10;p2,Bob&#10;p3,Carol"></textarea>
+                  </label>
+                  <div class="split">
+                    <label class="field">
+                      <span>Max digest items</span>
+                      <input name="maxDigestItems" type="number" min="1" max="12" value="4" />
+                    </label>
+                    <label class="field">
+                      <span>Max bridge items</span>
+                      <input name="maxBridgeItems" type="number" min="0" max="4" value="1" />
+                    </label>
+                  </div>
+                  <button class="button" type="submit">Create cycle</button>
+                </form>
+              </article>
+
+              <article id="operator-detail" class="card empty-card" aria-live="polite">
+                <div class="empty-copy">
+                  <p class="eyebrow">Operator detail</p>
+                  <h3>Select or create a cycle.</h3>
+                  <p>The operator panel will show lifecycle actions, metrics, audit history, digests, routing, telemetry, and exports for the selected cycle.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section id="participant-surface" class="surface-panel" hidden>
+            <div class="surface-panel__header">
+              <div>
+                <p class="eyebrow">Relay participant surface</p>
+                <h2>Prompt, digest, thread, response, and feedback</h2>
+                <p>The participant view is derived from ACP mode and condition, not from ad hoc browser state.</p>
+              </div>
+            </div>
+
+            <article id="participant-detail" class="card empty-card" aria-live="polite">
+              <div class="empty-copy">
+                <p class="eyebrow">Participant detail</p>
+                <h3>Load a participant view.</h3>
+                <p>Choose a cycle and participant, then load the canonical participant mode for that cycle.</p>
+              </div>
+            </article>
+          </section>
         </section>
-      </section>
-    </main>
+      </main>
+    </div>
 
     <template id="cycle-card-template">
-      <article class="list-card">
+      <article class="list-card" tabindex="0">
         <div>
           <h3 data-role="title"></h3>
           <p data-role="meta"></p>
@@ -120,8 +172,8 @@
     </template>
 
     <template id="digest-item-template">
-      <article class="digest-item">
-        <div class="digest-item__header">
+      <article class="item-card">
+        <div class="item-card__header">
           <div>
             <h4 data-role="author"></h4>
             <p data-role="reason"></p>
@@ -129,10 +181,10 @@
           <span data-role="bridge"></span>
         </div>
         <p data-role="body"></p>
-        <div class="digest-item__actions">
-          <button data-action="open-item" type="button">Open item</button>
-          <button data-action="toggle-explanation" type="button">Explanation</button>
-          <button data-action="reply" type="button">Reply</button>
+        <div class="button-row">
+          <button data-action="open-item" class="button button--ghost" type="button">Open item</button>
+          <button data-action="toggle-explanation" class="button button--ghost" type="button">Explanation</button>
+          <button data-action="reply" class="button button--ghost" type="button">Reply</button>
         </div>
         <div data-role="explanation" class="explanation" hidden></div>
       </article>

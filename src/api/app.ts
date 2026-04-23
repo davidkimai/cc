@@ -6,15 +6,15 @@ import { exportModeSchema } from '../core/types.js';
 import { FileStore } from '../services/file-store.js';
 import { CycleService } from '../services/cycle-service.js';
 
-function parseError(error: unknown): { statusCode: number; message: string } {
+function parseError(error: unknown): { statusCode: number; message: string; code: string } {
   const message = error instanceof Error ? error.message : 'Unknown error';
   if (message.includes('not found')) {
-    return { statusCode: 404, message };
+    return { statusCode: 404, message, code: 'NOT_FOUND' };
   }
   if (message.includes('cannot transition') || message.includes('only available') || message.includes('already submitted')) {
-    return { statusCode: 409, message };
+    return { statusCode: 409, message, code: 'STATE_CONFLICT' };
   }
-  return { statusCode: 400, message };
+  return { statusCode: 400, message, code: 'BAD_REQUEST' };
 }
 
 export async function buildApp(config?: { dataDir?: string }): Promise<FastifyInstance> {
@@ -48,7 +48,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycles: filtered };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -58,7 +58,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return reply.code(201).send({ cycle });
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -68,7 +68,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -78,7 +78,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -88,7 +88,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -98,7 +98,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -108,7 +108,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -118,7 +118,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -128,7 +128,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -138,7 +138,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -148,7 +148,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { auditEvents: cycle.auditEvents };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -158,7 +158,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { telemetryEvents: cycle.telemetryEvents };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -168,7 +168,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { metrics: cycle.metrics };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -178,7 +178,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { routingDecisions: cycle.routingDecisions };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -188,7 +188,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { digests: cycle.digests };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -199,7 +199,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { digest: cycle.digests.find((item) => item.participantId === participantId) ?? null };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -213,7 +213,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { cycle };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 
@@ -224,7 +224,7 @@ export async function buildApp(config?: { dataDir?: string }): Promise<FastifyIn
       return { view };
     } catch (error) {
       const parsed = parseError(error);
-      return reply.code(parsed.statusCode).send({ error: parsed.message });
+      return reply.code(parsed.statusCode).send({ error: parsed.message, code: parsed.code });
     }
   });
 

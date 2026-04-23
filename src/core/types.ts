@@ -117,6 +117,53 @@ export const participantEventTypeSchema = z.enum([
 ]);
 export type ParticipantEventType = z.infer<typeof participantEventTypeSchema>;
 
+export const operatorEventTypeSchema = z.enum([
+  'cycle_created',
+  'cycle_opened',
+  'submissions_closed',
+  'routing_started',
+  'routing_job_failed',
+  'routing_completed',
+  'digest_generated',
+  'digests_released',
+  'export_generated',
+  'replay_started',
+  'replay_completed',
+  'cycle_archived',
+  'cycle_failed',
+]);
+export type OperatorEventType = z.infer<typeof operatorEventTypeSchema>;
+
+export const telemetryEventTypeSchema = z.enum([
+  'prompt_viewed',
+  'contribution_started',
+  'contribution_abandoned',
+  'contribution_submitted',
+  'digest_opened',
+  'digest_item_opened',
+  'bridge_item_engaged',
+  'routing_explanation_viewed',
+  'thread_opened',
+  'thread_item_opened',
+  'response_started',
+  'response_submitted',
+  'feedback_submitted',
+  'cycle_created',
+  'cycle_opened',
+  'submissions_closed',
+  'routing_started',
+  'routing_job_failed',
+  'routing_completed',
+  'digest_generated',
+  'digests_released',
+  'export_generated',
+  'replay_started',
+  'replay_completed',
+  'cycle_archived',
+  'cycle_failed',
+]);
+export type TelemetryEventType = z.infer<typeof telemetryEventTypeSchema>;
+
 export const participantSurfaceSchema = z.enum(['participant_web', 'operator_cli', 'operator_web', 'api']);
 export type ParticipantSurface = z.infer<typeof participantSurfaceSchema>;
 
@@ -124,7 +171,7 @@ export const telemetryEventSchema = z.object({
   id: z.string().min(1),
   cycleId: z.string().min(1),
   participantId: z.string().optional(),
-  eventType: participantEventTypeSchema,
+  eventType: telemetryEventTypeSchema,
   surface: participantSurfaceSchema,
   targetId: z.string().optional(),
   condition: cycleConditionSchema,

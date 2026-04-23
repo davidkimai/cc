@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .acp-data/
+.owes-data/
 coverage/
 .DS_Store
 *.log

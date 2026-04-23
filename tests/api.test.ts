@@ -107,6 +107,18 @@ describe('acp API', () => {
     });
     expect(exportResponse.statusCode).toBe(201);
     expect(exportResponse.json().export.mode).toBe('analysis');
+
+    const telemetry = await app.inject({ method: 'GET', url: `/v1/cycles/${cycleId}/telemetry-events` });
+    expect(telemetry.statusCode).toBe(200);
+    const eventTypes = telemetry.json().telemetryEvents.map((event: { eventType: string }) => event.eventType);
+    expect(eventTypes).toContain('cycle_created');
+    expect(eventTypes).toContain('cycle_opened');
+    expect(eventTypes).toContain('submissions_closed');
+    expect(eventTypes).toContain('routing_started');
+    expect(eventTypes).toContain('digest_generated');
+    expect(eventTypes).toContain('routing_completed');
+    expect(eventTypes).toContain('digests_released');
+    expect(eventTypes).toContain('export_generated');
   });
 
   it('runs a baseline cycle end to end on the same cycle model', async () => {
@@ -182,8 +194,10 @@ describe('acp API', () => {
 
     const routeTooEarly = await app.inject({ method: 'POST', url: `/v1/cycles/${cycleId}/routing` });
     expect(routeTooEarly.statusCode).toBe(409);
+    expect(routeTooEarly.json().code).toBe('STATE_CONFLICT');
 
     const archiveTooEarly = await app.inject({ method: 'POST', url: `/v1/cycles/${cycleId}/archive` });
     expect(archiveTooEarly.statusCode).toBe(409);
+    expect(archiveTooEarly.json().code).toBe('STATE_CONFLICT');
   });
 });

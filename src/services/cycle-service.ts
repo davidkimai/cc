@@ -79,6 +79,12 @@ export class CycleService {
       condition: parsed.condition,
       participantCount: parsed.participants.length,
     });
+    this.appendTelemetry(cycle, {
+      eventType: 'cycle_created',
+      surface: 'api',
+      condition: parsed.condition,
+      metadata: { participantCount: parsed.participants.length },
+    });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
   }
@@ -89,6 +95,12 @@ export class CycleService {
     cycle.status = 'submission_open';
     cycle.openedAt = now();
     this.appendAudit(cycle, 'operator', actorId, 'cycle_opened');
+    this.appendTelemetry(cycle, {
+      eventType: 'cycle_opened',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: {},
+    });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
   }
@@ -101,6 +113,12 @@ export class CycleService {
     this.appendAudit(cycle, 'operator', actorId, 'submissions_closed', {
       contributionCount: cycle.contributions.length,
     });
+    this.appendTelemetry(cycle, {
+      eventType: 'submissions_closed',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: { contributionCount: cycle.contributions.length },
+    });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
   }
@@ -111,13 +129,52 @@ export class CycleService {
     if (cycle.condition !== 'intervention') {
       throw new Error('Routing is only available for intervention cycles.');
     }
-    cycle.routingDecisions = buildRoutingDecisions(cycle);
-    cycle.digests = buildDigests(cycle, cycle.routingDecisions);
+    this.appendTelemetry(cycle, {
+      eventType: 'routing_started',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: {},
+    });
+    try {
+      cycle.routingDecisions = buildRoutingDecisions(cycle);
+      cycle.digests = buildDigests(cycle, cycle.routingDecisions);
+    } catch (error) {
+      this.appendAudit(cycle, 'system', actorId, 'routing_job_failed', {
+        message: error instanceof Error ? error.message : String(error),
+      });
+      this.appendTelemetry(cycle, {
+        eventType: 'routing_job_failed',
+        surface: 'api',
+        condition: cycle.condition,
+        metadata: { message: error instanceof Error ? error.message : String(error) },
+      });
+      cycle.metrics = computeMetrics(cycle);
+      await this.persist(cycle);
+      throw error;
+    }
     cycle.status = 'routing_completed';
     cycle.routingCompletedAt = now();
+    this.appendTelemetry(cycle, {
+      eventType: 'digest_generated',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: {
+        routingDecisionCount: cycle.routingDecisions.length,
+        digestCount: cycle.digests.length,
+      },
+    });
     this.appendAudit(cycle, 'operator', actorId, 'routing_completed', {
       routingDecisionCount: cycle.routingDecisions.length,
       digestCount: cycle.digests.length,
+    });
+    this.appendTelemetry(cycle, {
+      eventType: 'routing_completed',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: {
+        routingDecisionCount: cycle.routingDecisions.length,
+        digestCount: cycle.digests.length,
+      },
     });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
@@ -133,6 +190,12 @@ export class CycleService {
     cycle.status = 'digests_released';
     cycle.releasedAt = now();
     this.appendAudit(cycle, 'operator', actorId, cycle.condition === 'intervention' ? 'digests_released' : 'thread_released');
+    this.appendTelemetry(cycle, {
+      eventType: 'digests_released',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: { releaseMode: cycle.condition === 'intervention' ? 'digest' : 'thread' },
+    });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
   }
@@ -153,15 +216,33 @@ export class CycleService {
     cycle.status = 'archived';
     cycle.archivedAt = now();
     this.appendAudit(cycle, 'operator', actorId, 'cycle_archived');
+    this.appendTelemetry(cycle, {
+      eventType: 'cycle_archived',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: {},
+    });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
   }
 
   async replayCycle(cycleId: string, actorId = 'operator'): Promise<CycleRecord> {
     const cycle = await this.getCycle(cycleId);
+    this.appendTelemetry(cycle, {
+      eventType: 'replay_started',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: { status: cycle.status },
+    });
     this.appendAudit(cycle, 'operator', actorId, 'cycle_replayed', {
       status: cycle.status,
       condition: cycle.condition,
+    });
+    this.appendTelemetry(cycle, {
+      eventType: 'replay_completed',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: { status: cycle.status },
     });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
@@ -340,6 +421,13 @@ export class CycleService {
       cycle.exports.push(artifact);
     }
     this.appendAudit(cycle, 'system', 'system', 'export_generated', { mode });
+    this.appendTelemetry(cycle, {
+      eventType: 'export_generated',
+      surface: 'api',
+      condition: cycle.condition,
+      targetId: artifact.id,
+      metadata: { mode },
+    });
     await this.persist(cycle);
     return artifact;
   }

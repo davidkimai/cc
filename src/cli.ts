@@ -13,9 +13,44 @@ function print(value: unknown): void {
   process.stdout.write(`${typeof value === 'string' ? value : JSON.stringify(value, null, 2)}\n`);
 }
 
+function usage() {
+  return {
+    usage: [
+      'node dist/cli.js cycle create "{...json...}"',
+      'node dist/cli.js cycle list',
+      'node dist/cli.js cycle show <cycleId>',
+      'node dist/cli.js cycle open <cycleId>',
+      'node dist/cli.js cycle close-submissions <cycleId>',
+      'node dist/cli.js cycle run-routing <cycleId>',
+      'node dist/cli.js cycle release <cycleId>',
+      'node dist/cli.js cycle close-reflection <cycleId>',
+      'node dist/cli.js cycle archive <cycleId>',
+      'node dist/cli.js cycle replay <cycleId>',
+      'node dist/cli.js cycle audit <cycleId>',
+      'node dist/cli.js cycle telemetry <cycleId>',
+      'node dist/cli.js cycle metrics <cycleId>',
+      'node dist/cli.js cycle routing-decisions <cycleId>',
+      'node dist/cli.js cycle digests <cycleId>',
+      'node dist/cli.js cycle exports <cycleId>',
+      'node dist/cli.js cycle export <cycleId> [analysis|audit|minimal]',
+      'node dist/cli.js participant view <cycleId> <participantId>',
+      'node dist/cli.js contribution submit <cycleId> "{...json...}"',
+      'node dist/cli.js response submit <cycleId> "{...json...}"',
+      'node dist/cli.js feedback submit <cycleId> "{...json...}"',
+      'node dist/cli.js event record <cycleId> "{...json...}"',
+      'node dist/cli.js help',
+    ],
+  };
+}
+
 async function main(): Promise<void> {
   const service = new CycleService();
   const [domain, action, ...rest] = process.argv.slice(2);
+
+  if (!domain || domain === 'help' || domain === '--help' || domain === '-h') {
+    print(usage());
+    return;
+  }
 
   if (domain === 'cycle' && action === 'create') {
     const payload = parseJson(rest[0]);
@@ -58,6 +93,30 @@ async function main(): Promise<void> {
     print(await service.replayCycle(rest[0]));
     return;
   }
+  if (domain === 'cycle' && action === 'audit') {
+    print((await service.getCycle(rest[0])).auditEvents);
+    return;
+  }
+  if (domain === 'cycle' && action === 'telemetry') {
+    print((await service.getCycle(rest[0])).telemetryEvents);
+    return;
+  }
+  if (domain === 'cycle' && action === 'metrics') {
+    print((await service.getCycle(rest[0])).metrics ?? null);
+    return;
+  }
+  if (domain === 'cycle' && action === 'routing-decisions') {
+    print((await service.getCycle(rest[0])).routingDecisions);
+    return;
+  }
+  if (domain === 'cycle' && action === 'digests') {
+    print((await service.getCycle(rest[0])).digests);
+    return;
+  }
+  if (domain === 'cycle' && action === 'exports') {
+    print((await service.getCycle(rest[0])).exports);
+    return;
+  }
   if (domain === 'cycle' && action === 'export') {
     print(await service.exportCycle(rest[0], exportModeSchema.parse(rest[1] ?? 'analysis')));
     return;
@@ -83,25 +142,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  print({
-    usage: [
-      'node dist/cli.js cycle create "{...json...}"',
-      'node dist/cli.js cycle list',
-      'node dist/cli.js cycle show <cycleId>',
-      'node dist/cli.js cycle open <cycleId>',
-      'node dist/cli.js cycle close-submissions <cycleId>',
-      'node dist/cli.js cycle run-routing <cycleId>',
-      'node dist/cli.js cycle release <cycleId>',
-      'node dist/cli.js cycle close-reflection <cycleId>',
-      'node dist/cli.js cycle archive <cycleId>',
-      'node dist/cli.js cycle export <cycleId> [analysis|audit|minimal]',
-      'node dist/cli.js participant view <cycleId> <participantId>',
-      'node dist/cli.js contribution submit <cycleId> "{...json...}"',
-      'node dist/cli.js response submit <cycleId> "{...json...}"',
-      'node dist/cli.js feedback submit <cycleId> "{...json...}"',
-      'node dist/cli.js event record <cycleId> "{...json...}"',
-    ],
-  });
+  print(usage());
 }
 
 main().catch((error) => {
