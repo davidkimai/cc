@@ -63,7 +63,9 @@ const CURATED_TEXT_SURFACES = [
 ];
 
 const REQUIRED_GITIGNORE_PATTERNS = [
-  'artifacts/benchmarks/scale/',
+  'artifacts/benchmarks/',
+  'artifacts/completion-audit/',
+  'artifacts/completion/foresight/',
   'artifacts/conference/foresight/',
   'artifacts/conference/rehearsal/adopter-http-run/',
   'artifacts/conference/rehearsal/dogfood-run/',

@@ -10,11 +10,9 @@ coverage/
 artifacts/local/
 artifacts/tmp/
 # Bulky regenerated artifact trees: keep curated reviewer surfaces in git, regenerate these on demand.
-artifacts/benchmarks/ablation/
-artifacts/benchmarks/demo/
-artifacts/benchmarks/participatory-budget-priorities/
-artifacts/benchmarks/replay/
-artifacts/benchmarks/scale/
+artifacts/benchmarks/
+artifacts/completion-audit/
+artifacts/completion/foresight/
 artifacts/conference/foresight/
 artifacts/conference/rehearsal/adopter-http-run/
 artifacts/conference/rehearsal/dogfood-run/
