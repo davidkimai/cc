@@ -1,0 +1,47 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "public-hearing-triage-baseline",
+  "title": "Public hearing triage",
+  "prompt": "A county team is reviewing testimony on a housing proposal. The practical question is which concerns need immediate discussion tonight and which can be logged for follow-up.",
+  "condition": "baseline_thread",
+  "participants": [
+    { "id": "p1", "name": "Diego", "role": "participant" },
+    { "id": "p2", "name": "Farah", "role": "participant" },
+    { "id": "p3", "name": "Grace", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Immediate discussion should focus on displacement risk because that is where near-term harm is concentrated."
+    },
+    {
+      "participantId": "p2",
+      "body": "Transit and school capacity should still be surfaced because they affect whether the proposal is viable at all."
+    },
+    {
+      "participantId": "p3",
+      "body": "A plain thread makes it easier to see what arrived first, but not necessarily what matters most."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p1",
+      "parentContributionParticipantId": "p3",
+      "body": "That is the core comparison: chronology is easy to inspect, but it does not help triage under load."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p2",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 3,
+        "usefulness": 3,
+        "exchangeQuality": 3,
+        "explanationClarity": 3,
+        "returnWillingness": 3
+      }
+    }
+  ],
+  "exportModes": ["analysis", "minimal"]
+}

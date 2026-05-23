@@ -77,11 +77,13 @@ For both conditions:
 
 ## 8. Post-cycle closeout
 
-1. Generate and retain exports.
-2. Confirm telemetry and audit traces exist.
-3. Complete the post-cycle checklist.
-4. Record any anomalies, manual interventions, or partial data issues.
-5. Archive the cycle only after required artifacts are retained.
+1. Generate and retain exports with `scripts/pilot/pilot-data-handling.mjs capture-export`.
+2. Log any missing or partial data with `scripts/pilot/pilot-data-handling.mjs log-missingness`.
+3. Build the operator handoff with `scripts/pilot/pilot-data-handling.mjs build-handoff`.
+4. Confirm telemetry and audit traces exist.
+5. Complete the post-cycle checklist.
+6. Record any anomalies, manual interventions, or partial data issues.
+7. Archive or prune the cycle only after required artifacts are retained and the handoff is complete.
 
 ## 9. Failure rule
 
@@ -99,6 +101,9 @@ Each cycle should leave behind:
 - completed checklists
 - anomaly and recovery logs if needed
 - retained exports
+- a cycle manifest and export manifest
+- a missingness log if any gap occurred
+- a handoff packet for the next owner
 - retained telemetry and audit traces
 - captured participant feedback
 - links to any follow-up interview notes

@@ -1,0 +1,57 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "emergency-response-briefing-intervention",
+  "title": "Emergency response briefing",
+  "prompt": "A local response team is coordinating around a major storm outage. Which updates should be surfaced first for the next decision window?",
+  "condition": "intervention",
+  "config": {
+    "maxDigestItems": 3,
+    "maxBridgeItems": 1
+  },
+  "participants": [
+    { "id": "p1", "name": "Nadia", "role": "participant" },
+    { "id": "p2", "name": "Omar", "role": "participant" },
+    { "id": "p3", "name": "Priya", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Medical device outages should be elevated first because the harm of delay is immediate and severe.",
+      "confidenceLabel": "high",
+      "evidenceText": "Some updates belong at the top purely because time matters."
+    },
+    {
+      "participantId": "p2",
+      "body": "The digest should still surface one logistics constraint, like fuel access, because response plans fail when support assumptions stay hidden.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Operations drift when support constraints stay buried."
+    },
+    {
+      "participantId": "p3",
+      "body": "Operators need a briefing artifact they can hand off across shifts without rereading the full thread.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Shift changes are where context loss becomes dangerous."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p2",
+      "parentContributionParticipantId": "p3",
+      "body": "Exactly. The handoff artifact is part of the intervention, not just paperwork after the fact."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p1",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 1,
+        "usefulness": 5,
+        "exchangeQuality": 4,
+        "explanationClarity": 4,
+        "returnWillingness": 5
+      }
+    }
+  ],
+  "exportModes": ["analysis", "audit", "minimal"]
+}

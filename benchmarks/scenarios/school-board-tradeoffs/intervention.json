@@ -1,0 +1,57 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "school-board-tradeoffs-intervention",
+  "title": "School board tradeoffs",
+  "prompt": "A school board has to weigh classroom aides, after-school counseling, and a public budget dashboard under one constrained operating plan. What should move first?",
+  "condition": "intervention",
+  "config": {
+    "maxDigestItems": 3,
+    "maxBridgeItems": 1
+  },
+  "participants": [
+    { "id": "p1", "name": "Kei", "role": "participant" },
+    { "id": "p2", "name": "Lena", "role": "participant" },
+    { "id": "p3", "name": "Malik", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Classroom aides should come first because they relieve immediate staff load in the places students feel it first.",
+      "confidenceLabel": "high",
+      "evidenceText": "The shortest path to better classroom conditions is additional adult support."
+    },
+    {
+      "participantId": "p2",
+      "body": "Counseling should not disappear from the digest because the highest-need students often show up later in a chronological thread.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Mental health needs are easy to underweight when the thread is crowded."
+    },
+    {
+      "participantId": "p3",
+      "body": "The public dashboard matters because legitimacy drops when the board makes tradeoffs without a visible record.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Transparency is a live governance need, not only a reporting add-on."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p2",
+      "parentContributionParticipantId": "p3",
+      "body": "I would still route that in, even if it is not the top spending choice, because transparency changes whether people accept the tradeoff."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p1",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 2,
+        "usefulness": 4,
+        "exchangeQuality": 4,
+        "explanationClarity": 4,
+        "returnWillingness": 4
+      }
+    }
+  ],
+  "exportModes": ["analysis", "audit", "minimal"]
+}

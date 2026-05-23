@@ -1,0 +1,19 @@
+{
+  "case_id": "intervention_minimal",
+  "acp_protocol_version": "0.1.0",
+  "condition": "intervention",
+  "replay_mode": "exact",
+  "object_counts": {
+    "cycle": 1,
+    "participant": 2,
+    "contribution": 2,
+    "routing_decision": 2,
+    "digest": 2,
+    "response": 1
+  },
+  "event_counts": {
+    "audit_event": 8,
+    "telemetry_event": 13
+  },
+  "status": "pass"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@acp/typescript-http-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Minimal TypeScript starter for driving ACP through the public Relay HTTP API.",
+  "scripts": {
+    "start": "tsx src/run.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}

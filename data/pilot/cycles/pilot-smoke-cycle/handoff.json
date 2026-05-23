@@ -1,0 +1,10 @@
+{
+  "cycleId": "pilot-smoke-cycle",
+  "generatedAt": "2026-05-09T06:16:04.150Z",
+  "operator": "pilot-data-smoke",
+  "analysisOwner": "demo-reviewer",
+  "summary": "Local smoke workflow for capture, missingness, handoff, and retention dry-run.",
+  "manifestPath": "/Users/jasontang/acp/data/pilot/cycles/pilot-smoke-cycle/cycle-manifest.json",
+  "exportManifestPath": "/Users/jasontang/acp/data/pilot/cycles/pilot-smoke-cycle/exports/2026-05-09T06-16-04-038Z-pilot-smoke-demo",
+  "missingnessCount": 1
+}

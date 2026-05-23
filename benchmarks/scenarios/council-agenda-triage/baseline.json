@@ -1,0 +1,47 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "council-agenda-triage-baseline",
+  "title": "Council agenda triage",
+  "prompt": "A local council has too many agenda items for one meeting. Which items need deep debate now, and which should be deferred with a clear reason?",
+  "condition": "baseline_thread",
+  "participants": [
+    { "id": "p1", "name": "Hana", "role": "participant" },
+    { "id": "p2", "name": "Isaac", "role": "participant" },
+    { "id": "p3", "name": "Jo", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Items with immediate legal deadlines should be surfaced first because delay can remove the council's choice entirely."
+    },
+    {
+      "participantId": "p2",
+      "body": "A plain thread makes deadlines obvious, but it also lets a loud issue crowd out one slower trust problem."
+    },
+    {
+      "participantId": "p3",
+      "body": "The operator still needs a clean export after the meeting, even without routing."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p1",
+      "parentContributionParticipantId": "p2",
+      "body": "That is exactly why the comparison matters. The thread is transparent, but weak at triage."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p3",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 3,
+        "usefulness": 3,
+        "exchangeQuality": 4,
+        "explanationClarity": 3,
+        "returnWillingness": 3
+      }
+    }
+  ],
+  "exportModes": ["analysis", "minimal"]
+}

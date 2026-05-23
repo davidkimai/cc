@@ -1,0 +1,57 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "batch-intervention-demo",
+  "title": "Batch intervention demo",
+  "prompt": "How should a small civic team balance bridge exposure against overload in a pilot cycle?",
+  "condition": "intervention",
+  "config": {
+    "maxDigestItems": 3,
+    "maxBridgeItems": 1
+  },
+  "participants": [
+    { "id": "p1", "name": "Avery", "role": "participant" },
+    { "id": "p2", "name": "Mina", "role": "participant" },
+    { "id": "p3", "name": "Noah", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Bridge exposure should surface one relevant but non-obvious perspective in each digest.",
+      "confidenceLabel": "high",
+      "evidenceText": "Small groups over-cluster quickly."
+    },
+    {
+      "participantId": "p2",
+      "body": "Load budgets should keep the digest compact enough to finish in one sitting.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Completion rates drop when reading burden expands."
+    },
+    {
+      "participantId": "p3",
+      "body": "The operator needs readable export artifacts after the cycle closes.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Pilot review depends on legible evidence."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p1",
+      "parentContributionParticipantId": "p2",
+      "body": "The load budget matters, but the digest should still show one contrasting view."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p1",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 2,
+        "usefulness": 4,
+        "exchangeQuality": 4,
+        "explanationClarity": 4,
+        "returnWillingness": 4
+      }
+    }
+  ],
+  "exportModes": ["analysis", "audit", "minimal"]
+}

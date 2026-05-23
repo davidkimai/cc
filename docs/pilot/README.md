@@ -8,6 +8,7 @@ This directory turns the ACP pilot operations spec into concrete materials for r
 - `checklists/pre-cycle-checklist.md`: cycle readiness gate before opening submissions
 - `checklists/live-cycle-checklist.md`: monitoring and intervention rules during an active cycle
 - `checklists/post-cycle-checklist.md`: artifact capture and closeout discipline after a cycle
+- `data-handling/README.md`: pilot data-handling workflow, retention, missingness, and handoff guidance
 - `templates/operator-anomaly-log.md`: structured anomaly log for deviations and failures
 - `templates/failure-recovery-log.md`: decision log for pauses, reruns, and partial failures
 - `templates/participant-comms.md`: reusable participant-facing message templates

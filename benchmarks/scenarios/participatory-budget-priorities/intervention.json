@@ -1,0 +1,57 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "participatory-budget-priorities-intervention",
+  "title": "Participatory budget priorities",
+  "prompt": "A city fellowship team has a small public grant and three options: emergency food support, youth transit passes, and a community tool library. What should be prioritized this cycle, and why?",
+  "condition": "intervention",
+  "config": {
+    "maxDigestItems": 3,
+    "maxBridgeItems": 1
+  },
+  "participants": [
+    { "id": "p1", "name": "Asha", "role": "participant" },
+    { "id": "p2", "name": "Ben", "role": "participant" },
+    { "id": "p3", "name": "Carmen", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Emergency food support should go first because the harm of waiting is immediate and easy to measure.",
+      "confidenceLabel": "high",
+      "evidenceText": "The shortest delay helps the most vulnerable households first."
+    },
+    {
+      "participantId": "p2",
+      "body": "Youth transit passes are the strongest bridge option because they improve school access and job access at the same time.",
+      "confidenceLabel": "medium",
+      "evidenceText": "One line item can relieve several barriers at once."
+    },
+    {
+      "participantId": "p3",
+      "body": "The tool library has slower payoff, but it spreads value across many residents and reduces future household costs.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Shared infrastructure compounds when the grant is small."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p2",
+      "parentContributionParticipantId": "p1",
+      "body": "I agree on urgency, but the digest should still surface one longer-term option so the cycle does not collapse into only emergency reasoning."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p1",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 2,
+        "usefulness": 5,
+        "exchangeQuality": 4,
+        "explanationClarity": 4,
+        "returnWillingness": 5
+      }
+    }
+  ],
+  "exportModes": ["analysis", "audit", "minimal"]
+}

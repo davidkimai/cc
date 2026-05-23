@@ -1,0 +1,19 @@
+{
+  "case_id": "baseline_minimal",
+  "acp_protocol_version": "0.1.0",
+  "condition": "baseline_thread",
+  "replay_mode": "exact",
+  "object_counts": {
+    "cycle": 1,
+    "participant": 2,
+    "contribution": 2,
+    "routing_decision": 0,
+    "digest": 0,
+    "response": 1
+  },
+  "event_counts": {
+    "audit_event": 5,
+    "telemetry_event": 8
+  },
+  "status": "pass"
+}

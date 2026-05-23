@@ -1,0 +1,57 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "public-hearing-triage-intervention",
+  "title": "Public hearing triage",
+  "prompt": "A county team is reviewing testimony on a housing proposal. The practical question is which concerns need immediate discussion tonight and which can be logged for follow-up.",
+  "condition": "intervention",
+  "config": {
+    "maxDigestItems": 3,
+    "maxBridgeItems": 1
+  },
+  "participants": [
+    { "id": "p1", "name": "Diego", "role": "participant" },
+    { "id": "p2", "name": "Farah", "role": "participant" },
+    { "id": "p3", "name": "Grace", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Immediate discussion should focus on displacement risk because that is where near-term harm is concentrated.",
+      "confidenceLabel": "high",
+      "evidenceText": "The hearing is most useful when it catches irreversible damage early."
+    },
+    {
+      "participantId": "p2",
+      "body": "Transit and school capacity should still be surfaced because they affect whether the proposal is viable at all.",
+      "confidenceLabel": "medium",
+      "evidenceText": "A narrow housing-only lens misses downstream strain."
+    },
+    {
+      "participantId": "p3",
+      "body": "A routed digest should expose one minority concern clearly even if it is not the loudest testimony in the room.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Volume is not the same thing as decision relevance."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p3",
+      "parentContributionParticipantId": "p1",
+      "body": "That is the right priority, but the digest has to explain why quieter testimony made the cut or trust drops fast."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p2",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 2,
+        "usefulness": 4,
+        "exchangeQuality": 4,
+        "explanationClarity": 5,
+        "returnWillingness": 4
+      }
+    }
+  ],
+  "exportModes": ["analysis", "audit", "minimal"]
+}

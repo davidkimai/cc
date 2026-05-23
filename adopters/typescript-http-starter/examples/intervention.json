@@ -1,0 +1,57 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "adopter-intervention-starter",
+  "title": "Adopter intervention starter",
+  "prompt": "How should an outside team evaluate ACP without depending on Relay internals?",
+  "condition": "intervention",
+  "config": {
+    "maxDigestItems": 3,
+    "maxBridgeItems": 1
+  },
+  "participants": [
+    { "id": "p1", "name": "Avery", "role": "participant" },
+    { "id": "p2", "name": "Mina", "role": "participant" },
+    { "id": "p3", "name": "Noah", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "A real adopter should be able to drive ACP from the public API and inspect the resulting cycle.",
+      "confidenceLabel": "high",
+      "evidenceText": "Protocol adoption depends on stable boundaries, not private service imports."
+    },
+    {
+      "participantId": "p2",
+      "body": "The starter should preserve ACP terms like cycle, condition, routing, digest, response, and export.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Renaming core objects makes compatibility hard to evaluate."
+    },
+    {
+      "participantId": "p3",
+      "body": "Evidence artifacts should be produced by the run itself so a reviewer can inspect what happened.",
+      "confidenceLabel": "medium",
+      "evidenceText": "A useful starter leaves behind more than a success message."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p2",
+      "parentContributionParticipantId": "p1",
+      "body": "That public boundary is the part an outside implementer can rely on."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p3",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 2,
+        "usefulness": 4,
+        "exchangeQuality": 4,
+        "explanationClarity": 4,
+        "returnWillingness": 4
+      }
+    }
+  ],
+  "exportModes": ["analysis", "audit", "minimal"]
+}

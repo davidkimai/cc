@@ -1,0 +1,50 @@
+{
+  "bundle": "acp-relay-demo",
+  "version": "0.1",
+  "state_order": [
+    "draft",
+    "scheduled",
+    "submission_open",
+    "submission_closed",
+    "routing_complete",
+    "digests_released",
+    "reflection_closed",
+    "archived",
+    "failed"
+  ],
+  "common_rules": [
+    "scheduled indicates the cycle is prepared but not yet accepting contributions.",
+    "Each participant contributes one primary submission during submission_open.",
+    "submission_closed blocks new primary submissions.",
+    "routing_complete is only meaningful for intervention cycles.",
+    "digests_released exposes the cycle-specific outputs for review.",
+    "reflection_closed follows release and stays separate from the main prompt loop.",
+    "archived means the cycle can be retained, exported, or replayed.",
+    "failed records an explicit failure state rather than a silent partial success."
+  ],
+  "intervention": {
+    "condition": "intervention",
+    "required_outputs": [
+      "routed_digest",
+      "routing_explanations",
+      "release_notes"
+    ],
+    "visible_behavior": [
+      "Elevated items appear as a digest after routing.",
+      "The explanation panel makes the routing decision legible.",
+      "The participant does not see the raw routing internals."
+    ]
+  },
+  "baseline_thread": {
+    "condition": "baseline_thread",
+    "required_outputs": [
+      "chronological_thread",
+      "release_notes"
+    ],
+    "visible_behavior": [
+      "Items remain in chronological order.",
+      "No digest layer is shown.",
+      "No language suggests curated routing."
+    ]
+  }
+}

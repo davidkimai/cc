@@ -1,0 +1,30 @@
+{
+  "bundle": "acp-relay-demo",
+  "version": "0.1",
+  "frame": "ACP-first demo pack for Relay",
+  "description": "Synthetic seed data for intervention and baseline_thread demo cycles.",
+  "entrypoints": [
+    {
+      "name": "bootstrap-demo",
+      "path": "scripts/demo/bootstrap-demo.sh",
+      "purpose": "Copy the canonical demo bundle into a target directory."
+    },
+    {
+      "name": "demo-summary",
+      "path": "scripts/demo/demo-summary.sh",
+      "purpose": "Print a compact summary of the seed cycles, participants, and lifecycle expectations."
+    }
+  ],
+  "seed_files": [
+    "demo/seed/cycles.json",
+    "demo/seed/participants.json",
+    "demo/seed/lifecycle.json"
+  ],
+  "target_layout": [
+    "demo/README.md",
+    "demo/bootstrap-manifest.json",
+    "demo/seed/cycles.json",
+    "demo/seed/participants.json",
+    "demo/seed/lifecycle.json"
+  ]
+}

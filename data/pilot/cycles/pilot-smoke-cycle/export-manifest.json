@@ -1,0 +1,34 @@
+{
+  "capturedAt": "2026-05-09T06:16:04.138Z",
+  "label": "pilot-smoke-demo",
+  "sourcePath": "/Users/jasontang/acp/demo",
+  "bundlePath": "/Users/jasontang/acp/data/pilot/cycles/pilot-smoke-cycle/exports/2026-05-09T06-16-04-038Z-pilot-smoke-demo",
+  "fileCount": 5,
+  "files": [
+    {
+      "relativePath": "README.md",
+      "bytes": 1388,
+      "sha256": "24f2d7b4660498c65d111c8e99eee006b544366c685a747ebcb58d334794d84b"
+    },
+    {
+      "relativePath": "bootstrap-manifest.json",
+      "bytes": 869,
+      "sha256": "3d9c800b03c33c8ed84f8302d59a19088b1af8f63551b54a3c9289f4691fa290"
+    },
+    {
+      "relativePath": "seed/cycles.json",
+      "bytes": 1825,
+      "sha256": "5e2b49fbfbe487750027d38018e4abdd612281bf872deaf09f5e00e1f7594da3"
+    },
+    {
+      "relativePath": "seed/lifecycle.json",
+      "bytes": 1586,
+      "sha256": "2043615ffd46e9630cffb367fb83638219144aebe685e9a4b7658742971960de"
+    },
+    {
+      "relativePath": "seed/participants.json",
+      "bytes": 2137,
+      "sha256": "0fdf32aa83b3001a6d7aeccfee4c93b0e125a218f299628a1f588073dbee2429"
+    }
+  ]
+}

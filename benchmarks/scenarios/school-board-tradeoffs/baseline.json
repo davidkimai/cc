@@ -1,0 +1,47 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "school-board-tradeoffs-baseline",
+  "title": "School board tradeoffs",
+  "prompt": "A school board has to weigh classroom aides, after-school counseling, and a public budget dashboard under one constrained operating plan. What should move first?",
+  "condition": "baseline_thread",
+  "participants": [
+    { "id": "p1", "name": "Kei", "role": "participant" },
+    { "id": "p2", "name": "Lena", "role": "participant" },
+    { "id": "p3", "name": "Malik", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Classroom aides should come first because they relieve immediate staff load in the places students feel it first."
+    },
+    {
+      "participantId": "p2",
+      "body": "Counseling is easy to miss in a busy thread even when the students most affected are the least visible."
+    },
+    {
+      "participantId": "p3",
+      "body": "The public dashboard is slower payoff, but the board still needs a visible record of how it chose."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p3",
+      "parentContributionParticipantId": "p1",
+      "body": "The baseline thread makes the order obvious, but it does not help the board protect the quieter issues."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p1",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 3,
+        "usefulness": 3,
+        "exchangeQuality": 4,
+        "explanationClarity": 3,
+        "returnWillingness": 3
+      }
+    }
+  ],
+  "exportModes": ["analysis", "minimal"]
+}

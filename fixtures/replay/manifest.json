@@ -1,0 +1,19 @@
+{
+  "acp_protocol_version": "0.1.0",
+  "relay_model": "current-relay",
+  "generated_at": "2026-04-23T00:00:00Z",
+  "cases": [
+    {
+      "case_id": "intervention_minimal",
+      "condition": "intervention",
+      "path": "fixtures/replay/intervention_minimal",
+      "replay_mode": "exact"
+    },
+    {
+      "case_id": "baseline_minimal",
+      "condition": "baseline_thread",
+      "path": "fixtures/replay/baseline_minimal",
+      "replay_mode": "exact"
+    }
+  ]
+}

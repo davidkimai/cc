@@ -1,0 +1,79 @@
+{
+  "bundle": "acp-relay-demo",
+  "version": "0.1",
+  "operator": {
+    "id": "operator-mara",
+    "display_name": "Mara Singh",
+    "role": "operator",
+    "persona": "demo operator",
+    "notes": "Synthetic operator identity used to open, close, and release seeded cycles."
+  },
+  "participants": [
+    {
+      "id": "participant-aya",
+      "display_name": "Aya Chen",
+      "role": "participant",
+      "persona": "tight summarizer",
+      "cohort": "intervention-demo",
+      "condition_scope": [
+        "intervention"
+      ],
+      "notes": "Prefers short answers and clear decision points."
+    },
+    {
+      "id": "participant-noah",
+      "display_name": "Noah Patel",
+      "role": "participant",
+      "persona": "boundary checker",
+      "cohort": "intervention-demo",
+      "condition_scope": [
+        "intervention"
+      ],
+      "notes": "Looks for missing assumptions and guardrails."
+    },
+    {
+      "id": "participant-zoe",
+      "display_name": "Zoe Martinez",
+      "role": "participant",
+      "persona": "example finder",
+      "cohort": "intervention-demo",
+      "condition_scope": [
+        "intervention"
+      ],
+      "notes": "Supplies concise examples and counterexamples."
+    },
+    {
+      "id": "participant-iman",
+      "display_name": "Iman Rahman",
+      "role": "participant",
+      "persona": "counterexample hunter",
+      "cohort": "baseline-demo",
+      "condition_scope": [
+        "baseline_thread"
+      ],
+      "notes": "Raises edge cases and failure modes."
+    },
+    {
+      "id": "participant-leo",
+      "display_name": "Leo Park",
+      "role": "participant",
+      "persona": "decision closer",
+      "cohort": "baseline-demo",
+      "condition_scope": [
+        "baseline_thread"
+      ],
+      "notes": "Turns discussion into a concrete next action."
+    },
+    {
+      "id": "participant-mei",
+      "display_name": "Mei Okafor",
+      "role": "participant",
+      "persona": "thread synthesizer",
+      "cohort": "baseline-demo",
+      "condition_scope": [
+        "baseline_thread"
+      ],
+      "notes": "Restates the thread in plain chronological order."
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "acp_protocol_version": "0.1.0",
+  "cycle": {
+    "cycle_id": "cycle-20260423-intervention-001",
+    "condition": "intervention",
+    "prompt_id": "prompt-bridge-load-001",
+    "title": "Bridge-heavy routing rehearsal",
+    "prompt_text": "How should Relay balance bridge exposure against load in a small pilot cohort?",
+    "status": "archived",
+    "submission_open_at": "2026-04-23T08:00:00Z",
+    "submission_close_at": "2026-04-23T09:00:00Z",
+    "digest_release_at": "2026-04-23T10:00:00Z",
+    "reflection_close_at": "2026-04-23T11:00:00Z",
+    "created_by": "operator-anna",
+    "created_at": "2026-04-23T07:50:00Z",
+    "config": {
+      "digest_size_limit": 2,
+      "routing_strategy": "relevance_diversity_bridge_load_v1",
+      "baseline_comparison": true
+    }
+  },
+  "participants": [
+    {
+      "participant_id": "participant-01",
+      "display_name": "Avery",
+      "status": "active",
+      "consent_flags": {
+        "telemetry_opt_in": true
+      },
+      "created_at": "2026-04-23T07:40:00Z"
+    },
+    {
+      "participant_id": "participant-02",
+      "display_name": "Mina",
+      "status": "active",
+      "consent_flags": {
+        "telemetry_opt_in": true
+      },
+      "created_at": "2026-04-23T07:41:00Z"
+    }
+  ],
+  "contributions": [
+    {
+      "contribution_id": "contribution-01",
+      "cycle_id": "cycle-20260423-intervention-001",
+      "participant_id": "participant-01",
+      "body": "We should prioritize bridge exposure when a cohort is too internally clustered.",
+      "created_at": "2026-04-23T08:15:00Z",
+      "submission_status": "submitted",
+      "confidence_label": "high",
+      "evidence_text": "The discussion has only one perspective thread so far."
+    },
+    {
+      "contribution_id": "contribution-02",
+      "cycle_id": "cycle-20260423-intervention-001",
+      "participant_id": "participant-02",
+      "body": "Load control should cap the number of dense items each digest contains.",
+      "created_at": "2026-04-23T08:22:00Z",
+      "submission_status": "submitted",
+      "confidence_label": "medium",
+      "evidence_text": "A compact digest is easier to finish during a pilot window."
+    }
+  ],
+  "routing_decisions": [
+    {
+      "routing_decision_id": "routing-decision-01",
+      "cycle_id": "cycle-20260423-intervention-001",
+      "recipient_id": "participant-01",
+      "contribution_id": "contribution-02",
+      "score": 0.91,
+      "factors": [
+        "relevance",
+        "bridge_exposure",
+        "load_balance"
+      ],
+      "bridge_flag": true,
+      "load_cost": 1,
+      "explanation_basis": "The item adds a complementary load-control view from the other participant.",
+      "created_at": "2026-04-23T09:05:00Z"
+    },
+    {
+      "routing_decision_id": "routing-decision-02",
+      "cycle_id": "cycle-20260423-intervention-001",
+      "recipient_id": "participant-02",
+      "contribution_id": "contribution-01",
+      "score": 0.87,
+      "factors": [
+        "relevance",
+        "bridge_exposure",
+        "load_balance"
+      ],
+      "bridge_flag": false,
+      "load_cost": 1,
+      "explanation_basis": "The item reinforces the bridge-priority argument without adding overload.",
+      "created_at": "2026-04-23T09:05:00Z"
+    }
+  ],
+  "digests": [
+    {
+      "digest_id": "digest-01",
+      "cycle_id": "cycle-20260423-intervention-001",
+      "recipient_id": "participant-01",
+      "items": [
+        {
+          "contribution_id": "contribution-02",
+          "author_label": "Mina",
+          "body": "Load control should cap the number of dense items each digest contains.",
+          "explanation_text": "Selected because it balances the bridge-heavy view with a concrete overload constraint.",
+          "bridge_flag": true,
+          "confidence_label": "medium",
+          "evidence_text": "A compact digest is easier to finish during a pilot window."
+        }
+      ],
+      "summary": "A short opposing view emphasizes keeping digest load bounded while preserving bridge exposure.",
+      "routing_explanations": [
+        "Selected to surface a complementary perspective with low load cost."
+      ],
+      "estimated_read_time": 1,
+      "created_at": "2026-04-23T09:10:00Z",
+      "released_at": "2026-04-23T10:00:00Z"
+    },
+    {
+      "digest_id": "digest-02",
+      "cycle_id": "cycle-20260423-intervention-001",
+      "recipient_id": "participant-02",
+      "items": [
+        {
+          "contribution_id": "contribution-01",
+          "author_label": "Avery",
+          "body": "We should prioritize bridge exposure when a cohort is too internally clustered.",
+          "explanation_text": "Selected because it supports the bridge exposure heuristic while staying concise.",
+          "bridge_flag": false,
+          "confidence_label": "high",
+          "evidence_text": "The discussion has only one perspective thread so far."
+        }
+      ],
+      "summary": "A short supporting view reinforces bridge exposure without increasing digest overload.",
+      "routing_explanations": [
+        "Selected to keep the digest balanced and readable."
+      ],
+      "estimated_read_time": 1,
+      "created_at": "2026-04-23T09:10:30Z",
+      "released_at": "2026-04-23T10:00:00Z"
+    }
+  ],
+  "responses": [
+    {
+      "response_id": "response-01",
+      "cycle_id": "cycle-20260423-intervention-001",
+      "participant_id": "participant-01",
+      "body": "The bridge framing is useful, but the digest should surface the load tradeoff earlier.",
+      "created_at": "2026-04-23T10:18:00Z",
+      "parent_contribution_id": "contribution-02"
+    }
+  ]
+}

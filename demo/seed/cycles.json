@@ -1,0 +1,57 @@
+{
+  "bundle": "acp-relay-demo",
+  "version": "0.1",
+  "cycles": [
+    {
+      "id": "cycle-acp-001",
+      "slug": "acp-demo-intervention",
+      "title": "ACP Intervention Demo Cycle",
+      "condition": "intervention",
+      "status": "archived",
+      "prompt": "In a crowded fellowship workspace, how should ACP surface the strongest next action without losing the supporting thread?",
+      "participant_ids": [
+        "participant-aya",
+        "participant-noah",
+        "participant-zoe"
+      ],
+      "lifecycle_ref": "demo/seed/lifecycle.json#intervention",
+      "expected_artifacts": [
+        "prompt",
+        "primary_contributions",
+        "routed_digest",
+        "routing_explanations",
+        "feedback",
+        "export_manifest"
+      ],
+      "operator_notes": [
+        "This cycle demonstrates ACP intervention behavior with a routed digest layer.",
+        "Release should expose the digest and explain why items were elevated."
+      ]
+    },
+    {
+      "id": "cycle-acp-002",
+      "slug": "acp-demo-baseline",
+      "title": "ACP Baseline Thread Demo Cycle",
+      "condition": "baseline_thread",
+      "status": "archived",
+      "prompt": "In a crowded fellowship workspace, what next step should the group take after the latest update?",
+      "participant_ids": [
+        "participant-iman",
+        "participant-leo",
+        "participant-mei"
+      ],
+      "lifecycle_ref": "demo/seed/lifecycle.json#baseline_thread",
+      "expected_artifacts": [
+        "prompt",
+        "primary_contributions",
+        "chronological_thread",
+        "feedback",
+        "export_manifest"
+      ],
+      "operator_notes": [
+        "This cycle demonstrates the baseline thread condition without routing.",
+        "Item order should remain chronological and easy to inspect."
+      ]
+    }
+  ]
+}

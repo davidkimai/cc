@@ -1,0 +1,34 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "batch-baseline-demo",
+  "title": "Batch baseline demo",
+  "prompt": "How should a small civic team review the same issue in a plain chronological thread?",
+  "condition": "baseline_thread",
+  "participants": [
+    { "id": "p1", "name": "Avery", "role": "participant" },
+    { "id": "p2", "name": "Mina", "role": "participant" },
+    { "id": "p3", "name": "Noah", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Chronological order keeps the thread easy to scan."
+    },
+    {
+      "participantId": "p2",
+      "body": "Baseline users should see the full thread without digest compression."
+    },
+    {
+      "participantId": "p3",
+      "body": "Exports still matter even when routing is absent."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p2",
+      "parentContributionParticipantId": "p1",
+      "body": "A plain thread is easier to compare against the routed condition."
+    }
+  ],
+  "exportModes": ["analysis", "minimal"]
+}

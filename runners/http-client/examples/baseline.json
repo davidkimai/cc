@@ -1,0 +1,34 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "http-baseline-demo",
+  "title": "HTTP baseline demo",
+  "prompt": "How should an external ACP consumer drive the same cycle shell without routed delivery?",
+  "condition": "baseline_thread",
+  "participants": [
+    { "id": "p1", "name": "Avery", "role": "participant" },
+    { "id": "p2", "name": "Mina", "role": "participant" },
+    { "id": "p3", "name": "Noah", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "The baseline path should preserve the same lifecycle without generating routing artifacts."
+    },
+    {
+      "participantId": "p2",
+      "body": "External consumers still need exports and inspectable participant views."
+    },
+    {
+      "participantId": "p3",
+      "body": "The comparison stays meaningful only if the cycle model remains shared."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p1",
+      "parentContributionParticipantId": "p2",
+      "body": "That keeps the baseline as a true comparison path rather than a different product mode."
+    }
+  ],
+  "exportModes": ["analysis", "minimal"]
+}

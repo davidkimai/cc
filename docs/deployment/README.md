@@ -18,8 +18,18 @@ A change is release-ready only when it passes the repo verification gate:
 - `npm run build`
 - `npm run typecheck`
 - `npm test`
+- `npm run conformance:check`
+- `npm run release:smoke`
 
 The same gate is enforced in GitHub Actions by `.github/workflows/ci.yml`.
+
+For local release checks:
+
+```sh
+npm run release:smoke
+npm run release:backup-check
+npm run release:gate
+```
 
 ## Runtime assumptions
 
@@ -37,6 +47,12 @@ The current runtime contract is:
 - `ACP_HOST`: server bind host, defaults to `127.0.0.1`
 - `ACP_PORT`: server port, defaults to `4317`
 - `ACP_DATA_DIR`: writable data directory, defaults to `.acp-data` in the repo root
+- `ACP_STORE`: `file` or `sqlite`, defaults to `file`; use `sqlite` for production-alpha pilots
+- `ACP_SQLITE_PATH`: optional SQLite database path, defaults to `$ACP_DATA_DIR/acp.sqlite`
+- `ACP_AUTH_MODE`: `development` or `enforced`, defaults to `development`
+- `ACP_AUTH_SECRET`: signing secret for local signed sessions and participant invites
+- `ACP_SESSION_TTL_SECONDS`: optional signed-session TTL override; enforced mode defaults to 8 hours
+- `ACP_WORKSPACE_ID`: default workspace id, defaults to `local-workspace`
 
 ## Local start commands
 
@@ -64,7 +80,14 @@ The current implementation should be treated as supporting three modes:
 
 ## Data retention and rollback expectations
 
-The first implementation uses file-backed persistence under `ACP_DATA_DIR`.
+The reference implementation still supports file-backed persistence under `ACP_DATA_DIR`.
+The production-alpha path is SQLite-first:
+
+```sh
+ACP_STORE=sqlite ACP_DATA_DIR=/path/to/acp-data npm run start:dist
+```
+
+When SQLite is selected, Relay imports existing file-backed cycles from `ACP_DATA_DIR` into `$ACP_DATA_DIR/acp.sqlite` on first open.
 
 Operational expectations:
 

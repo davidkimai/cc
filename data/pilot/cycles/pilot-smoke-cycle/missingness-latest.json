@@ -1,0 +1,15 @@
+{
+  "loggedAt": "2026-05-09T06:16:04.145Z",
+  "cycleId": "pilot-smoke-cycle",
+  "kind": "smoke-check",
+  "artifact": "demo-bundle",
+  "field": "",
+  "scope": "cycle",
+  "severity": "low",
+  "status": "resolved",
+  "count": 1,
+  "source": "",
+  "operator": "pilot-data-smoke",
+  "reason": "Pilot data handling smoke path records missingness without changing raw exports.",
+  "notes": ""
+}

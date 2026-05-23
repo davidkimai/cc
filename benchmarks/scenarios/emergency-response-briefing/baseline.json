@@ -1,0 +1,47 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "emergency-response-briefing-baseline",
+  "title": "Emergency response briefing",
+  "prompt": "A local response team is coordinating around a major storm outage. Which updates should be surfaced first for the next decision window?",
+  "condition": "baseline_thread",
+  "participants": [
+    { "id": "p1", "name": "Nadia", "role": "participant" },
+    { "id": "p2", "name": "Omar", "role": "participant" },
+    { "id": "p3", "name": "Priya", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Medical device outages should be elevated first because the harm of delay is immediate and severe."
+    },
+    {
+      "participantId": "p2",
+      "body": "A plain thread still needs logistics updates, but it makes it harder to separate truly urgent items from noisy status updates."
+    },
+    {
+      "participantId": "p3",
+      "body": "The shift handoff is where a plain thread starts to hurt, because the next operator has to reconstruct the briefing manually."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p3",
+      "parentContributionParticipantId": "p1",
+      "body": "The baseline is still useful as a control, but it leaves too much triage work to the reader."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p1",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 3,
+        "usefulness": 3,
+        "exchangeQuality": 3,
+        "explanationClarity": 3,
+        "returnWillingness": 3
+      }
+    }
+  ],
+  "exportModes": ["analysis", "minimal"]
+}

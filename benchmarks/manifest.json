@@ -1,0 +1,59 @@
+{
+  "bundleId": "acp-benchmark-scenarios",
+  "protocolVersion": "0.1.0",
+  "defaultClass": "public-hearing-triage",
+  "flagshipClass": "public-hearing-triage",
+  "flagshipRationale": "Public hearing triage is the primary conference denominator because it directly exercises bounded shared reasoning over public input overload, minority-signal preservation, routing legitimacy, and public-record accountability.",
+  "classes": [
+    {
+      "slug": "participatory-budget-priorities",
+      "title": "Participatory budget priorities",
+      "domain": "civic budgeting",
+      "description": "Residents and facilitators compare how a small public grant should be split across immediate needs and longer-term community benefit.",
+      "pair": {
+        "intervention": "benchmarks/scenarios/participatory-budget-priorities/intervention.json",
+        "baseline": "benchmarks/scenarios/participatory-budget-priorities/baseline.json"
+      }
+    },
+    {
+      "slug": "public-hearing-triage",
+      "title": "Public hearing triage",
+      "domain": "public hearings",
+      "description": "A hearing team sorts the most decision-relevant testimony from a crowded input set without erasing minority concerns.",
+      "pair": {
+        "intervention": "benchmarks/scenarios/public-hearing-triage/intervention.json",
+        "baseline": "benchmarks/scenarios/public-hearing-triage/baseline.json"
+      }
+    },
+    {
+      "slug": "council-agenda-triage",
+      "title": "Council agenda triage",
+      "domain": "local council operations",
+      "description": "A small council team decides which agenda items need deep debate now and which can be deferred cleanly.",
+      "pair": {
+        "intervention": "benchmarks/scenarios/council-agenda-triage/intervention.json",
+        "baseline": "benchmarks/scenarios/council-agenda-triage/baseline.json"
+      }
+    },
+    {
+      "slug": "school-board-tradeoffs",
+      "title": "School board tradeoffs",
+      "domain": "school governance",
+      "description": "A board weighs staffing, classroom support, and transparency constraints under a fixed operating envelope.",
+      "pair": {
+        "intervention": "benchmarks/scenarios/school-board-tradeoffs/intervention.json",
+        "baseline": "benchmarks/scenarios/school-board-tradeoffs/baseline.json"
+      }
+    },
+    {
+      "slug": "emergency-response-briefing",
+      "title": "Emergency response briefing",
+      "domain": "emergency coordination",
+      "description": "A response team compares a routed briefing against a chronological thread during a fast-moving local disruption.",
+      "pair": {
+        "intervention": "benchmarks/scenarios/emergency-response-briefing/intervention.json",
+        "baseline": "benchmarks/scenarios/emergency-response-briefing/baseline.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "protocolVersion": "0.1.0",
+  "scenarioId": "council-agenda-triage-intervention",
+  "title": "Council agenda triage",
+  "prompt": "A local council has too many agenda items for one meeting. Which items need deep debate now, and which should be deferred with a clear reason?",
+  "condition": "intervention",
+  "config": {
+    "maxDigestItems": 3,
+    "maxBridgeItems": 1
+  },
+  "participants": [
+    { "id": "p1", "name": "Hana", "role": "participant" },
+    { "id": "p2", "name": "Isaac", "role": "participant" },
+    { "id": "p3", "name": "Jo", "role": "participant" }
+  ],
+  "contributions": [
+    {
+      "participantId": "p1",
+      "body": "Items with immediate legal deadlines should be surfaced first because delay can remove the council's choice entirely.",
+      "confidenceLabel": "high",
+      "evidenceText": "Some agenda items become moot if the window closes."
+    },
+    {
+      "participantId": "p2",
+      "body": "A routed digest should also surface one community-trust item even when it has no hard deadline, because repeated deferral compounds resentment.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Trust debt is slower, but still real."
+    },
+    {
+      "participantId": "p3",
+      "body": "The operator needs an export that explains why some items were deferred, or the agenda decision will look arbitrary later.",
+      "confidenceLabel": "medium",
+      "evidenceText": "Decision records matter as much as the meeting itself."
+    }
+  ],
+  "responses": [
+    {
+      "participantId": "p2",
+      "parentContributionParticipantId": "p3",
+      "body": "Yes. A compact digest helps during the meeting only if the export remains legible after the meeting."
+    }
+  ],
+  "feedback": [
+    {
+      "participantId": "p3",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 2,
+        "usefulness": 4,
+        "exchangeQuality": 5,
+        "explanationClarity": 4,
+        "returnWillingness": 4
+      }
+    }
+  ],
+  "exportModes": ["analysis", "audit", "minimal"]
+}
