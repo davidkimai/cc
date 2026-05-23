@@ -32,6 +32,7 @@ This spec is the contract that all other implementation layers must follow:
 - The protocol contract is the source of truth for data semantics.
 - Product surfaces may present, omit, or group fields differently, but may not redefine their meaning.
 - Skills may describe workflows over the protocol, but may not replace the protocol definitions.
+- Protocol surfaces may attach procedural-layer metadata such as procedure references, contest points, artifact expectations, adherence markers, and escalation provenance, but those attachments do not redefine canonical object meaning.
 - The initial runtime substrate may constrain implementation detail, but may not redefine the contract.
 
 ## 3. Global Concepts
@@ -102,6 +103,28 @@ Notes:
 
 - Both intervention and baseline use the same Cycle object.
 - Differences between conditions are expressed through `condition` and execution behavior, not separate cycle models.
+- `config` must include explicit deliberative criteria and non-negative shared weights when routing semantics are evaluated. The v1 default criteria are `recipient_relevance`, `prompt_relevance`, `bridge_perspective`, and `load_balance`.
+- A cycle may also carry an optional `proceduralLayer` attachment. That attachment records protocol-adjacent procedure references, expected artifact classes, contest points, adherence markers, and escalation provenance without turning procedure text into protocol truth.
+
+### 4.1.a ProceduralLayer
+
+Definition:
+
+An optional attachment that makes procedural governance legible over shared ACP objects.
+
+Contents may include:
+
+- procedure references to skills or compositions
+- expected artifact classes
+- contest points where human review may revise, escalate, or abstain
+- execution metadata such as selected procedures, trace identifiers, adherence markers, and escalation provenance
+
+Constraints:
+
+- `proceduralLayer` must not redefine the meaning of canonical ACP objects
+- procedure references must point to inspectable repo-local materials or other declared procedural assets
+- escalation provenance, when present, must preserve both source and recommended action
+- adherence markers must be interpreted as workflow evidence, not as proof of institutional legitimacy or field efficacy
 
 ## 4.2 Participant
 
@@ -179,6 +202,8 @@ Constraints:
 - one `(cycle_id, recipient_id, contribution_id)` combination must not appear more than once per routing run
 - `bridge_flag` is boolean
 - `score` and `load_cost` must be machine-comparable
+- `factors` must expose the criterion inputs used to compute or justify the score
+- shared criterion weights must be preserved with the routing output or otherwise recoverable from the cycle config
 
 Notes:
 

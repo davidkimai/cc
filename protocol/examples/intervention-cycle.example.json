@@ -1,0 +1,306 @@
+{
+  "id": "cycle-acp-001",
+  "title": "ACP Intervention Cycle",
+  "prompt": "How should ACP surface the strongest next action without losing the supporting thread?",
+  "condition": "intervention",
+  "status": "digests_released",
+  "createdAt": "2026-04-23T01:00:00.000Z",
+  "updatedAt": "2026-04-23T01:10:00.000Z",
+  "openedAt": "2026-04-23T01:01:00.000Z",
+  "submissionClosedAt": "2026-04-23T01:05:00.000Z",
+  "routingCompletedAt": "2026-04-23T01:06:00.000Z",
+  "releasedAt": "2026-04-23T01:07:00.000Z",
+  "schedule": {
+    "submissionClosesAt": "2026-04-23T01:05:00.000Z",
+    "reflectionClosesAt": "2026-04-23T01:20:00.000Z"
+  },
+  "config": {
+    "maxDigestItems": 4,
+    "maxBridgeItems": 1,
+    "deliberativeCriteria": [
+      {
+        "id": "recipient_relevance",
+        "label": "Recipient relevance",
+        "description": "Prioritize contributions that connect to the recipient's stated concern.",
+        "weight": 0.55
+      },
+      {
+        "id": "prompt_relevance",
+        "label": "Prompt relevance",
+        "description": "Keep routed items anchored to the shared cycle prompt.",
+        "weight": 0.25
+      },
+      {
+        "id": "bridge_perspective",
+        "label": "Bridge perspective",
+        "description": "Reserve bounded room for relevant but less-obvious views.",
+        "weight": 0.15
+      },
+      {
+        "id": "load_balance",
+        "label": "Load balance",
+        "description": "Respect bounded reading burden for each participant.",
+        "weight": 0.05
+      }
+    ]
+  },
+  "participants": [
+    {
+      "id": "participant-aya",
+      "name": "Aya Chen",
+      "role": "participant"
+    },
+    {
+      "id": "participant-noah",
+      "name": "Noah Patel",
+      "role": "participant"
+    },
+    {
+      "id": "operator-mara",
+      "name": "Mara Singh",
+      "role": "operator"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "contribution-aya-1",
+      "cycleId": "cycle-acp-001",
+      "participantId": "participant-aya",
+      "body": "Lead with the next action and keep the evidence trail attached.",
+      "confidenceLabel": "high",
+      "createdAt": "2026-04-23T01:02:00.000Z"
+    },
+    {
+      "id": "contribution-noah-1",
+      "cycleId": "cycle-acp-001",
+      "participantId": "participant-noah",
+      "body": "Flag the assumptions that could break the recommendation.",
+      "confidenceLabel": "medium",
+      "createdAt": "2026-04-23T01:03:00.000Z"
+    }
+  ],
+  "routingDecisions": [
+    {
+      "id": "route-1",
+      "cycleId": "cycle-acp-001",
+      "contributionId": "contribution-aya-1",
+      "authorParticipantId": "participant-aya",
+      "recipientParticipantId": "participant-noah",
+      "score": 0.84,
+      "factors": {
+        "recipientRelevance": 0.82,
+        "promptRelevance": 0.74,
+        "bridgePerspective": 0.13,
+        "loadCost": 0.25
+      },
+      "criteriaWeights": {
+        "recipient_relevance": 0.55,
+        "prompt_relevance": 0.25,
+        "bridge_perspective": 0.15,
+        "load_balance": 0.05
+      },
+      "bridgeFlag": false,
+      "reason": "Recipient relevance selected under the shared criteria.",
+      "createdAt": "2026-04-23T01:06:00.000Z"
+    }
+  ],
+  "digests": [
+    {
+      "id": "digest-noah-1",
+      "cycleId": "cycle-acp-001",
+      "participantId": "participant-noah",
+      "createdAt": "2026-04-23T01:07:00.000Z",
+      "summary": "You received 1 routed contribution, including 0 bridge perspectives.",
+      "items": [
+        {
+          "contributionId": "contribution-aya-1",
+          "authorParticipantId": "participant-aya",
+          "body": "Lead with the next action and keep the evidence trail attached.",
+          "reason": "Recipient relevance selected under the shared criteria.",
+          "explanation": "This item overlaps strongly with themes in your own contribution; dominant criterion: recipient relevance.",
+          "bridgeFlag": false,
+          "score": 0.84,
+          "position": 0
+        }
+      ]
+    }
+  ],
+  "proceduralLayer": {
+    "references": [
+      {
+        "procedureId": "deliberation-cycle",
+        "kind": "skill",
+        "role": "workflow",
+        "purpose": "Preserve the cycle shell, release checkpoints, and operator review rhythm.",
+        "sourcePath": "skills/deliberation-cycle/SKILL.md"
+      },
+      {
+        "procedureId": "epistemic-routing",
+        "kind": "skill",
+        "role": "routing",
+        "purpose": "Route participant attention under explicit deliberative criteria.",
+        "sourcePath": "skills/epistemic-routing/SKILL.md"
+      },
+      {
+        "procedureId": "digest-and-explanation",
+        "kind": "skill",
+        "role": "explanation",
+        "purpose": "Compress routed material into bounded, inspectable briefing language.",
+        "sourcePath": "skills/digest-and-explanation/SKILL.md"
+      }
+    ],
+    "artifactExpectations": [
+      {
+        "artifactId": "routing_trace",
+        "description": "A recoverable routing trace tied to explicit deliberative criteria.",
+        "required": true
+      },
+      {
+        "artifactId": "digest_review_trace",
+        "description": "A digest or explanation-bearing artifact suitable for release review.",
+        "required": true
+      },
+      {
+        "artifactId": "escalation_trace",
+        "description": "A preserved escalation recommendation with reasons.",
+        "required": true
+      }
+    ],
+    "contestPoints": [
+      {
+        "pointId": "bridge-budget-review",
+        "stage": "post_routing",
+        "prompt": "Should bridge exposure be revised before release?",
+        "defaultAction": "revise",
+        "requiredHumanRole": "facilitator"
+      },
+      {
+        "pointId": "claim-boundary-review",
+        "stage": "pre_release",
+        "prompt": "Are the release claims bounded by the actual evidence trace?",
+        "defaultAction": "review",
+        "requiredHumanRole": "research_analyst"
+      }
+    ],
+    "execution": {
+      "bindingMode": "protocol_profile",
+      "selectedProcedureIds": [
+        "deliberation-cycle",
+        "epistemic-routing",
+        "digest-and-explanation"
+      ],
+      "traceIds": [
+        "engine-v2:cycle-acp-001"
+      ],
+      "producedArtifactIds": [
+        "routing_trace",
+        "digest_review_trace",
+        "escalation_trace"
+      ],
+      "adherence": {
+        "expectedArtifactCoverage": 1,
+        "allRequiredArtifactsProduced": true,
+        "missingArtifactIds": [],
+        "notes": [
+          "all currently expected procedural artifact classes are present"
+        ]
+      },
+      "escalation": {
+        "source": "engine_v2",
+        "recommendedAction": "release",
+        "humanReviewRequired": false,
+        "reasons": [
+          "Issue coverage preserved.",
+          "No severe omission or fairness critic triggered."
+        ],
+        "confidence": 0.84
+      },
+      "updatedAt": "2026-04-23T01:07:00.000Z"
+    }
+  },
+  "responses": [
+    {
+      "id": "response-noah-1",
+      "cycleId": "cycle-acp-001",
+      "participantId": "participant-noah",
+      "parentContributionId": "contribution-aya-1",
+      "body": "Propose the next action first, then note the caveat.",
+      "createdAt": "2026-04-23T01:12:00.000Z"
+    }
+  ],
+  "feedback": [
+    {
+      "id": "feedback-noah-1",
+      "cycleId": "cycle-acp-001",
+      "participantId": "participant-noah",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 2,
+        "usefulness": 5,
+        "exchangeQuality": 4,
+        "explanationClarity": 5,
+        "returnWillingness": 4
+      },
+      "createdAt": "2026-04-23T01:18:00.000Z"
+    }
+  ],
+  "telemetryEvents": [
+    {
+      "id": "telemetry-1",
+      "cycleId": "cycle-acp-001",
+      "participantId": "participant-noah",
+      "eventType": "digest_opened",
+      "surface": "participant_web",
+      "targetId": "digest-noah-1",
+      "condition": "intervention",
+      "metadata": {
+        "source": "digest"
+      },
+      "createdAt": "2026-04-23T01:08:00.000Z"
+    }
+  ],
+  "auditEvents": [
+    {
+      "id": "audit-1",
+      "cycleId": "cycle-acp-001",
+      "actorType": "operator",
+      "actorId": "operator-mara",
+      "action": "routing_completed",
+      "detail": {
+        "decisionCount": 1
+      },
+      "createdAt": "2026-04-23T01:06:00.000Z"
+    },
+    {
+      "id": "audit-2",
+      "cycleId": "cycle-acp-001",
+      "actorType": "operator",
+      "actorId": "operator-mara",
+      "action": "digests_released",
+      "detail": {},
+      "createdAt": "2026-04-23T01:07:00.000Z"
+    }
+  ],
+  "exports": [
+    {
+      "id": "export-analysis-1",
+      "cycleId": "cycle-acp-001",
+      "mode": "analysis",
+      "createdAt": "2026-04-23T01:09:00.000Z",
+      "content": "# ACP Analysis Report\n\nCompact intervention example export."
+    }
+  ],
+  "metrics": {
+    "exposureConcentrationGini": 0.0,
+    "exposureTop20Share": 1.0,
+    "replyConcentrationGini": 0.0,
+    "replyTop20Share": 1.0,
+    "averageContributorCoverage": 1.0,
+    "bridgeExposureRate": 0.0,
+    "explanationEngagementRate": 1.0,
+    "abandonmentRate": 0.0,
+    "participantCount": 2,
+    "contributionCount": 2,
+    "responseCount": 1
+  }
+}

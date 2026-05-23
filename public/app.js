@@ -1,5 +1,6 @@
 const state = {
   session: null,
+  bootstrapToken: new URLSearchParams(window.location.search).get('token'),
   viewMode: 'operator',
   cycles: [],
   selectedCycleId: null,
@@ -52,11 +53,14 @@ const els = {
 
 const detailTabs = [
   { id: 'overview', label: 'Overview' },
+  { id: 'engine', label: 'Engine V2' },
   { id: 'routing', label: 'Routing' },
   { id: 'digests', label: 'Digests' },
   { id: 'telemetry', label: 'Telemetry' },
   { id: 'exports', label: 'Exports' },
 ];
+
+const PARTICIPANT_WEB_SURFACE = 'participant_web';
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -121,8 +125,9 @@ function parseParticipants(text) {
 }
 
 async function api(path, options = {}) {
+  const authHeaders = state.session?.token ? { 'x-acp-session-token': state.session.token } : {};
   const response = await fetch(path, {
-    headers: { 'content-type': 'application/json', ...(options.headers || {}) },
+    headers: { 'content-type': 'application/json', ...authHeaders, ...(options.headers || {}) },
     ...options,
   });
   const text = await response.text();
@@ -179,15 +184,22 @@ function participantOptionsForCycle(cycleId) {
 }
 
 function renderSurfaceMode() {
+  const participantScoped = state.session?.role === 'participant';
+  if (participantScoped) {
+    state.viewMode = 'participant';
+  }
   const operatorActive = state.viewMode === 'operator';
   els.modeOperator.classList.toggle('is-active', operatorActive);
   els.modeOperator.setAttribute('aria-selected', String(operatorActive));
+  els.modeOperator.disabled = participantScoped;
   els.modeParticipant.classList.toggle('is-active', !operatorActive);
   els.modeParticipant.setAttribute('aria-selected', String(!operatorActive));
   els.operatorSurface.hidden = !operatorActive;
   els.participantSurface.hidden = operatorActive;
   els.route.textContent = operatorActive ? `operator${state.selectedCycleId ? `:${state.selectedCycleId}` : ''}` : `participant${state.participantCycleId ? `:${state.participantCycleId}` : ''}`;
-  els.surfaceCaption.textContent = operatorActive ? 'Operator workspace active.' : 'Participant workspace active.';
+  els.surfaceCaption.textContent = operatorActive
+    ? `Operator workspace active${state.session?.workspaceId ? ` · ${state.session.workspaceId}` : ''}.`
+    : `Participant workspace active${state.session?.participantId ? ` · ${state.session.participantId}` : ''}.`;
 }
 
 function renderCycleList() {
@@ -307,7 +319,16 @@ async function bootstrap() {
   state.isBootstrapping = true;
   state.isRefreshingCycles = true;
   try {
-    state.session = await api('/v1/session');
+    const sessionPath = state.bootstrapToken ? `/v1/session?token=${encodeURIComponent(state.bootstrapToken)}` : '/v1/session';
+    state.session = await api(sessionPath, state.bootstrapToken ? { headers: { 'x-acp-session-token': state.bootstrapToken } } : {});
+    if (state.session?.token) {
+      state.bootstrapToken = state.session.token;
+    }
+    if (state.session?.role === 'participant') {
+      state.viewMode = 'participant';
+      state.participantId = state.session.participantId || state.participantId;
+      state.participantCycleId = state.session.cycleScopeId || state.participantCycleId;
+    }
     els.connection.textContent = 'Connected';
     els.connection.className = 'status-chip status-chip--ok';
     applyHash();
@@ -375,7 +396,7 @@ function actionConfig(cycle) {
       label: 'Release outputs',
       path: `/v1/cycles/${cycle.id}/release`,
       enabled:
-        (cycle.condition === 'intervention' && cycle.status === 'routing_completed') ||
+        (cycle.condition === 'intervention' && cycle.status === 'routing_complete') ||
         (cycle.condition === 'baseline_thread' && cycle.status === 'submission_closed'),
       tone: 'default',
     },
@@ -425,6 +446,39 @@ function renderInspectionTabButtons() {
     .join('');
 }
 
+function criteriaCards(cycle) {
+  const criteria = cycle.config?.deliberativeCriteria || [];
+  if (!criteria.length) return '';
+  return `
+    <div>
+      <p class="eyebrow">Shared deliberative criteria</p>
+      <div class="inspection-grid">
+        ${criteria
+          .map(
+            (criterion) => `
+              <article class="summary-card">
+                <h4>${escapeHtml(criterion.label || criterion.id)}</h4>
+                <p>${escapeHtml(criterion.description || 'Configured ACP criterion.')}</p>
+                <p>Weight: ${formatNumber(criterion.weight)}</p>
+              </article>
+            `,
+          )
+          .join('')}
+      </div>
+    </div>
+  `;
+}
+
+function routingFactorsLine(decision) {
+  const factors = decision.factors || {};
+  return [
+    `recipient ${formatNumber(factors.recipientRelevance)}`,
+    `prompt ${formatNumber(factors.promptRelevance)}`,
+    `bridge ${formatNumber(factors.bridgePerspective)}`,
+    `load ${formatNumber(factors.loadCost)}`,
+  ].join(' · ');
+}
+
 function renderOperatorOverview(cycle) {
   const auditEvents = state.caches.auditEvents.get(cycle.id) || [];
   const metrics = state.caches.metrics.get(cycle.id) || null;
@@ -438,6 +492,8 @@ function renderOperatorOverview(cycle) {
     ['Coverage', metrics?.averageContributorCoverage],
     ['Bridge rate', metrics?.bridgeExposureRate],
     ['Explanation rate', metrics?.explanationEngagementRate],
+    ['Issue coverage', metrics?.issueCoverageRate],
+    ['Escalation', metrics?.escalationRate],
     ['Abandonment', metrics?.abandonmentRate],
   ]
     .map(([label, value]) => `<article class="metric-card"><span>${label}</span><strong>${formatNumber(value)}</strong></article>`)
@@ -473,11 +529,92 @@ function renderOperatorOverview(cycle) {
       <div class="inline-message inline-message--info">
         <p class="eyebrow">Condition-aware release logic</p>
         <h4>${cycle.condition === 'intervention' ? 'Intervention cycles require routing before release.' : 'Baseline thread cycles release without routing.'}</h4>
-        <p>${cycle.condition === 'intervention' ? 'Operators can inspect routing and explanation outputs before releasing digests.' : 'Relay preserves the same cycle shell while making clear that baseline thread items were not intentionally routed.'}</p>
+        <p>${cycle.condition === 'intervention' ? 'Operators can inspect routing, issue-map, critic, and explanation outputs before releasing digests.' : 'Relay preserves the same cycle shell while making clear that baseline thread items were not intentionally routed.'}</p>
       </div>
+      ${criteriaCards(cycle)}
       <div>
         <p class="eyebrow">Recent audit</p>
         <ul class="audit-list">${recentAudit || '<li class="empty-card"><div class="empty-copy"><h3>No audit events yet.</h3><p>Lifecycle changes will appear here.</p></div></li>'}</ul>
+      </div>
+    </div>
+  `;
+}
+
+function severityChip(severity) {
+  if (severity === 'high') return statusChipHtml('high', 'danger');
+  if (severity === 'medium') return statusChipHtml('medium', 'neutral');
+  return statusChipHtml(severity || 'low', 'accent');
+}
+
+function renderEngineTab(cycle) {
+  const trace = cycle.engineV2;
+  if (cycle.condition !== 'intervention') {
+    return `
+      <div class="inline-message inline-message--warn">
+        <p class="eyebrow">Baseline thread</p>
+        <h4>No Engine V2 trace for this condition.</h4>
+        <p>Baseline cycles remain chronological comparison surfaces without recursive routing critics.</p>
+      </div>
+    `;
+  }
+  if (!trace) {
+    return `
+      <div class="empty-card">
+        <div class="empty-copy">
+          <p class="eyebrow">Engine V2</p>
+          <h3>No recursive trace yet.</h3>
+          <p>Run routing to generate contribution understanding, issue-map, critic, and escalation evidence.</p>
+        </div>
+      </div>
+    `;
+  }
+  const clusters = trace.issueMap?.clusters || [];
+  const critics = trace.critics || [];
+  return `
+    <div class="detail-stack">
+      <div class="inspection-grid">
+        <article class="summary-card"><h4>${escapeHtml(trace.provider)}</h4><p>Provider boundary. Primary model ${escapeHtml(trace.modelPolicy?.primaryModel)}; arbitration ${escapeHtml(trace.modelPolicy?.arbitrationModel)}.</p></article>
+        <article class="summary-card"><h4>${escapeHtml(clusters.length)}</h4><p>Issue clusters detected from ${escapeHtml(trace.contributionRecords?.length || 0)} contribution records.</p></article>
+        <article class="summary-card"><h4>${escapeHtml(trace.escalation?.recommendedAction || 'unknown')}</h4><p>Confidence ${formatNumber(trace.escalation?.confidence)}. ${trace.escalation?.abstain ? 'Abstention is recommended before release.' : 'Release remains available after operator review.'}</p></article>
+      </div>
+      <div class="inline-message ${trace.escalation?.abstain ? 'inline-message--warn' : 'inline-message--info'}">
+        <p class="eyebrow">Operator control</p>
+        <h4>${trace.escalation?.abstain ? 'Review before release.' : 'Release may proceed after inspection.'}</h4>
+        <p>${escapeHtml((trace.escalation?.reasons || []).join(' '))}</p>
+      </div>
+      <div>
+        <p class="eyebrow">Issue map</p>
+        <div class="inspection-grid">
+          ${clusters
+            .slice(0, 12)
+            .map(
+              (cluster) => `
+                <article class="inspection-card">
+                  <h4>${escapeHtml(cluster.label)}</h4>
+                  <p>${escapeHtml(cluster.summary)}</p>
+                  <p>Contributions: ${escapeHtml(cluster.contributionIds?.length || 0)} · Minority signals: ${escapeHtml(cluster.minoritySignalCount || 0)} · Unresolved questions: ${escapeHtml(cluster.unresolvedQuestionCount || 0)}</p>
+                </article>
+              `,
+            )
+            .join('')}
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">Recursive critics</p>
+        <div class="inspection-grid">
+          ${critics
+            .map(
+              (critic) => `
+                <article class="inspection-card">
+                  <h4>${escapeHtml(critic.criticType)}</h4>
+                  <p>${severityChip(critic.severity)}</p>
+                  <p>${escapeHtml((critic.findings || []).join(' '))}</p>
+                  <p>Action: ${escapeHtml(critic.recommendedAction)}</p>
+                </article>
+              `,
+            )
+            .join('')}
+        </div>
       </div>
     </div>
   `;
@@ -516,6 +653,7 @@ function renderRoutingTab(cycle) {
               <p>Contribution: ${escapeHtml(decision.contributionId)}</p>
               <p>Reason: ${escapeHtml(decision.reason || 'No reason recorded')}</p>
               <p>Score: ${formatNumber(decision.score)}</p>
+              <p>Factors: ${escapeHtml(routingFactorsLine(decision))}</p>
               <p>${decision.bridgeFlag ? 'Bridge exposure candidate.' : 'Core relevance candidate.'}</p>
             </article>
           `,
@@ -557,6 +695,7 @@ function renderDigestsTab(cycle) {
               <h4>${escapeHtml(digest.participantId)}</h4>
               <p>${escapeHtml(digest.summary || 'No digest summary recorded.')}</p>
               <p>Items: ${escapeHtml(digest.items?.length || 0)}</p>
+              <p>Explanations: ${escapeHtml((digest.items || []).filter((item) => item.explanation).length)}</p>
               <p>Created: ${escapeHtml(digest.createdAt || 'Unknown')}</p>
             </article>
           `,
@@ -653,6 +792,7 @@ function renderExportsTab(cycle) {
 }
 
 function renderOperatorTabContent(cycle) {
+  if (state.operatorDetailTab === 'engine') return renderEngineTab(cycle);
   if (state.operatorDetailTab === 'routing') return renderRoutingTab(cycle);
   if (state.operatorDetailTab === 'digests') return renderDigestsTab(cycle);
   if (state.operatorDetailTab === 'telemetry') return renderTelemetryTab(cycle);
@@ -784,11 +924,28 @@ async function emitParticipantEvent(eventType, metadata = {}, targetId = undefin
   try {
     await api(`/v1/cycles/${state.participantCycleId}/participants/${state.participantId}/events`, {
       method: 'POST',
-      body: JSON.stringify({ eventType, targetId, surface: 'web', metadata }),
+      body: JSON.stringify({ eventType, targetId, surface: PARTICIPANT_WEB_SURFACE, metadata }),
     });
   } catch {
     // Web telemetry should not break the user flow.
   }
+}
+
+function emitParticipantUnloadEvent(eventType, metadata = {}, targetId = undefined) {
+  if (!state.participantCycleId || !state.participantId) return;
+  const path = `/v1/cycles/${state.participantCycleId}/participants/${state.participantId}/events`;
+  const payload = JSON.stringify({ eventType, targetId, surface: PARTICIPANT_WEB_SURFACE, metadata });
+  const authHeaders = state.session?.token ? { 'x-acp-session-token': state.session.token } : {};
+  if (state.session?.token) {
+    fetch(path, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', ...authHeaders },
+      body: payload,
+      keepalive: true,
+    }).catch(() => {});
+    return;
+  }
+  navigator.sendBeacon(path, new Blob([payload], { type: 'application/json' }));
 }
 
 function contributionFormMarkup(view) {
@@ -1244,15 +1401,10 @@ window.addEventListener('hashchange', () => {
 
 window.addEventListener('beforeunload', (event) => {
   if (state.draftStarted && state.participantCycleId && state.participantId) {
-    navigator.sendBeacon(
-      `/v1/cycles/${state.participantCycleId}/participants/${state.participantId}/events`,
-      JSON.stringify({
-        eventType: 'contribution_abandoned',
-        surface: 'web',
-        metadata: { condition: state.participantView?.cycle?.condition || null, abandon_stage: 'page_exit' },
-      }),
-    );
-    event.preventDefault();
+    emitParticipantUnloadEvent('contribution_abandoned', {
+      condition: state.participantView?.cycle?.condition || null,
+      abandon_stage: 'page_exit',
+    });
   }
 });
 

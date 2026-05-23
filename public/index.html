@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Relay · ACP reference implementation</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230f5b50'/%3E%3Cpath d='M4 8h8M8 4v8' stroke='%23fffdf8' stroke-width='1.5'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -15,6 +16,23 @@
           <p class="topbar__summary">
             A protocol-first surface for bounded collective reasoning, with one operator workspace and one participant workspace over the same cycle model.
           </p>
+          <div class="topbar__meta-grid" aria-label="Relay framing">
+            <article class="topbar-note">
+              <p class="eyebrow">Protocol</p>
+              <h2>ACP</h2>
+              <p>Defines cycle meaning, release rules, routing semantics, and auditability.</p>
+            </article>
+            <article class="topbar-note">
+              <p class="eyebrow">Implementation</p>
+              <h2>Relay</h2>
+              <p>Exposes one operator workspace and one participant workspace over the same model.</p>
+            </article>
+            <article class="topbar-note">
+              <p class="eyebrow">Operational layer</p>
+              <h2>Relay Blocks</h2>
+              <p>Package repeatable workflows for compatible agents, operators, and validation paths.</p>
+            </article>
+          </div>
         </div>
         <div class="topbar__controls">
           <div class="mode-switch" role="tablist" aria-label="Relay surface mode">
@@ -81,6 +99,7 @@
                 <h2>Cycle control, inspection, and export</h2>
                 <p>Run intervention and baseline cycles on the same ACP contract without dropping into the CLI.</p>
               </div>
+              <div class="surface-panel__badge">Protocol-first operator review</div>
             </div>
 
             <div class="panel-grid panel-grid--operator">
@@ -144,6 +163,7 @@
                 <h2>Prompt, digest, thread, response, and feedback</h2>
                 <p>The participant view is derived from ACP mode and condition, not from ad hoc browser state.</p>
               </div>
+              <div class="surface-panel__badge">Condition-aware participant mode</div>
             </div>
 
             <article id="participant-detail" class="card empty-card" aria-live="polite">

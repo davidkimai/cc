@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { exportModeSchema } from './core/types.js';
+import { config } from './core/config.js';
 import { CycleService } from './services/cycle-service.js';
+import { createCycleStore } from './services/store-factory.js';
 
 function parseJson(value: string | undefined): unknown {
   if (!value) {
@@ -25,6 +27,7 @@ function usage() {
       'node dist/cli.js cycle release <cycleId>',
       'node dist/cli.js cycle close-reflection <cycleId>',
       'node dist/cli.js cycle archive <cycleId>',
+      'node dist/cli.js cycle fail <cycleId> [reason]',
       'node dist/cli.js cycle replay <cycleId>',
       'node dist/cli.js cycle audit <cycleId>',
       'node dist/cli.js cycle telemetry <cycleId>',
@@ -44,7 +47,7 @@ function usage() {
 }
 
 async function main(): Promise<void> {
-  const service = new CycleService();
+  const service = new CycleService(createCycleStore({ mode: config.storeMode, dataDir: config.dataDir, sqlitePath: config.sqlitePath }));
   const [domain, action, ...rest] = process.argv.slice(2);
 
   if (!domain || domain === 'help' || domain === '--help' || domain === '-h') {
@@ -87,6 +90,10 @@ async function main(): Promise<void> {
   }
   if (domain === 'cycle' && action === 'archive') {
     print(await service.archiveCycle(rest[0]));
+    return;
+  }
+  if (domain === 'cycle' && action === 'fail') {
+    print(await service.failCycle(rest[0], rest.slice(1).join(' ') || 'operator_marked_failed'));
     return;
   }
   if (domain === 'cycle' && action === 'replay') {

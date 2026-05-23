@@ -23,7 +23,10 @@ import {
   parseResponseInput,
 } from '../core/types.js';
 import { FileStore } from './file-store.js';
+import { buildEngineV2Trace, issueClusterForContribution } from './engine-v2.js';
 import { buildDigests, buildExportContent, buildRoutingDecisions, computeMetrics } from './pipeline.js';
+import { buildProceduralLayer } from '../skills/procedural-layer.js';
+import type { CycleStore } from './store.js';
 
 function now(): string {
   return new Date().toISOString();
@@ -38,14 +41,14 @@ function participantName(participant: Participant | undefined, fallback: string)
 }
 
 export class CycleService {
-  constructor(private readonly store: FileStore = new FileStore()) {}
+  constructor(private readonly store: CycleStore = new FileStore()) {}
 
-  async listCycles(): Promise<CycleRecord[]> {
-    return this.store.listCycles();
+  async listCycles(workspaceId?: string): Promise<CycleRecord[]> {
+    return this.store.listCycles(workspaceId);
   }
 
-  async getCycle(cycleId: string): Promise<CycleRecord> {
-    const cycle = await this.store.getCycle(cycleId);
+  async getCycle(cycleId: string, workspaceId?: string): Promise<CycleRecord> {
+    const cycle = await this.store.getCycle(cycleId, workspaceId);
     if (!cycle) {
       throw new Error(`Cycle ${cycleId} not found.`);
     }
@@ -57,6 +60,7 @@ export class CycleService {
     const createdAt = now();
     const cycle: CycleRecord = cycleRecordSchema.parse({
       id: id('cycle'),
+      workspaceId: parsed.workspaceId ?? 'local-workspace',
       title: parsed.title,
       prompt: parsed.prompt,
       condition: parsed.condition,
@@ -64,7 +68,7 @@ export class CycleService {
       createdAt,
       updatedAt: createdAt,
       schedule: parsed.schedule ?? {},
-      config: cycleConfigSchema.parse(parsed.config ?? {}),
+      config: { engineMode: 'recursive_engine_v2', ...cycleConfigSchema.parse(parsed.config ?? {}) },
       participants: parsed.participants,
       contributions: [],
       routingDecisions: [],
@@ -135,8 +139,18 @@ export class CycleService {
       condition: cycle.condition,
       metadata: {},
     });
+    const engineMode = cycle.config.engineMode ?? 'recursive_engine_v2';
     try {
       cycle.routingDecisions = buildRoutingDecisions(cycle);
+      if (engineMode === 'recursive_engine_v2') {
+        cycle.engineV2 = await buildEngineV2Trace(cycle, cycle.routingDecisions);
+        cycle.routingDecisions = cycle.routingDecisions.map((decision) => ({
+          ...decision,
+          engineVersion: 'engine-v2',
+          issueClusterId: issueClusterForContribution(cycle.engineV2, decision.contributionId),
+          judgeConfidence: cycle.engineV2?.escalation.confidence,
+        }));
+      }
       cycle.digests = buildDigests(cycle, cycle.routingDecisions);
     } catch (error) {
       this.appendAudit(cycle, 'system', actorId, 'routing_job_failed', {
@@ -152,7 +166,7 @@ export class CycleService {
       await this.persist(cycle);
       throw error;
     }
-    cycle.status = 'routing_completed';
+    cycle.status = 'routing_complete';
     cycle.routingCompletedAt = now();
     this.appendTelemetry(cycle, {
       eventType: 'digest_generated',
@@ -161,11 +175,15 @@ export class CycleService {
       metadata: {
         routingDecisionCount: cycle.routingDecisions.length,
         digestCount: cycle.digests.length,
+        engineMode,
+        escalation: cycle.engineV2?.escalation.recommendedAction,
       },
     });
     this.appendAudit(cycle, 'operator', actorId, 'routing_completed', {
       routingDecisionCount: cycle.routingDecisions.length,
       digestCount: cycle.digests.length,
+      engineMode,
+      escalation: cycle.engineV2?.escalation.recommendedAction,
     });
     this.appendTelemetry(cycle, {
       eventType: 'routing_completed',
@@ -174,6 +192,8 @@ export class CycleService {
       metadata: {
         routingDecisionCount: cycle.routingDecisions.length,
         digestCount: cycle.digests.length,
+        engineMode,
+        escalation: cycle.engineV2?.escalation.recommendedAction,
       },
     });
     cycle.metrics = computeMetrics(cycle);
@@ -183,7 +203,7 @@ export class CycleService {
   async releaseCycle(cycleId: string, actorId = 'operator'): Promise<CycleRecord> {
     const cycle = await this.getCycle(cycleId);
     if (cycle.condition === 'intervention') {
-      this.assertStatus(cycle, ['routing_completed']);
+      this.assertStatus(cycle, ['routing_complete']);
     } else {
       this.assertStatus(cycle, ['submission_closed']);
     }
@@ -221,6 +241,26 @@ export class CycleService {
       surface: 'api',
       condition: cycle.condition,
       metadata: {},
+    });
+    cycle.metrics = computeMetrics(cycle);
+    return this.persist(cycle);
+  }
+
+  async failCycle(cycleId: string, reason: string, actorId = 'operator'): Promise<CycleRecord> {
+    const cycle = await this.getCycle(cycleId);
+    if (cycle.status === 'archived') {
+      throw new Error(`Cycle ${cycle.id} cannot transition from archived. Expected an active cycle.`);
+    }
+    if (cycle.status === 'failed') {
+      throw new Error(`Cycle ${cycle.id} already failed.`);
+    }
+    cycle.status = 'failed';
+    this.appendAudit(cycle, 'operator', actorId, 'cycle_failed', { reason });
+    this.appendTelemetry(cycle, {
+      eventType: 'cycle_failed',
+      surface: 'api',
+      condition: cycle.condition,
+      metadata: { reason },
     });
     cycle.metrics = computeMetrics(cycle);
     return this.persist(cycle);
@@ -374,7 +414,7 @@ export class CycleService {
     if (cycle.status === 'submission_open') {
       return { cycle, participant, mode: 'submission', contribution, responses, feedback };
     }
-    if (cycle.status === 'submission_closed' || cycle.status === 'routing_completed') {
+    if (cycle.status === 'submission_closed' || cycle.status === 'routing_complete') {
       return { cycle, participant, mode: 'waiting', contribution, responses, feedback };
     }
     if (cycle.status === 'digests_released') {
@@ -481,6 +521,7 @@ export class CycleService {
   private async persist(cycle: CycleRecord): Promise<CycleRecord> {
     cycle.updatedAt = now();
     cycle.metrics = computeMetrics(cycle);
+    cycle.proceduralLayer = buildProceduralLayer(cycle);
     return this.store.saveCycle(cycle);
   }
 }

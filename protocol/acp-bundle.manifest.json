@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "0.1",
+  "protocolName": "ACP",
+  "protocolVersion": "0.1.0",
+  "artifactKind": "protocol_bundle",
+  "artifactVersion": "0.1.0",
+  "bundleId": "acp-core-v0.1.0",
+  "bundleRoot": "protocol",
+  "discoveryPath": "protocol/discovery.json",
+  "artifacts": [
+    {
+      "id": "canonical-schema",
+      "kind": "schema_bundle",
+      "path": "protocol/acp-canonical.schema.json",
+      "required": true,
+      "description": "Compact schema bundle for ACP canonical objects."
+    },
+    {
+      "id": "protocol-readme",
+      "kind": "documentation",
+      "path": "protocol/README.md",
+      "required": true,
+      "description": "Human-readable overview of the canonical bundle."
+    },
+    {
+      "id": "implementer-guide",
+      "kind": "implementer_guide",
+      "path": "protocol/EXTERNAL_IMPLEMENTER_GUIDE.md",
+      "required": true,
+      "description": "Decision-complete guidance for ACP-compatible surfaces."
+    },
+    {
+      "id": "intervention-example",
+      "kind": "example",
+      "path": "protocol/examples/intervention-cycle.example.json",
+      "required": true,
+      "description": "Intervention-mode example payload."
+    },
+    {
+      "id": "baseline-example",
+      "kind": "example",
+      "path": "protocol/examples/baseline-cycle.example.json",
+      "required": true,
+      "description": "Baseline-thread example payload."
+    },
+    {
+      "id": "compatibility-matrix",
+      "kind": "compatibility_matrix",
+      "path": "protocol/compatibility/compatibility-matrix.json",
+      "required": true,
+      "description": "Machine-readable compatibility and proof-surface summary."
+    },
+    {
+      "id": "replay-manifest",
+      "kind": "replay_fixture_manifest",
+      "path": "fixtures/replay/manifest.json",
+      "required": true,
+      "description": "Replay fixture manifest for conformance checks."
+    },
+    {
+      "id": "conformance-runner",
+      "kind": "tooling",
+      "path": "scripts/conformance/check-acp.mjs",
+      "required": true,
+      "description": "Canonical ACP conformance command."
+    },
+    {
+      "id": "skills-registry",
+      "kind": "agent_skill_registry",
+      "path": "skills/registry.json",
+      "required": true,
+      "description": "Machine-readable Relay Blocks / ACP Skills registry."
+    },
+    {
+      "id": "constitutional-skills-doc",
+      "kind": "constitutional_skill_documentation",
+      "path": "skills/CONSTITUTIONAL_SKILLS.md",
+      "required": true,
+      "description": "Human-readable constitutional procedural layer over ACP protocol objects."
+    },
+    {
+      "id": "constitutional-skills-map",
+      "kind": "constitutional_skill_map",
+      "path": "artifacts/skills/constitutional-skills-map.md",
+      "required": true,
+      "description": "Compact reviewer-facing map of constitutional ACP Skills."
+    },
+    {
+      "id": "skill-maturity-standard",
+      "kind": "skill_maturity_standard",
+      "path": "docs/specs/RELAY_BLOCKS_SKILL_MATURITY_STANDARD.md",
+      "required": true,
+      "description": "Normative maturity standard for ACP Skills V2."
+    },
+    {
+      "id": "skills-audit-runner",
+      "kind": "tooling",
+      "path": "scripts/skills/audit-skills.mjs",
+      "required": true,
+      "description": "Canonical ACP Skills V2 maturity audit command."
+    }
+  ]
+}

@@ -77,7 +77,8 @@ describe('CycleService', () => {
     expect(cycle.auditEvents.some((event) => event.action === 'cycle_replayed')).toBe(true);
 
     const analysis = await service.exportCycle(cycle.id, 'analysis');
-    expect(analysis.content).toContain('ACP Analysis Export');
+    expect(analysis.content).toContain('ACP Analysis Report');
+    expect(analysis.content).toContain('## Headline Metrics');
   });
 
   it('runs baseline cycles on the same model without routing or digests', async () => {

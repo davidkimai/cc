@@ -1,0 +1,147 @@
+{
+  "version": "0.1",
+  "generatedOn": "2026-04-23",
+  "scope": {
+    "protocol": "current ACP protocol contract and canonical bundle",
+    "relayImplementation": "current Relay implementation",
+    "relayBlocks": "current Relay Blocks layer",
+    "runtimeAdapter": "current runtime and adapter assumptions"
+  },
+  "legend": {
+    "native": "implemented directly in that layer",
+    "mapped": "translated or normalized at the boundary",
+    "wrapped": "packaged as workflow guidance around Relay",
+    "assumed": "relied on, but not owned, by the layer",
+    "outOfScope": "not provided by the layer"
+  },
+  "matrix": [
+    {
+      "id": "cycle-model",
+      "feature": "single canonical cycle model",
+      "protocol": "required",
+      "relayImplementation": "native",
+      "relayBlocks": "wrapped",
+      "runtimeAdapter": "assumed",
+      "compatibility": "native",
+      "notes": "Intervention and baseline_thread share one CycleRecord shape."
+    },
+    {
+      "id": "condition-values",
+      "feature": "condition enum values",
+      "protocol": "intervention | baseline_thread",
+      "relayImplementation": "native",
+      "relayBlocks": "wrapped",
+      "runtimeAdapter": "assumed",
+      "compatibility": "native",
+      "notes": "Condition spelling must remain exact at protocol boundaries."
+    },
+    {
+      "id": "status-normalization",
+      "feature": "cycle status vocabulary",
+      "protocol": "canonical lifecycle tokens including scheduled and routing_complete",
+      "relayImplementation": "native",
+      "relayBlocks": "wrapped",
+      "runtimeAdapter": "assumed",
+      "compatibility": "native",
+      "notes": "Current compact bundle uses canonical lifecycle status tokens. routing_completed is preserved only as an operator event token."
+    },
+    {
+      "id": "intervention-routing",
+      "feature": "intervention routing and digest generation",
+      "protocol": "required for intervention",
+      "relayImplementation": "native",
+      "relayBlocks": "wrapped",
+      "runtimeAdapter": "assumed",
+      "compatibility": "native",
+      "notes": "Routing decisions must precede digest release."
+    },
+    {
+      "id": "baseline-thread-release",
+      "feature": "baseline-thread release without routing",
+      "protocol": "required for baseline_thread",
+      "relayImplementation": "native",
+      "relayBlocks": "wrapped",
+      "runtimeAdapter": "assumed",
+      "compatibility": "native",
+      "notes": "Comparable cycle structure is preserved, but routing artifacts stay empty."
+    },
+    {
+      "id": "telemetry-audit-export",
+      "feature": "telemetry, audit, export, and metrics retention",
+      "protocol": "required",
+      "relayImplementation": "native",
+      "relayBlocks": "wrapped",
+      "runtimeAdapter": "assumed",
+      "compatibility": "native",
+      "notes": "These records support replay and inspection across the current stack."
+    },
+    {
+      "id": "relay-blocks-role",
+      "feature": "Relay Blocks as operational packaging",
+      "protocol": "not canonical",
+      "relayImplementation": "consumed",
+      "relayBlocks": "native",
+      "runtimeAdapter": "assumed",
+      "compatibility": "wrapped",
+      "notes": "Blocks teach workflows and helpers, but they do not own protocol state."
+    },
+    {
+      "id": "runtime-adapter-surface",
+      "feature": "runtime adapter assumptions for local Relay use",
+      "protocol": "not a protocol concern",
+      "relayImplementation": "native surface support",
+      "relayBlocks": "wrapped guidance",
+      "runtimeAdapter": "native",
+      "compatibility": "assumed",
+      "notes": "The adapter should use stable web, CLI, and headless surfaces and prefer machine-readable outputs."
+    }
+  ],
+  "proofSurfaces": [
+    {
+      "id": "relay-browser-surface",
+      "kind": "reference-implementation",
+      "surface": "web-plus-cli",
+      "support": "native",
+      "notes": "Relay is the first full ACP implementation in this repository."
+    },
+    {
+      "id": "batch-runner",
+      "kind": "second-proof-surface",
+      "surface": "file-driven-batch-runner",
+      "support": "native",
+      "notes": "The batch runner proves ACP can execute outside the Relay web UI while preserving the shared cycle model."
+    },
+    {
+      "id": "http-api-runner",
+      "kind": "external-consumer-surface",
+      "surface": "api-driven-runner",
+      "support": "native",
+      "notes": "The HTTP client runner proves ACP can be driven through the public Relay API without importing the current engine directly."
+    }
+  ],
+  "agentRuntimeValidation": {
+    "distributionModel": "thin wrappers generated from canonical skills registry",
+    "runtimes": [
+      {
+        "runtime": "claude-code",
+        "support": "wrapped",
+        "discoveryRoot": ".claude/skills"
+      },
+      {
+        "runtime": "opencode",
+        "support": "wrapped",
+        "discoveryRoot": ".opencode/skills"
+      },
+      {
+        "runtime": "openclaw",
+        "support": "wrapped",
+        "discoveryRoot": "skills"
+      },
+      {
+        "runtime": "codex-compatible",
+        "support": "wrapped",
+        "discoveryRoot": ".agents/skills"
+      }
+    ]
+  }
+}

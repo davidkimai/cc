@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "0.1",
+  "protocolName": "ACP",
+  "protocolVersion": "0.1.0",
+  "artifactKind": "discovery_registry",
+  "artifactVersion": "0.1.0",
+  "bundleManifestPath": "protocol/acp-bundle.manifest.json",
+  "artifactRegistry": [
+    {
+      "artifactId": "canonical-schema",
+      "kind": "schema_bundle",
+      "path": "protocol/acp-canonical.schema.json",
+      "support": "native"
+    },
+    {
+      "artifactId": "protocol-readme",
+      "kind": "documentation",
+      "path": "protocol/README.md",
+      "support": "native"
+    },
+    {
+      "artifactId": "implementer-guide",
+      "kind": "implementer_guide",
+      "path": "protocol/EXTERNAL_IMPLEMENTER_GUIDE.md",
+      "support": "native"
+    },
+    {
+      "artifactId": "intervention-example",
+      "kind": "example",
+      "path": "protocol/examples/intervention-cycle.example.json",
+      "support": "native"
+    },
+    {
+      "artifactId": "baseline-example",
+      "kind": "example",
+      "path": "protocol/examples/baseline-cycle.example.json",
+      "support": "native"
+    },
+    {
+      "artifactId": "compatibility-matrix",
+      "kind": "compatibility_matrix",
+      "path": "protocol/compatibility/compatibility-matrix.json",
+      "support": "native"
+    },
+    {
+      "artifactId": "replay-manifest",
+      "kind": "replay_fixture_manifest",
+      "path": "fixtures/replay/manifest.json",
+      "support": "native"
+    },
+    {
+      "artifactId": "conformance-runner",
+      "kind": "tooling",
+      "path": "scripts/conformance/check-acp.mjs",
+      "support": "native"
+    },
+    {
+      "artifactId": "skills-registry",
+      "kind": "agent_skill_registry",
+      "path": "skills/registry.json",
+      "support": "native"
+    },
+    {
+      "artifactId": "constitutional-skills-doc",
+      "kind": "constitutional_skill_documentation",
+      "path": "skills/CONSTITUTIONAL_SKILLS.md",
+      "support": "native"
+    },
+    {
+      "artifactId": "constitutional-skills-map",
+      "kind": "constitutional_skill_map",
+      "path": "artifacts/skills/constitutional-skills-map.md",
+      "support": "native"
+    },
+    {
+      "artifactId": "skill-maturity-standard",
+      "kind": "skill_maturity_standard",
+      "path": "docs/specs/RELAY_BLOCKS_SKILL_MATURITY_STANDARD.md",
+      "support": "native"
+    },
+    {
+      "artifactId": "skills-audit-runner",
+      "kind": "tooling",
+      "path": "scripts/skills/audit-skills.mjs",
+      "support": "native"
+    }
+  ],
+  "implementations": [
+    {
+      "id": "relay",
+      "kind": "reference_implementation",
+      "support": "native",
+      "entrypoints": [
+        {
+          "id": "relay-web-surface",
+          "kind": "web",
+          "path": "public/index.html"
+        },
+        {
+          "id": "relay-http-api",
+          "kind": "http",
+          "path": "src/api/app.ts"
+        },
+        {
+          "id": "relay-cli",
+          "kind": "cli",
+          "path": "src/cli.ts"
+        }
+      ],
+      "artifactIds": [
+        "canonical-schema",
+        "compatibility-matrix",
+        "replay-manifest",
+        "conformance-runner",
+        "implementer-guide",
+        "skills-registry",
+        "constitutional-skills-doc",
+        "constitutional-skills-map",
+        "skill-maturity-standard",
+        "skills-audit-runner"
+      ],
+      "docs": [
+        "protocol/README.md",
+        "protocol/EXTERNAL_IMPLEMENTER_GUIDE.md"
+      ]
+    },
+    {
+      "id": "batch-runner",
+      "kind": "second-proof-surface",
+      "support": "native",
+      "entrypoints": [
+        {
+          "id": "batch-runner-script",
+          "kind": "batch",
+          "path": "scripts/batch/run-batch.ts"
+        },
+        {
+          "id": "batch-runner-readme",
+          "kind": "documentation",
+          "path": "runners/batch/README.md"
+        }
+      ],
+      "artifactIds": [
+        "canonical-schema",
+        "compatibility-matrix",
+        "replay-manifest"
+      ],
+      "docs": [
+        "runners/batch/README.md"
+      ]
+    },
+    {
+      "id": "http-api-runner",
+      "kind": "external-consumer-surface",
+      "support": "native",
+      "entrypoints": [
+        {
+          "id": "http-api-runner-script",
+          "kind": "http-client",
+          "path": "scripts/http-client/run-http-scenario.mjs"
+        },
+        {
+          "id": "http-api-runner-readme",
+          "kind": "documentation",
+          "path": "runners/http-client/README.md"
+        }
+      ],
+      "artifactIds": [
+        "canonical-schema",
+        "compatibility-matrix",
+        "implementer-guide"
+      ],
+      "docs": [
+        "runners/http-client/README.md",
+        "protocol/EXTERNAL_IMPLEMENTER_GUIDE.md"
+      ]
+    }
+  ],
+  "agentRuntimeDistribution": {
+    "registryPath": "skills/registry.json",
+    "builderPath": "scripts/agents/build-runtime-bundles.mjs",
+    "runtimes": [
+      {
+        "runtime": "claude-code",
+        "support": "wrapped",
+        "discoveryRoot": ".claude/skills"
+      },
+      {
+        "runtime": "opencode",
+        "support": "wrapped",
+        "discoveryRoot": ".opencode/skills"
+      },
+      {
+        "runtime": "openclaw",
+        "support": "wrapped",
+        "discoveryRoot": "skills"
+      },
+      {
+        "runtime": "codex-compatible",
+        "support": "wrapped",
+        "discoveryRoot": ".agents/skills"
+      }
+    ]
+  },
+  "extensionPolicy": {
+    "allowedScopes": [
+      "discovery_metadata",
+      "optional_examples",
+      "runtime_wrappers",
+      "reporting_artifacts",
+      "procedural_references",
+      "contestability_metadata"
+    ],
+    "forbiddenScopes": [
+      "canonical_cycle_meaning",
+      "required_condition_values",
+      "required_lifecycle_transitions"
+    ]
+  }
+}

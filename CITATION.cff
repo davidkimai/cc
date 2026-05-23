@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use ACP or Relay in research, please cite the repository."
+title: "ACP: Attention Coordination Protocol and Relay Reference Implementation"
+type: software
+authors:
+  - family-names: Tang
+    given-names: Jason
+    affiliation: Independent Researcher
+version: 0.1.0
+date-released: 2026-05-22
+url: "https://github.com/davidkimai/acp"
+repository-code: "https://github.com/davidkimai/acp"
+license: Apache-2.0
+abstract: >-
+  ACP is a protocol-first system for AI-assisted collective deliberation under
+  bounded attention. This repository includes the ACP canonical protocol
+  bundle, the Relay reference implementation, benchmark and evaluation
+  harnesses, and a procedural skills layer with curated evidence artifacts.
+keywords:
+  - ACP
+  - Attention Coordination Protocol
+  - collective deliberation
+  - civic technology
+  - protocol
+  - Relay
+  - evaluation
+  - skills

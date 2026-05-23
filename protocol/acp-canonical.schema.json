@@ -1,0 +1,1359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ACP Canonical Objects",
+  "description": "Human-readable JSON Schema bundle for the current ACP Relay canonical objects.",
+  "allOf": [
+    {
+      "$ref": "#/$defs/CycleRecord"
+    }
+  ],
+  "$defs": {
+    "NonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "CycleCondition": {
+      "type": "string",
+      "enum": [
+        "intervention",
+        "baseline_thread"
+      ]
+    },
+    "CycleStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "scheduled",
+        "submission_open",
+        "submission_closed",
+        "routing_complete",
+        "digests_released",
+        "reflection_closed",
+        "archived",
+        "failed"
+      ]
+    },
+    "ConfidenceLabel": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "ParticipantRole": {
+      "type": "string",
+      "enum": [
+        "participant",
+        "operator"
+      ]
+    },
+    "Participant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "name": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "role": {
+          "$ref": "#/$defs/ParticipantRole",
+          "default": "participant"
+        }
+      }
+    },
+    "DeliberativeCriterionId": {
+      "type": "string",
+      "enum": [
+        "recipient_relevance",
+        "prompt_relevance",
+        "bridge_perspective",
+        "load_balance"
+      ]
+    },
+    "DeliberativeCriterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "description",
+        "weight"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/DeliberativeCriterionId"
+        },
+        "label": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "EngineMode": {
+      "type": "string",
+      "enum": [
+        "heuristic",
+        "recursive_engine_v2"
+      ]
+    },
+    "EngineIssueType": {
+      "type": "string",
+      "enum": [
+        "access",
+        "cost",
+        "equity",
+        "implementation",
+        "legitimacy",
+        "process",
+        "safety",
+        "unresolved_question",
+        "other"
+      ]
+    },
+    "ContributionUnderstanding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contributionId",
+        "issueType",
+        "stakeholderType",
+        "urgency",
+        "actionability",
+        "evidenceStrength",
+        "novelty",
+        "minoritySalience",
+        "publicInterestRelevance",
+        "distortionRisk",
+        "unresolvedQuestion",
+        "summary",
+        "tags"
+      ],
+      "properties": {
+        "contributionId": { "$ref": "#/$defs/NonEmptyString" },
+        "issueType": { "$ref": "#/$defs/EngineIssueType" },
+        "stakeholderType": { "$ref": "#/$defs/NonEmptyString" },
+        "urgency": { "type": "number", "minimum": 0, "maximum": 1 },
+        "actionability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidenceStrength": { "type": "number", "minimum": 0, "maximum": 1 },
+        "novelty": { "type": "number", "minimum": 0, "maximum": 1 },
+        "minoritySalience": { "type": "number", "minimum": 0, "maximum": 1 },
+        "publicInterestRelevance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "distortionRisk": { "type": "number", "minimum": 0, "maximum": 1 },
+        "unresolvedQuestion": { "type": "boolean" },
+        "summary": { "$ref": "#/$defs/NonEmptyString" },
+        "tags": { "type": "array", "items": { "$ref": "#/$defs/NonEmptyString" } }
+      }
+    },
+    "IssueCluster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "issueType",
+        "contributionIds",
+        "summary",
+        "minoritySignalCount",
+        "unresolvedQuestionCount"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/NonEmptyString" },
+        "label": { "$ref": "#/$defs/NonEmptyString" },
+        "issueType": { "$ref": "#/$defs/EngineIssueType" },
+        "contributionIds": { "type": "array", "items": { "$ref": "#/$defs/NonEmptyString" } },
+        "summary": { "$ref": "#/$defs/NonEmptyString" },
+        "minoritySignalCount": { "type": "integer", "minimum": 0 },
+        "unresolvedQuestionCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "IssueMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clusters",
+        "unresolvedQuestionCount",
+        "minoritySignalCount"
+      ],
+      "properties": {
+        "clusters": { "type": "array", "items": { "$ref": "#/$defs/IssueCluster" } },
+        "unresolvedQuestionCount": { "type": "integer", "minimum": 0 },
+        "minoritySignalCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "DigestSetCritique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issueCoverageRate",
+        "stakeholderDiversityRate",
+        "redundancyRisk",
+        "unresolvedQuestionRetentionRate",
+        "missingIssueLabels",
+        "notes"
+      ],
+      "properties": {
+        "issueCoverageRate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "stakeholderDiversityRate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "redundancyRisk": { "type": "number", "minimum": 0, "maximum": 1 },
+        "unresolvedQuestionRetentionRate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "missingIssueLabels": { "type": "array", "items": { "$ref": "#/$defs/NonEmptyString" } },
+        "notes": { "type": "array", "items": { "$ref": "#/$defs/NonEmptyString" } }
+      }
+    },
+    "EngineCritic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criticType",
+        "severity",
+        "findings",
+        "recommendedAction"
+      ],
+      "properties": {
+        "criticType": { "type": "string", "enum": ["omission", "fairness"] },
+        "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+        "findings": { "type": "array", "items": { "$ref": "#/$defs/NonEmptyString" } },
+        "recommendedAction": { "type": "string", "enum": ["release", "revise_digest", "escalate", "abstain"] }
+      }
+    },
+    "EngineEscalation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "confidence",
+        "abstain",
+        "recommendedAction",
+        "reasons"
+      ],
+      "properties": {
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "abstain": { "type": "boolean" },
+        "recommendedAction": { "type": "string", "enum": ["release", "review", "revise_digest", "abstain"] },
+        "reasons": { "type": "array", "items": { "$ref": "#/$defs/NonEmptyString" } }
+      }
+    },
+    "ModelAuditSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "cacheHits",
+        "calls",
+        "totalLatencyMs",
+        "estimatedCostUsd"
+      ],
+      "properties": {
+        "provider": { "$ref": "#/$defs/NonEmptyString" },
+        "cacheHits": { "type": "integer", "minimum": 0 },
+        "calls": { "type": "integer", "minimum": 0 },
+        "totalLatencyMs": { "type": "integer", "minimum": 0 },
+        "estimatedCostUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "EngineV2Trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "engineVersion",
+        "engineMode",
+        "provider",
+        "modelPolicy",
+        "promptVersions",
+        "contributionRecords",
+        "issueMap",
+        "digestSetCritique",
+        "critics",
+        "escalation",
+        "modelAudit",
+        "createdAt"
+      ],
+      "properties": {
+        "engineVersion": { "const": "engine-v2" },
+        "engineMode": { "const": "recursive_engine_v2" },
+        "provider": { "$ref": "#/$defs/NonEmptyString" },
+        "modelPolicy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primaryModel", "arbitrationModel"],
+          "properties": {
+            "primaryModel": { "$ref": "#/$defs/NonEmptyString" },
+            "arbitrationModel": { "$ref": "#/$defs/NonEmptyString" }
+          }
+        },
+        "promptVersions": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/NonEmptyString" }
+        },
+        "contributionRecords": { "type": "array", "items": { "$ref": "#/$defs/ContributionUnderstanding" } },
+        "issueMap": { "$ref": "#/$defs/IssueMap" },
+        "digestSetCritique": { "$ref": "#/$defs/DigestSetCritique" },
+        "critics": { "type": "array", "items": { "$ref": "#/$defs/EngineCritic" } },
+        "escalation": { "$ref": "#/$defs/EngineEscalation" },
+        "modelAudit": { "$ref": "#/$defs/ModelAuditSummary" },
+        "createdAt": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "Contribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "participantId",
+        "body",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "participantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "body": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "confidenceLabel": {
+          "$ref": "#/$defs/ConfidenceLabel"
+        },
+        "evidenceText": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "RoutingFactors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recipientRelevance",
+        "promptRelevance",
+        "bridgePerspective",
+        "loadCost"
+      ],
+      "properties": {
+        "recipientRelevance": {
+          "type": "number"
+        },
+        "promptRelevance": {
+          "type": "number"
+        },
+        "bridgePerspective": {
+          "type": "number"
+        },
+        "loadCost": {
+          "type": "number"
+        }
+      }
+    },
+    "RoutingDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "contributionId",
+        "authorParticipantId",
+        "recipientParticipantId",
+        "score",
+        "factors",
+        "criteriaWeights",
+        "bridgeFlag",
+        "reason",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "contributionId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "authorParticipantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "recipientParticipantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "score": {
+          "type": "number"
+        },
+        "factors": {
+          "$ref": "#/$defs/RoutingFactors"
+        },
+        "criteriaWeights": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "engineVersion": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "issueClusterId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "judgeConfidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "bridgeFlag": {
+          "type": "boolean"
+        },
+        "reason": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "DigestItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contributionId",
+        "authorParticipantId",
+        "body",
+        "reason",
+        "explanation",
+        "bridgeFlag",
+        "score",
+        "position"
+      ],
+      "properties": {
+        "contributionId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "authorParticipantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "body": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "reason": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "explanation": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "bridgeFlag": {
+          "type": "boolean"
+        },
+        "score": {
+          "type": "number"
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "Digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "participantId",
+        "createdAt",
+        "summary",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "participantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "summary": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "routingExplanations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DigestItem"
+          }
+        }
+      }
+    },
+    "ResponseRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "participantId",
+        "parentContributionId",
+        "body",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "participantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "parentContributionId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "body": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "FeedbackAnswers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overload",
+        "usefulness",
+        "exchangeQuality",
+        "returnWillingness"
+      ],
+      "properties": {
+        "overload": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "usefulness": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "exchangeQuality": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "explanationClarity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "returnWillingness": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "FeedbackRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "participantId",
+        "instrumentVersion",
+        "answers",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "participantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "instrumentVersion": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "answers": {
+          "$ref": "#/$defs/FeedbackAnswers"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "ParticipantEventType": {
+      "type": "string",
+      "enum": [
+        "prompt_viewed",
+        "contribution_started",
+        "contribution_abandoned",
+        "contribution_submitted",
+        "digest_opened",
+        "digest_item_opened",
+        "bridge_item_engaged",
+        "routing_explanation_viewed",
+        "thread_opened",
+        "thread_item_opened",
+        "response_started",
+        "response_submitted",
+        "feedback_submitted"
+      ]
+    },
+    "OperatorEventType": {
+      "type": "string",
+      "enum": [
+        "cycle_created",
+        "cycle_opened",
+        "submissions_closed",
+        "routing_started",
+        "routing_job_failed",
+        "routing_completed",
+        "digest_generated",
+        "digests_released",
+        "export_generated",
+        "replay_started",
+        "replay_completed",
+        "cycle_archived",
+        "cycle_failed"
+      ]
+    },
+    "TelemetryEventType": {
+      "type": "string",
+      "enum": [
+        "prompt_viewed",
+        "contribution_started",
+        "contribution_abandoned",
+        "contribution_submitted",
+        "digest_opened",
+        "digest_item_opened",
+        "bridge_item_engaged",
+        "routing_explanation_viewed",
+        "thread_opened",
+        "thread_item_opened",
+        "response_started",
+        "response_submitted",
+        "feedback_submitted",
+        "cycle_created",
+        "cycle_opened",
+        "submissions_closed",
+        "routing_started",
+        "routing_job_failed",
+        "routing_completed",
+        "digest_generated",
+        "digests_released",
+        "export_generated",
+        "replay_started",
+        "replay_completed",
+        "cycle_archived",
+        "cycle_failed"
+      ]
+    },
+    "ParticipantSurface": {
+      "type": "string",
+      "enum": [
+        "participant_web",
+        "operator_cli",
+        "operator_web",
+        "api"
+      ]
+    },
+    "TelemetryEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "eventType",
+        "surface",
+        "condition",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "participantId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "eventType": {
+          "$ref": "#/$defs/TelemetryEventType"
+        },
+        "surface": {
+          "$ref": "#/$defs/ParticipantSurface"
+        },
+        "targetId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "condition": {
+          "$ref": "#/$defs/CycleCondition"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "ActorType": {
+      "type": "string",
+      "enum": [
+        "operator",
+        "system",
+        "participant"
+      ]
+    },
+    "AuditEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "actorType",
+        "actorId",
+        "action",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "actorType": {
+          "$ref": "#/$defs/ActorType"
+        },
+        "actorId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "action": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "detail": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "ExportMode": {
+      "type": "string",
+      "enum": [
+        "analysis",
+        "audit",
+        "minimal"
+      ]
+    },
+    "ExportArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "cycleId",
+        "mode",
+        "createdAt",
+        "content"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "cycleId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "mode": {
+          "$ref": "#/$defs/ExportMode"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "content": {
+          "$ref": "#/$defs/NonEmptyString"
+        }
+      }
+    },
+    "CycleMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exposureConcentrationGini",
+        "exposureTop20Share",
+        "replyConcentrationGini",
+        "replyTop20Share",
+        "averageContributorCoverage",
+        "bridgeExposureRate",
+        "explanationEngagementRate",
+        "abandonmentRate",
+        "participantCount",
+        "contributionCount",
+        "responseCount"
+      ],
+      "properties": {
+        "exposureConcentrationGini": {
+          "type": "number"
+        },
+        "exposureTop20Share": {
+          "type": "number"
+        },
+        "replyConcentrationGini": {
+          "type": "number"
+        },
+        "replyTop20Share": {
+          "type": "number"
+        },
+        "averageContributorCoverage": {
+          "type": "number"
+        },
+        "bridgeExposureRate": {
+          "type": "number"
+        },
+        "explanationEngagementRate": {
+          "type": "number"
+        },
+        "abandonmentRate": {
+          "type": "number"
+        },
+        "issueCoverageRate": {
+          "type": "number"
+        },
+        "omissionRiskRate": {
+          "type": "number"
+        },
+        "fairnessRiskRate": {
+          "type": "number"
+        },
+        "escalationRate": {
+          "type": "number"
+        },
+        "estimatedEngineCostUsd": {
+          "type": "number"
+        },
+        "engineLatencyMs": {
+          "type": "number"
+        },
+        "participantCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "contributionCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "responseCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "CycleConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "maxDigestItems": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "default": 4
+        },
+        "maxBridgeItems": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "default": 1
+        },
+        "deliberativeCriteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/DeliberativeCriterion"
+          }
+        },
+        "engineMode": {
+          "$ref": "#/$defs/EngineMode"
+        }
+      }
+    },
+    "CycleSchedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "submissionClosesAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "reflectionClosesAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "ProceduralReferenceKind": {
+      "type": "string",
+      "enum": [
+        "skill",
+        "composition"
+      ]
+    },
+    "ProceduralRole": {
+      "type": "string",
+      "enum": [
+        "workflow",
+        "routing",
+        "explanation",
+        "critic",
+        "escalation",
+        "baseline",
+        "interoperability"
+      ]
+    },
+    "ProceduralReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "procedureId",
+        "kind",
+        "role",
+        "purpose",
+        "sourcePath"
+      ],
+      "properties": {
+        "procedureId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "kind": {
+          "$ref": "#/$defs/ProceduralReferenceKind"
+        },
+        "role": {
+          "$ref": "#/$defs/ProceduralRole"
+        },
+        "purpose": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "sourcePath": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "maturity": {
+          "$ref": "#/$defs/NonEmptyString"
+        }
+      }
+    },
+    "ProceduralArtifactExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactId",
+        "description",
+        "required"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "required": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "ProceduralContestStage": {
+      "type": "string",
+      "enum": [
+        "pre_routing",
+        "post_routing",
+        "pre_release",
+        "post_release",
+        "interoperability_review"
+      ]
+    },
+    "ProceduralContestDefaultAction": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "review",
+        "revise",
+        "escalate",
+        "abstain"
+      ]
+    },
+    "ProceduralContestPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pointId",
+        "stage",
+        "prompt",
+        "defaultAction"
+      ],
+      "properties": {
+        "pointId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "stage": {
+          "$ref": "#/$defs/ProceduralContestStage"
+        },
+        "prompt": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "defaultAction": {
+          "$ref": "#/$defs/ProceduralContestDefaultAction"
+        },
+        "requiredHumanRole": {
+          "type": "string",
+          "enum": [
+            "platform_admin",
+            "workspace_admin",
+            "facilitator",
+            "research_analyst",
+            "participant",
+            "observer"
+          ]
+        }
+      }
+    },
+    "ProceduralBindingMode": {
+      "type": "string",
+      "enum": [
+        "protocol_profile",
+        "skill_runtime",
+        "study_condition"
+      ]
+    },
+    "ProceduralAdherence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expectedArtifactCoverage",
+        "allRequiredArtifactsProduced",
+        "missingArtifactIds",
+        "notes"
+      ],
+      "properties": {
+        "expectedArtifactCoverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "allRequiredArtifactsProduced": {
+          "type": "boolean"
+        },
+        "missingArtifactIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        }
+      }
+    },
+    "ProceduralEscalationProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "recommendedAction",
+        "humanReviewRequired",
+        "reasons"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": [
+            "engine_v2",
+            "skill_trace",
+            "composition_trace",
+            "operator",
+            "study_judgment"
+          ]
+        },
+        "recommendedAction": {
+          "type": "string",
+          "enum": [
+            "release",
+            "review",
+            "revise_digest",
+            "abstain"
+          ]
+        },
+        "humanReviewRequired": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "ProceduralExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bindingMode",
+        "selectedProcedureIds",
+        "traceIds",
+        "producedArtifactIds",
+        "updatedAt"
+      ],
+      "properties": {
+        "bindingMode": {
+          "$ref": "#/$defs/ProceduralBindingMode"
+        },
+        "selectedProcedureIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "selectedCompositionId": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "traceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "producedArtifactIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "adherence": {
+          "$ref": "#/$defs/ProceduralAdherence"
+        },
+        "escalation": {
+          "$ref": "#/$defs/ProceduralEscalationProvenance"
+        },
+        "updatedAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "ProceduralLayer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "references",
+        "artifactExpectations",
+        "contestPoints"
+      ],
+      "properties": {
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProceduralReference"
+          }
+        },
+        "artifactExpectations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProceduralArtifactExpectation"
+          }
+        },
+        "contestPoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProceduralContestPoint"
+          }
+        },
+        "execution": {
+          "$ref": "#/$defs/ProceduralExecution"
+        }
+      }
+    },
+    "CycleRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "prompt",
+        "condition",
+        "status",
+        "createdAt",
+        "updatedAt",
+        "config",
+        "participants",
+        "contributions",
+        "routingDecisions",
+        "digests",
+        "responses",
+        "feedback",
+        "telemetryEvents",
+        "auditEvents",
+        "exports"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "title": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "prompt": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "condition": {
+          "$ref": "#/$defs/CycleCondition"
+        },
+        "status": {
+          "$ref": "#/$defs/CycleStatus"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "updatedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "openedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "submissionClosedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "routingCompletedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "releasedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "reflectionClosedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "archivedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "schedule": {
+          "$ref": "#/$defs/CycleSchedule",
+          "default": {}
+        },
+        "config": {
+          "$ref": "#/$defs/CycleConfig"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Participant"
+          }
+        },
+        "contributions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Contribution"
+          }
+        },
+        "routingDecisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoutingDecision"
+          }
+        },
+        "digests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Digest"
+          }
+        },
+        "responses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ResponseRecord"
+          }
+        },
+        "feedback": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FeedbackRecord"
+          }
+        },
+        "telemetryEvents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TelemetryEvent"
+          }
+        },
+        "auditEvents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AuditEvent"
+          }
+        },
+        "exports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExportArtifact"
+          }
+        },
+        "metrics": {
+          "$ref": "#/$defs/CycleMetrics"
+        },
+        "engineV2": {
+          "$ref": "#/$defs/EngineV2Trace"
+        },
+        "proceduralLayer": {
+          "$ref": "#/$defs/ProceduralLayer"
+        }
+      }
+    }
+  }
+}

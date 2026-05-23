@@ -1,0 +1,52 @@
+{
+  "promptFamily": "engine-v2",
+  "modelPolicy": {
+    "primaryModel": "gpt-5.4-mini",
+    "arbitrationModel": "gpt-5.4"
+  },
+  "prompts": [
+    {
+      "id": "contribution-understanding",
+      "version": "engine-v2.contribution-understanding.v1",
+      "path": "data/prompts/engine-v2/contribution-understanding.md",
+      "schema": "ContributionUnderstanding"
+    },
+    {
+      "id": "pairwise-routing-judge",
+      "version": "engine-v2.pairwise-routing-judge.v1",
+      "path": "data/prompts/engine-v2/pairwise-routing-judge.md",
+      "schema": "RoutingJudgment"
+    },
+    {
+      "id": "set-optimization-critic",
+      "version": "engine-v2.set-optimization-critic.v1",
+      "path": "data/prompts/engine-v2/set-optimization-critic.md",
+      "schema": "DigestSetCritique"
+    },
+    {
+      "id": "omission-critic",
+      "version": "engine-v2.omission-critic.v1",
+      "path": "data/prompts/engine-v2/omission-critic.md",
+      "schema": "EngineCritic"
+    },
+    {
+      "id": "fairness-critic",
+      "version": "engine-v2.fairness-critic.v1",
+      "path": "data/prompts/engine-v2/fairness-critic.md",
+      "schema": "EngineCritic"
+    },
+    {
+      "id": "explanation-synthesis",
+      "version": "engine-v2.explanation-synthesis.v1",
+      "path": "data/prompts/engine-v2/explanation-synthesis.md",
+      "schema": "ExplanationRecord"
+    },
+    {
+      "id": "arbitration",
+      "version": "engine-v2.arbitration.v1",
+      "path": "data/prompts/engine-v2/arbitration.md",
+      "schema": "EngineEscalation"
+    }
+  ]
+}
+

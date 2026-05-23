@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import type { CycleRecord } from '../src/core/types.js';
+import { defaultDeliberativeCriteria, type CycleRecord } from '../src/core/types.js';
 import { buildDigests, buildExportContent, buildRoutingDecisions, computeMetrics } from '../src/services/pipeline.js';
 
 function interventionCycle(): CycleRecord {
   return {
     id: 'cycle_1',
+    workspaceId: 'workspace_test',
     title: 'Intervention analysis',
     prompt: 'How should the group reason under load?',
     condition: 'intervention',
@@ -13,7 +14,7 @@ function interventionCycle(): CycleRecord {
     createdAt: '2026-04-22T00:00:00.000Z',
     updatedAt: '2026-04-22T00:00:00.000Z',
     schedule: {},
-    config: { maxDigestItems: 3, maxBridgeItems: 1 },
+    config: { maxDigestItems: 3, maxBridgeItems: 1, deliberativeCriteria: defaultDeliberativeCriteria },
     participants: [
       { id: 'p1', name: 'Alice', role: 'participant' },
       { id: 'p2', name: 'Bob', role: 'participant' },
@@ -46,9 +47,12 @@ describe('pipeline', () => {
     const cycle = interventionCycle();
     const routing = buildRoutingDecisions(cycle);
     expect(routing.length).toBeGreaterThan(0);
+    expect(routing[0].criteriaWeights.recipient_relevance).toBeGreaterThan(0);
+    expect(routing[0].factors.promptRelevance).toBeGreaterThanOrEqual(0);
     const digests = buildDigests({ ...cycle, routingDecisions: routing });
     expect(digests).toHaveLength(3);
     expect(digests[0].items.length).toBeGreaterThan(0);
+    expect(digests[0].items[0].explanation).toContain('dominant criterion');
   });
 
   it('computes metrics and analysis exports', () => {
@@ -62,7 +66,9 @@ describe('pipeline', () => {
 
     const analysis = buildExportContent({ ...cycle, metrics }, 'analysis');
     expect(analysis).toContain('exposure_concentration_gini');
+    expect(analysis).toContain('## Procedural Layer');
     const minimal = buildExportContent({ ...cycle, metrics }, 'minimal');
     expect(minimal).not.toContain('Pacing matters for reading');
+    expect(minimal).toContain('procedural_references');
   });
 });

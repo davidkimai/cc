@@ -1,0 +1,232 @@
+{
+  "id": "cycle-acp-002",
+  "title": "ACP Baseline Thread Cycle",
+  "prompt": "What next step should the group take after the latest update?",
+  "condition": "baseline_thread",
+  "status": "reflection_closed",
+  "createdAt": "2026-04-23T02:00:00.000Z",
+  "updatedAt": "2026-04-23T02:12:00.000Z",
+  "openedAt": "2026-04-23T02:01:00.000Z",
+  "submissionClosedAt": "2026-04-23T02:05:00.000Z",
+  "reflectionClosedAt": "2026-04-23T02:20:00.000Z",
+  "schedule": {
+    "submissionClosesAt": "2026-04-23T02:05:00.000Z",
+    "reflectionClosesAt": "2026-04-23T02:20:00.000Z"
+  },
+  "config": {
+    "maxDigestItems": 4,
+    "maxBridgeItems": 1,
+    "deliberativeCriteria": [
+      {
+        "id": "recipient_relevance",
+        "label": "Recipient relevance",
+        "description": "Prioritize contributions that connect to the recipient's stated concern.",
+        "weight": 0.55
+      },
+      {
+        "id": "prompt_relevance",
+        "label": "Prompt relevance",
+        "description": "Keep routed items anchored to the shared cycle prompt.",
+        "weight": 0.25
+      },
+      {
+        "id": "bridge_perspective",
+        "label": "Bridge perspective",
+        "description": "Reserve bounded room for relevant but less-obvious views.",
+        "weight": 0.15
+      },
+      {
+        "id": "load_balance",
+        "label": "Load balance",
+        "description": "Respect bounded reading burden for each participant.",
+        "weight": 0.05
+      }
+    ]
+  },
+  "participants": [
+    {
+      "id": "participant-iman",
+      "name": "Iman Rahman",
+      "role": "participant"
+    },
+    {
+      "id": "participant-leo",
+      "name": "Leo Park",
+      "role": "participant"
+    },
+    {
+      "id": "operator-mara",
+      "name": "Mara Singh",
+      "role": "operator"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "contribution-iman-1",
+      "cycleId": "cycle-acp-002",
+      "participantId": "participant-iman",
+      "body": "Call out the edge case that could derail the plan.",
+      "createdAt": "2026-04-23T02:02:00.000Z"
+    },
+    {
+      "id": "contribution-leo-1",
+      "cycleId": "cycle-acp-002",
+      "participantId": "participant-leo",
+      "body": "Turn the discussion into a concrete next action.",
+      "confidenceLabel": "medium",
+      "createdAt": "2026-04-23T02:03:00.000Z"
+    }
+  ],
+  "routingDecisions": [],
+  "digests": [],
+  "proceduralLayer": {
+    "references": [
+      {
+        "procedureId": "deliberation-cycle",
+        "kind": "skill",
+        "role": "workflow",
+        "purpose": "Preserve the same cycle shell and release checkpoints as intervention cycles.",
+        "sourcePath": "skills/deliberation-cycle/SKILL.md"
+      },
+      {
+        "procedureId": "baseline-thread-runner",
+        "kind": "skill",
+        "role": "baseline",
+        "purpose": "Keep the comparison denominator chronological rather than routed.",
+        "sourcePath": "skills/baseline-thread-runner/SKILL.md"
+      }
+    ],
+    "artifactExpectations": [
+      {
+        "artifactId": "baseline_release_note",
+        "description": "A compact note preserving that the release followed the baseline-thread condition.",
+        "required": true
+      }
+    ],
+    "contestPoints": [
+      {
+        "pointId": "baseline-release-review",
+        "stage": "pre_release",
+        "prompt": "Does the baseline release remain chronological and free of synthetic routing claims?",
+        "defaultAction": "review",
+        "requiredHumanRole": "facilitator"
+      }
+    ],
+    "execution": {
+      "bindingMode": "protocol_profile",
+      "selectedProcedureIds": [
+        "deliberation-cycle",
+        "baseline-thread-runner"
+      ],
+      "traceIds": [],
+      "producedArtifactIds": [
+        "baseline_release_note"
+      ],
+      "adherence": {
+        "expectedArtifactCoverage": 1,
+        "allRequiredArtifactsProduced": true,
+        "missingArtifactIds": [],
+        "notes": [
+          "all currently expected procedural artifact classes are present"
+        ]
+      },
+      "updatedAt": "2026-04-23T02:12:00.000Z"
+    }
+  },
+  "responses": [
+    {
+      "id": "response-leo-1",
+      "cycleId": "cycle-acp-002",
+      "participantId": "participant-leo",
+      "parentContributionId": "contribution-iman-1",
+      "body": "Agree on the next action and capture the open risk.",
+      "createdAt": "2026-04-23T02:11:00.000Z"
+    }
+  ],
+  "feedback": [
+    {
+      "id": "feedback-leo-1",
+      "cycleId": "cycle-acp-002",
+      "participantId": "participant-leo",
+      "instrumentVersion": "v1",
+      "answers": {
+        "overload": 1,
+        "usefulness": 4,
+        "exchangeQuality": 4,
+        "returnWillingness": 4
+      },
+      "createdAt": "2026-04-23T02:18:00.000Z"
+    }
+  ],
+  "telemetryEvents": [
+    {
+      "id": "telemetry-2",
+      "cycleId": "cycle-acp-002",
+      "participantId": "participant-leo",
+      "eventType": "thread_opened",
+      "surface": "participant_web",
+      "condition": "baseline_thread",
+      "metadata": {
+        "source": "thread"
+      },
+      "createdAt": "2026-04-23T02:04:00.000Z"
+    },
+    {
+      "id": "telemetry-3",
+      "cycleId": "cycle-acp-002",
+      "participantId": "participant-leo",
+      "eventType": "thread_item_opened",
+      "surface": "participant_web",
+      "targetId": "contribution-iman-1",
+      "condition": "baseline_thread",
+      "metadata": {},
+      "createdAt": "2026-04-23T02:05:00.000Z"
+    }
+  ],
+  "auditEvents": [
+    {
+      "id": "audit-3",
+      "cycleId": "cycle-acp-002",
+      "actorType": "operator",
+      "actorId": "operator-mara",
+      "action": "cycle_created",
+      "detail": {
+        "condition": "baseline_thread"
+      },
+      "createdAt": "2026-04-23T02:00:00.000Z"
+    },
+    {
+      "id": "audit-4",
+      "cycleId": "cycle-acp-002",
+      "actorType": "operator",
+      "actorId": "operator-mara",
+      "action": "export_generated",
+      "detail": {
+        "mode": "minimal"
+      },
+      "createdAt": "2026-04-23T02:13:00.000Z"
+    }
+  ],
+  "exports": [
+    {
+      "id": "export-minimal-1",
+      "cycleId": "cycle-acp-002",
+      "mode": "minimal",
+      "createdAt": "2026-04-23T02:13:00.000Z",
+      "content": "# ACP Cycle Snapshot\n\nCompact baseline example export."
+    }
+  ],
+  "metrics": {
+    "exposureConcentrationGini": 0.0,
+    "exposureTop20Share": 1.0,
+    "replyConcentrationGini": 0.0,
+    "replyTop20Share": 1.0,
+    "averageContributorCoverage": 1.0,
+    "bridgeExposureRate": 0.0,
+    "explanationEngagementRate": 0.0,
+    "abandonmentRate": 0.0,
+    "participantCount": 2,
+    "contributionCount": 2,
+    "responseCount": 1
+  }
+}

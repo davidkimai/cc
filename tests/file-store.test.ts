@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile, mkdir } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import type { CycleRecord } from '../src/core/types.js';
+import { defaultDeliberativeCriteria, type CycleRecord } from '../src/core/types.js';
 import { FileStore } from '../src/services/file-store.js';
 
 const dirs: string[] = [];
@@ -24,6 +24,7 @@ describe('FileStore', () => {
     const store = new FileStore(dir);
     const cycle: CycleRecord = {
       id: 'cycle_store',
+      workspaceId: 'workspace_test',
       title: 'Persistence check',
       prompt: 'What should persist?',
       condition: 'intervention',
@@ -31,7 +32,7 @@ describe('FileStore', () => {
       createdAt: '2026-04-22T00:00:00.000Z',
       updatedAt: '2026-04-22T00:00:00.000Z',
       schedule: {},
-      config: { maxDigestItems: 4, maxBridgeItems: 1 },
+      config: { maxDigestItems: 4, maxBridgeItems: 1, deliberativeCriteria: defaultDeliberativeCriteria },
       participants: [
         { id: 'p1', name: 'Alice', role: 'participant' },
         { id: 'p2', name: 'Bob', role: 'participant' },
@@ -47,6 +48,13 @@ describe('FileStore', () => {
           authorParticipantId: 'p1',
           recipientParticipantId: 'p2',
           score: 0.5,
+          factors: { recipientRelevance: 0.5, promptRelevance: 0.25, bridgePerspective: 0.125, loadCost: 0.25 },
+          criteriaWeights: {
+            recipient_relevance: 0.55,
+            prompt_relevance: 0.25,
+            bridge_perspective: 0.15,
+            load_balance: 0.05,
+          },
           bridgeFlag: false,
           reason: 'test',
           createdAt: '2026-04-22T00:02:00.000Z',
@@ -98,5 +106,58 @@ describe('FileStore', () => {
     expect(fetched?.id).toBe(cycle.id);
     expect(fetched?.digests[0].items[0].body).toBe('Persist me.');
     expect((await store.listCycles()).length).toBe(1);
+  });
+
+  it('stores cycles by workspace while preserving legacy fallback', async () => {
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'acp-store-'));
+    dirs.push(dir);
+    const store = new FileStore(dir);
+    const baseCycle: CycleRecord = {
+      id: 'cycle_workspace',
+      workspaceId: 'workspace_a',
+      title: 'Workspace check',
+      prompt: 'What should isolate?',
+      condition: 'baseline_thread',
+      status: 'draft',
+      createdAt: '2026-04-22T00:00:00.000Z',
+      updatedAt: '2026-04-22T00:00:00.000Z',
+      schedule: {},
+      config: { maxDigestItems: 4, maxBridgeItems: 1, deliberativeCriteria: defaultDeliberativeCriteria },
+      participants: [
+        { id: 'p1', name: 'Alice', role: 'participant' },
+        { id: 'p2', name: 'Bob', role: 'participant' },
+      ],
+      contributions: [],
+      routingDecisions: [],
+      digests: [],
+      responses: [],
+      feedback: [],
+      telemetryEvents: [],
+      auditEvents: [],
+      exports: [],
+    };
+
+    await store.saveCycle(baseCycle);
+    await store.saveCycle({ ...baseCycle, id: 'cycle_workspace_b', workspaceId: 'workspace_b' });
+
+    expect((await store.listCycles('workspace_a')).map((cycle) => cycle.id)).toEqual(['cycle_workspace']);
+    expect(await store.getCycle('cycle_workspace', 'workspace_b')).toBeNull();
+
+    const backup = await store.exportWorkspace('workspace_a');
+    expect(backup.workspaceId).toBe('workspace_a');
+    expect(backup.cycles).toHaveLength(1);
+
+    const targetDir = await mkdtemp(path.join(os.tmpdir(), 'acp-store-import-'));
+    dirs.push(targetDir);
+    const target = new FileStore(targetDir);
+    await target.importWorkspace(backup);
+    expect((await target.listCycles('workspace_a')).map((cycle) => cycle.id)).toEqual(['cycle_workspace']);
+
+    const legacyDir = path.join(dir, 'cycles');
+    await mkdir(legacyDir, { recursive: true });
+    const legacyCycle = { ...baseCycle, id: 'cycle_legacy', workspaceId: 'workspace_a' };
+    await writeFile(path.join(legacyDir, 'cycle_legacy.json'), JSON.stringify(legacyCycle, null, 2), 'utf8');
+    expect((await store.getCycle('cycle_legacy', 'workspace_a'))?.id).toBe('cycle_legacy');
+    expect(JSON.parse(await readFile(path.join(dir, 'workspaces', 'workspace_a', 'cycles', 'cycle_workspace.json'), 'utf8')).id).toBe('cycle_workspace');
   });
 });

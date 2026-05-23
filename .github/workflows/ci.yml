@@ -33,3 +33,9 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: Conformance
+        run: npm run conformance:check
+
+      - name: Release smoke
+        run: npm run release:smoke
