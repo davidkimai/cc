@@ -5,6 +5,9 @@ dist/
 coverage/
 .DS_Store
 *.log
+*.pyc
+__pycache__/
+logs/
 .playwright-mcp/
 .acp-demo/
 artifacts/local/

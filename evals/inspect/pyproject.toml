@@ -1,0 +1,16 @@
+[project]
+name = "acp-inspect"
+version = "0.1.0"
+description = "Inspect AI mirror layer for ACP load-bearing evaluation slices"
+requires-python = ">=3.11"
+dependencies = [
+  "inspect-ai>=0.3.220",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["acp_inspect*"]
