@@ -38,6 +38,13 @@ For the final submission-facing map and bounded claim surface, also read:
 - [`artifacts/evals/skills/final/skills-v3-results-overview.md`](artifacts/evals/skills/final/skills-v3-results-overview.md)
 - [`artifacts/evals/skills/final/skills-v3-non-claims.md`](artifacts/evals/skills/final/skills-v3-non-claims.md)
 
+#### Inspect ecosystem mirror surface
+
+- [`evals/inspect/README.md`](evals/inspect/README.md)
+- [`artifacts/evals/inspect/skills-measured-real-run/summary.md`](artifacts/evals/inspect/skills-measured-real-run/summary.md)
+- [`artifacts/evals/inspect/skills-measured-mirror-summary.md`](artifacts/evals/inspect/skills-measured-mirror-summary.md)
+- [`artifacts/evals/inspect/public-hearing-comparative/summary.md`](artifacts/evals/inspect/public-hearing-comparative/summary.md)
+
 #### Completion / release discipline
 
 - [`artifacts/completion/final/technical-completion-audit.md`](artifacts/completion/final/technical-completion-audit.md)

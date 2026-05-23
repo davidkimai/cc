@@ -27,6 +27,9 @@ Flagship rehearsal summary surface for reviewer walkthroughs and paper support. 
 ### `evals/skills/final/`
 Bounded claims package for the ACP skills behavioral-study layer.
 
+### `evals/inspect/`
+Curated Inspect AI mirror evidence, including the real measured-slice run, mirror-fidelity summary, and flagship public-hearing comparative packet.
+
 ### `skills/`
 Structural maturity summaries for the skill suite, including the constitutional skills map.
 

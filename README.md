@@ -46,6 +46,8 @@ Start here if you care about evaluation, portability, or workshop evidence.
 
 - [`benchmarks/README.md`](benchmarks/README.md)
 - [`evals/skills/README.md`](evals/skills/README.md)
+- [`evals/inspect/README.md`](evals/inspect/README.md) for the Inspect AI mirror of the measured skills slice and flagship public-hearing benchmark
+- [`artifacts/evals/inspect/`](artifacts/evals/inspect/) for the real-run mirror summaries and public-hearing comparative packet
 - [`artifacts/completion/final/`](artifacts/completion/final/)
 - [`artifacts/evals/skills/final/`](artifacts/evals/skills/final/)
 - [`skills/CONSTITUTIONAL_SKILLS.md`](skills/CONSTITUTIONAL_SKILLS.md)

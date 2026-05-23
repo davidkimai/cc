@@ -37,6 +37,7 @@ const REQUIRED_PATHS = [
   'artifacts/conference/rehearsal/README.md',
   'artifacts/conference/rehearsal/rehearsal-summary.json',
   'artifacts/evals/skills/final/',
+  'artifacts/evals/inspect/',
   'artifacts/skills/',
 ];
 
@@ -59,6 +60,7 @@ const CURATED_TEXT_SURFACES = [
   'artifacts/conference/rehearsal/README.md',
   'artifacts/conference/rehearsal/rehearsal-summary.json',
   'artifacts/evals/skills/final',
+  'artifacts/evals/inspect',
   'artifacts/skills',
 ];
 
@@ -123,6 +125,7 @@ const STAGE_PACKETS = {
     'artifacts/conference/rehearsal/README.md',
     'artifacts/conference/rehearsal/rehearsal-summary.json',
     'artifacts/evals/skills/final/',
+    'artifacts/evals/inspect/',
     'artifacts/skills/',
   ],
 };
@@ -220,6 +223,7 @@ async function curatedArtifactSizes() {
     'artifacts/conference/rehearsal/README.md',
     'artifacts/conference/rehearsal/rehearsal-summary.json',
     'artifacts/evals/skills/final',
+    'artifacts/evals/inspect',
     'artifacts/skills',
   ]) {
     if (!(await pathExists(surface))) continue;

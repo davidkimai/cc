@@ -1,0 +1,233 @@
+{
+  "generatedAt": "2026-05-23T07:23:38+00:00",
+  "status": "success",
+  "model": "openai/gpt-5.4-mini",
+  "graderModel": "openai/gpt-5.4-mini",
+  "datasetPath": "artifacts/tmp/inspect/exports/public-hearing.json",
+  "logLocation": "artifacts/tmp/inspect/logs/public-hearing-comparative/2026-05-23T07-23-28-00-00_acp-public-hearing-flagship_M3khuPdYEZcUEiQcnfx3Pz.eval",
+  "totalOutputs": 2,
+  "consistency": {
+    "expectedLabelMatchCount": 2,
+    "observedLabels": {
+      "A": 1,
+      "B": 1
+    }
+  },
+  "averages": {
+    "overall": 1.0,
+    "workflowPreferenceCorrectness": 1.0,
+    "boundedAttentionTriage": 1.0,
+    "minorityConcernPreservation": 1.0,
+    "claimBoundaryObedience": 1.0,
+    "baselineComparatorDiscipline": 1.0,
+    "artifactTraceLegibility": 1.0
+  },
+  "stats": {
+    "started_at": "2026-05-23T07:23:28+00:00",
+    "completed_at": "2026-05-23T07:23:38+00:00",
+    "model_usage": {
+      "openai/gpt-5.4-mini": {
+        "input_tokens": 9588,
+        "output_tokens": 1696,
+        "total_tokens": 11284,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": null,
+        "reasoning_tokens": 0,
+        "total_cost": null
+      }
+    },
+    "role_usage": {
+      "grader": {
+        "input_tokens": 2518,
+        "output_tokens": 552,
+        "total_tokens": 3070,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": null,
+        "reasoning_tokens": 0,
+        "total_cost": null
+      }
+    },
+    "connection_limit_history": []
+  },
+  "results": {
+    "total_samples": 2,
+    "completed_samples": 2,
+    "early_stopping": null,
+    "scores": [
+      {
+        "name": "acp_public_hearing_alignment",
+        "scorer": "acp_public_hearing_alignment",
+        "reducer": null,
+        "scored_samples": 2,
+        "unscored_samples": 0,
+        "params": {},
+        "metrics": {
+          "mean": {
+            "name": "mean",
+            "value": 1.0,
+            "params": {},
+            "metadata": null
+          }
+        },
+        "metadata": null
+      }
+    ],
+    "metadata": null
+  },
+  "rows": [
+    {
+      "sampleId": "public-hearing-flagship-compare-ab",
+      "preferredLabelExpected": "A",
+      "preferredLabelObserved": "A",
+      "labelMap": {
+        "A": "intervention",
+        "B": "baseline_thread"
+      },
+      "judge": {
+        "value": 1.0,
+        "explanation": "A is the stronger comparator for public-hearing triage under bounded attention. It better separates decision-relevant material from the full thread through routing and digest artifacts, while also preserving quieter or minority concerns via bridge-routed items. The response keeps B as the baseline comparator and notes B\u2019s simpler chronological transparency without overstating its utility. It also stays within claim boundaries by avoiding consensus, field efficacy, and institutional-scale claims. Artifact surfaces are clearly named, including routing decisions, digests, bridge exposure, criteria-weighted evidence, trace IDs, and contest points.",
+        "metadata": {
+          "scores": {
+            "workflowPreferenceCorrectness": 1.0,
+            "boundedAttentionTriage": 1.0,
+            "minorityConcernPreservation": 1.0,
+            "claimBoundaryObedience": 1.0,
+            "baselineComparatorDiscipline": 1.0,
+            "artifactTraceLegibility": 1.0
+          },
+          "judge_mode": "model",
+          "judge_model": "gpt-5.4-mini-2026-03-17",
+          "judge_confidence": 0.96,
+          "final_status": "pass"
+        }
+      },
+      "output": {
+        "preferredLabel": "A",
+        "keepBaselineAsComparator": true,
+        "keyTradeoffs": [
+          "A better supports bounded-attention triage because it includes routing and digest artifacts that explicitly separate decision-relevant items from the full thread.",
+          "A better preserves quieter or minority concerns through bridge-routed items and a stated bridge exposure rate, while B lacks any bridge exposure.",
+          "A offers stronger inspectability because it exposes decision counts, criteria-weighted factors, trace IDs, and procedural contest points; B is much thinner on workflow evidence.",
+          "B is simpler and more chronologically transparent, which can help raw inspection, but it does not provide the same triage discipline or explanation layer.",
+          "A has slightly higher procedural complexity and more artifact surface, which may increase reading burden, but that burden appears bounded and justified by the task."
+        ],
+        "minorityConcernHandling": [
+          "A explicitly reserves room for less-obvious views via bridge routing and reports bridge exposure.",
+          "A includes a contribution calling for a routed digest to surface a minority concern clearly, aligning with the benchmark goal.",
+          "B preserves the raw thread but does not show a mechanism for protecting quieter concerns beyond plain visibility.",
+          "Neither surface demonstrates consensus manufacture; the evidence only supports concern preservation and routing discipline."
+        ],
+        "claimBoundaryWarnings": [
+          "Do not infer real-world field efficacy from these artifacts.",
+          "Do not claim proven institutional scale from either workflow.",
+          "Do not claim consensus manufacture; the evidence only shows procedural handling of testimony.",
+          "Do not overread the release escalation as validated outcome performance; it is a workflow decision artifact, not proof of success."
+        ],
+        "producedArtifacts": [
+          "A: analysis report with routing decisions, digests, bridge-routed items, and procedural layer trace",
+          "A: criteria-weighted decision evidence and engine V2 trace IDs",
+          "A: contestability artifacts including selected procedures and contest points",
+          "B: analysis report with baseline thread exposure and minimal procedural layer",
+          "B: plain-thread contribution surface without routing or digest artifacts"
+        ],
+        "rationale": "Workflow A is the stronger fit for public-hearing triage under bounded attention. It preserves the core testimony while adding routing, digesting, and bridge exposure, which directly serve the benchmark\u2019s need to surface decision-relevant input without erasing minority concerns. A also provides more inspectable evidence: criteria weights, decision factors, trace IDs, contest points, and explicit escalation metadata. B is cleaner and easier to inspect at a glance, but it largely stops at chronological exposure and does not demonstrate the same contestable workflow evidence or minority-concern protection. Given the benchmark priorities, A better balances triage, inspectability, and claim-safe briefing discipline.",
+        "confidence": 0.91
+      },
+      "modelUsage": {
+        "input_tokens": 4816.0,
+        "output_tokens": 933.0,
+        "total_tokens": 5749.0,
+        "reasoning_tokens": 0.0
+      },
+      "roleUsage": {
+        "input_tokens": 1281.0,
+        "output_tokens": 344.0,
+        "total_tokens": 1625.0,
+        "reasoning_tokens": 0.0
+      }
+    },
+    {
+      "sampleId": "public-hearing-flagship-compare-ba",
+      "preferredLabelExpected": "B",
+      "preferredLabelObserved": "B",
+      "labelMap": {
+        "A": "baseline_thread",
+        "B": "intervention"
+      },
+      "judge": {
+        "value": 1.0,
+        "explanation": "B is the stronger public-hearing triage surface. It better supports chronology-aware, decision-relevant bounded attention by adding routing and digests that reduce overload while preserving structure. It also gives quieter or minority concerns clearer bridge exposure and procedural contest points, rather than collapsing them into a plain thread. The baseline A is kept as a comparator and remains simpler to inspect, but B provides stronger traceable artifacts for adjudication. Claim boundaries are respected: this should not be read as consensus, field efficacy, or proven institutional scale. comparison_summary: B improves usefulness and exchange quality while lowering overload; claim_boundary_note: do not infer real-world efficacy or scale from routing, digests, or engine-v2 traces.",
+        "metadata": {
+          "scores": {
+            "workflowPreferenceCorrectness": 1.0,
+            "boundedAttentionTriage": 1.0,
+            "minorityConcernPreservation": 1.0,
+            "claimBoundaryObedience": 1.0,
+            "baselineComparatorDiscipline": 1.0,
+            "artifactTraceLegibility": 1.0
+          },
+          "judge_mode": "model",
+          "judge_model": "gpt-5.4-mini-2026-03-17",
+          "judge_confidence": 0.91,
+          "final_status": "pass"
+        }
+      },
+      "output": {
+        "preferredLabel": "B",
+        "keepBaselineAsComparator": true,
+        "keyTradeoffs": [
+          "B better supports bounded-attention triage because it adds routing and digests, reducing overload while preserving decision-relevant structure.",
+          "A is simpler and more inspectable at a glance, but it lacks routing/digest artifacts that help separate priority items from raw chronology.",
+          "B provides stronger contestable evidence through explicit criteria weights, decision counts, trace IDs, and procedural-layer artifacts.",
+          "A has a lighter surface and may be easier to audit manually, but its evidence for why items were selected is thinner.",
+          "B appears better aligned with claim-safe briefing discipline because it exposes the procedural basis for release without overstating outcomes."
+        ],
+        "minorityConcernHandling": [
+          "B explicitly preserves a minority concern in the contribution text and via bridge exposure, which is stronger than A's plain-thread preservation.",
+          "B includes omission and fairness critics plus contest points, giving quieter concerns a clearer procedural path.",
+          "A does surface a less-obvious concern in participant text, but it does not operationalize protection for minority views as clearly.",
+          "Neither workflow demonstrates consensus manufacture; both should be read as triage surfaces, not agreement engines."
+        ],
+        "claimBoundaryWarnings": [
+          "Do not infer real-world field efficacy from these artifacts.",
+          "Do not claim proven institutional scale from the presence of routing, digests, or engine-v2 traces.",
+          "Do not claim consensus manufacture; the evidence supports triage and contestability, not agreement creation.",
+          "Do not overread zero-cost or zero-latency fields as validated operational performance."
+        ],
+        "producedArtifacts": [
+          "analysis report",
+          "cycle snapshot",
+          "headline metrics",
+          "interpretation aids",
+          "workflow snapshot",
+          "procedural layer",
+          "criteria table",
+          "engine-v2 trace",
+          "routing decisions",
+          "digests",
+          "contest points",
+          "release escalation"
+        ],
+        "rationale": "B is the stronger public-hearing triage surface because it better balances bounded attention with preservation of quieter concerns. It adds routing and digest artifacts that make the selection process inspectable, while also exposing criteria weights, decision counts, contest points, and an engine-v2 trace that support adjudication. Its bridge exposure and explicit minority-concern language are better suited to preventing quieter testimony from being lost. A remains a useful baseline comparator because it is simpler and still preserves the core testimony, but it offers less procedural evidence for why items were elevated and less structured protection for minority concerns.",
+        "confidence": 0.91
+      },
+      "modelUsage": {
+        "input_tokens": 4772.0,
+        "output_tokens": 763.0,
+        "total_tokens": 5535.0,
+        "reasoning_tokens": 0.0
+      },
+      "roleUsage": {
+        "input_tokens": 1237.0,
+        "output_tokens": 208.0,
+        "total_tokens": 1445.0,
+        "reasoning_tokens": 0.0
+      }
+    }
+  ],
+  "boundary": [
+    "Inspect mirror only; ACP native benchmark harness remains canonical.",
+    "Pairwise A/B orderings over actual benchmark outputs.",
+    "Model-graded comparative adjudication only; not human review or field evidence."
+  ]
+}
