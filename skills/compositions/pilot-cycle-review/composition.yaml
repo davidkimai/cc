@@ -1,0 +1,22 @@
+name: pilot-cycle-review
+description: Review one ACP cycle end to end by collecting lifecycle state, audit data, metrics, digests, and canonical exports into one operator bundle.
+intent: operator_review
+blocks:
+  - research-cli-operator
+  - operator-audit
+  - pilot-analysis
+entrypoint: run.sh
+inputs:
+  - cycle_id
+  - out_dir_optional
+outputs:
+  - cycle.json
+  - metrics.json
+  - audit-events.json
+  - telemetry-events.json
+  - digests.json
+  - routing-decisions.json
+  - exports-index.json
+  - analysis-export.json
+  - audit-export.json
+  - review-summary.md

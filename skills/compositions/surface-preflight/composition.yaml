@@ -1,0 +1,14 @@
+name: surface-preflight
+description: Check Relay surface readiness and optionally fetch the participant-view payload that should back the browser before manual UI work.
+intent: surface_readiness
+blocks:
+  - participant-web-operator
+  - research-cli-operator
+entrypoint: run.sh
+inputs:
+  - base_url_optional
+  - cycle_id_optional
+  - participant_id_optional
+  - out_dir_optional
+outputs:
+  - preflight.json

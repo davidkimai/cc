@@ -1,0 +1,866 @@
+{
+  "generatedAt": "2026-05-23T01:58:29.007Z",
+  "outDir": "artifacts/conference/rehearsal",
+  "ok": true,
+  "flagship": {
+    "mode": "comparison",
+    "benchmarkClass": "public-hearing-triage",
+    "outDir": "artifacts/conference/rehearsal/flagship-benchmark",
+    "bundleManifest": {
+      "bundleId": "acp-benchmark-public-hearing-triage",
+      "protocolVersion": "0.1.0",
+      "scenarioClass": "public-hearing-triage",
+      "surface": "batch",
+      "entries": {
+        "intervention": {
+          "scenario": "benchmarks/scenarios/public-hearing-triage/intervention.json",
+          "outDir": "artifacts/conference/rehearsal/flagship-benchmark/intervention"
+        },
+        "baseline": {
+          "scenario": "benchmarks/scenarios/public-hearing-triage/baseline.json",
+          "outDir": "artifacts/conference/rehearsal/flagship-benchmark/baseline"
+        }
+      }
+    },
+    "comparisonSummary": {
+      "bundleId": "acp-benchmark-public-hearing-triage",
+      "scenarioClass": "public-hearing-triage",
+      "title": "Public hearing triage",
+      "domain": "public hearings",
+      "description": "A hearing team sorts the most decision-relevant testimony from a crowded input set without erasing minority concerns.",
+      "conditions": {
+        "intervention": "intervention",
+        "baseline": "baseline_thread"
+      },
+      "pairSignals": {
+        "routingContrast": true,
+        "digestContrast": true,
+        "sharedParticipantCount": true,
+        "sharedContributionCount": true,
+        "stableExportSurface": true,
+        "criteriaEvidencePresent": true,
+        "engineV2TracePresent": true,
+        "engineV2CriticsPresent": true,
+        "proceduralLayerPresent": true,
+        "proceduralContestPointsPresent": true
+      },
+      "comparison": {
+        "contributionCountDelta": 0,
+        "responseCountDelta": 0,
+        "overloadDelta": -1,
+        "usefulnessDelta": 1,
+        "exchangeQualityDelta": 1,
+        "bridgeExposureDelta": 0.5,
+        "contributorCoverageDelta": 0
+      },
+      "criteria": {
+        "sharedWeights": {
+          "recipient_relevance": 0.55,
+          "prompt_relevance": 0.25,
+          "bridge_perspective": 0.15,
+          "load_balance": 0.05
+        },
+        "averageFactors": {
+          "recipientRelevance": 0.06,
+          "promptRelevance": 0.07,
+          "bridgePerspective": 0.07,
+          "loadCost": 0.5
+        },
+        "dominantCriteria": {
+          "recipient_relevance": 4,
+          "load_balance": 2
+        }
+      },
+      "engineV2": {
+        "present": true,
+        "engineMode": "recursive_engine_v2",
+        "provider": "offline-deterministic",
+        "primaryModel": "gpt-5.4-mini",
+        "arbitrationModel": "gpt-5.4",
+        "promptVersions": {
+          "contributionUnderstanding": "engine-v2.contribution-understanding.v1",
+          "pairwiseRoutingJudge": "engine-v2.pairwise-routing-judge.v1",
+          "setOptimizationCritic": "engine-v2.set-optimization-critic.v1",
+          "omissionCritic": "engine-v2.omission-critic.v1",
+          "fairnessCritic": "engine-v2.fairness-critic.v1",
+          "explanationSynthesis": "engine-v2.explanation-synthesis.v1",
+          "arbitration": "engine-v2.arbitration.v1"
+        },
+        "issueClusterCount": 3,
+        "contributionRecordCount": 3,
+        "criticSeverities": {
+          "omission": "low",
+          "fairness": "low"
+        },
+        "escalation": {
+          "confidence": 0.8333,
+          "abstain": false,
+          "recommendedAction": "release",
+          "reasons": [
+            "Issue coverage 1.",
+            "Stakeholder diversity 1.",
+            "Redundancy risk 0.5."
+          ]
+        },
+        "issueCoverageRate": 1,
+        "stakeholderDiversityRate": 1,
+        "modelAudit": {
+          "provider": "offline-deterministic",
+          "cacheHits": 0,
+          "calls": 8,
+          "totalLatencyMs": 0,
+          "estimatedCostUsd": 0
+        }
+      },
+      "proceduralLayer": {
+        "present": true,
+        "referenceCount": 6,
+        "artifactExpectationCount": 5,
+        "contestPointCount": 4,
+        "selectedProcedureCount": 6,
+        "expectedArtifactCoverage": 1,
+        "allRequiredArtifactsProduced": true,
+        "escalationSource": "engine_v2",
+        "escalationAction": "release",
+        "humanReviewRequired": false
+      },
+      "intervention": {
+        "scenarioId": "public-hearing-triage-intervention",
+        "title": "Public hearing triage",
+        "prompt": "A county team is reviewing testimony on a housing proposal. The practical question is which concerns need immediate discussion tonight and which can be logged for follow-up.",
+        "condition": "intervention",
+        "participantCount": 3,
+        "contributionCount": 3,
+        "responseCount": 1,
+        "feedbackCount": 1,
+        "routingDecisionCount": 6,
+        "digestCount": 3,
+        "auditEventCount": 13,
+        "telemetryEventCount": 15,
+        "exportModes": [
+          "analysis",
+          "audit",
+          "minimal"
+        ],
+        "metrics": {
+          "exposureConcentrationGini": 0,
+          "exposureTop20Share": 0.3333,
+          "replyConcentrationGini": 0.6667,
+          "replyTop20Share": 1,
+          "averageContributorCoverage": 2,
+          "bridgeExposureRate": 0.5,
+          "explanationEngagementRate": 0,
+          "abandonmentRate": 0,
+          "issueCoverageRate": 1,
+          "omissionRiskRate": 0,
+          "fairnessRiskRate": 0,
+          "escalationRate": 0,
+          "estimatedEngineCostUsd": 0,
+          "engineLatencyMs": 0,
+          "participantCount": 3,
+          "contributionCount": 3,
+          "responseCount": 1
+        },
+        "criteria": {
+          "criteria": [
+            {
+              "id": "recipient_relevance",
+              "label": "Recipient relevance",
+              "description": "Prioritize contributions that connect to the recipient's stated concern.",
+              "weight": 0.55
+            },
+            {
+              "id": "prompt_relevance",
+              "label": "Prompt relevance",
+              "description": "Keep routed items anchored to the shared cycle prompt.",
+              "weight": 0.25
+            },
+            {
+              "id": "bridge_perspective",
+              "label": "Bridge perspective",
+              "description": "Reserve bounded room for relevant but less-obvious views.",
+              "weight": 0.15
+            },
+            {
+              "id": "load_balance",
+              "label": "Load balance",
+              "description": "Respect bounded reading burden for each participant.",
+              "weight": 0.05
+            }
+          ],
+          "criteriaCount": 4,
+          "decisionsWithFactors": 6,
+          "decisionsWithCriteriaWeights": 6,
+          "dominantCriteria": {
+            "recipient_relevance": 4,
+            "load_balance": 2
+          },
+          "averageFactors": {
+            "recipientRelevance": 0.06,
+            "promptRelevance": 0.07,
+            "bridgePerspective": 0.07,
+            "loadCost": 0.5
+          },
+          "sharedWeights": {
+            "recipient_relevance": 0.55,
+            "prompt_relevance": 0.25,
+            "bridge_perspective": 0.15,
+            "load_balance": 0.05
+          }
+        },
+        "engineV2": {
+          "present": true,
+          "engineMode": "recursive_engine_v2",
+          "provider": "offline-deterministic",
+          "primaryModel": "gpt-5.4-mini",
+          "arbitrationModel": "gpt-5.4",
+          "promptVersions": {
+            "contributionUnderstanding": "engine-v2.contribution-understanding.v1",
+            "pairwiseRoutingJudge": "engine-v2.pairwise-routing-judge.v1",
+            "setOptimizationCritic": "engine-v2.set-optimization-critic.v1",
+            "omissionCritic": "engine-v2.omission-critic.v1",
+            "fairnessCritic": "engine-v2.fairness-critic.v1",
+            "explanationSynthesis": "engine-v2.explanation-synthesis.v1",
+            "arbitration": "engine-v2.arbitration.v1"
+          },
+          "issueClusterCount": 3,
+          "contributionRecordCount": 3,
+          "criticSeverities": {
+            "omission": "low",
+            "fairness": "low"
+          },
+          "escalation": {
+            "confidence": 0.8333,
+            "abstain": false,
+            "recommendedAction": "release",
+            "reasons": [
+              "Issue coverage 1.",
+              "Stakeholder diversity 1.",
+              "Redundancy risk 0.5."
+            ]
+          },
+          "issueCoverageRate": 1,
+          "stakeholderDiversityRate": 1,
+          "modelAudit": {
+            "provider": "offline-deterministic",
+            "cacheHits": 0,
+            "calls": 8,
+            "totalLatencyMs": 0,
+            "estimatedCostUsd": 0
+          }
+        },
+        "proceduralLayer": {
+          "present": true,
+          "referenceCount": 6,
+          "artifactExpectationCount": 5,
+          "contestPointCount": 4,
+          "selectedProcedureCount": 6,
+          "expectedArtifactCoverage": 1,
+          "allRequiredArtifactsProduced": true,
+          "escalationSource": "engine_v2",
+          "escalationAction": "release",
+          "humanReviewRequired": false
+        },
+        "averageFeedback": {
+          "overload": 2,
+          "usefulness": 4,
+          "exchangeQuality": 4,
+          "explanationClarity": 5,
+          "returnWillingness": 4
+        },
+        "conformanceResult": "pass"
+      },
+      "baseline": {
+        "scenarioId": "public-hearing-triage-baseline",
+        "title": "Public hearing triage",
+        "prompt": "A county team is reviewing testimony on a housing proposal. The practical question is which concerns need immediate discussion tonight and which can be logged for follow-up.",
+        "condition": "baseline_thread",
+        "participantCount": 3,
+        "contributionCount": 3,
+        "responseCount": 1,
+        "feedbackCount": 1,
+        "routingDecisionCount": 0,
+        "digestCount": 0,
+        "auditEventCount": 12,
+        "telemetryEventCount": 12,
+        "exportModes": [
+          "analysis",
+          "minimal"
+        ],
+        "metrics": {
+          "exposureConcentrationGini": 0,
+          "exposureTop20Share": 0.3333,
+          "replyConcentrationGini": 0.6667,
+          "replyTop20Share": 1,
+          "averageContributorCoverage": 2,
+          "bridgeExposureRate": 0,
+          "explanationEngagementRate": 0,
+          "abandonmentRate": 0,
+          "participantCount": 3,
+          "contributionCount": 3,
+          "responseCount": 1
+        },
+        "criteria": {
+          "criteria": [
+            {
+              "id": "recipient_relevance",
+              "label": "Recipient relevance",
+              "description": "Prioritize contributions that connect to the recipient's stated concern.",
+              "weight": 0.55
+            },
+            {
+              "id": "prompt_relevance",
+              "label": "Prompt relevance",
+              "description": "Keep routed items anchored to the shared cycle prompt.",
+              "weight": 0.25
+            },
+            {
+              "id": "bridge_perspective",
+              "label": "Bridge perspective",
+              "description": "Reserve bounded room for relevant but less-obvious views.",
+              "weight": 0.15
+            },
+            {
+              "id": "load_balance",
+              "label": "Load balance",
+              "description": "Respect bounded reading burden for each participant.",
+              "weight": 0.05
+            }
+          ],
+          "criteriaCount": 4,
+          "decisionsWithFactors": 0,
+          "decisionsWithCriteriaWeights": 0,
+          "dominantCriteria": {},
+          "averageFactors": {},
+          "sharedWeights": {}
+        },
+        "engineV2": {
+          "present": false,
+          "engineMode": "recursive_engine_v2",
+          "issueClusterCount": 0,
+          "contributionRecordCount": 0,
+          "criticSeverities": {},
+          "escalation": null,
+          "issueCoverageRate": null,
+          "stakeholderDiversityRate": null,
+          "modelAudit": null
+        },
+        "proceduralLayer": {
+          "present": true,
+          "referenceCount": 2,
+          "artifactExpectationCount": 1,
+          "contestPointCount": 1,
+          "selectedProcedureCount": 2,
+          "expectedArtifactCoverage": 1,
+          "allRequiredArtifactsProduced": true,
+          "escalationSource": null,
+          "escalationAction": null,
+          "humanReviewRequired": null
+        },
+        "averageFeedback": {
+          "overload": 3,
+          "usefulness": 3,
+          "exchangeQuality": 3,
+          "explanationClarity": 3,
+          "returnWillingness": 3
+        },
+        "conformanceResult": "pass"
+      }
+    }
+  },
+  "flagshipReport": {
+    "outDir": "artifacts/conference/rehearsal/flagship-report",
+    "sourceType": "benchmark-comparison",
+    "requiredOutputs": [
+      "index.html",
+      "cycle-briefing.html",
+      "pilot-recap.html",
+      "compatibility-proof.html",
+      "protocol-explainer.html",
+      "evidence-index.json",
+      "operator-review.md",
+      "research-review.md",
+      "comparison-summary.json"
+    ],
+    "evidenceFiles": 22
+  },
+  "dogfood": {
+    "result": {
+      "outDir": "artifacts/conference/rehearsal/dogfood-run",
+      "checks": 9,
+      "findings": 0
+    },
+    "reportPath": "artifacts/conference/rehearsal/dogfood-run/report.json",
+    "findings": 0
+  },
+  "adopter": {
+    "status": "pass",
+    "scenarioId": "adopter-intervention-starter",
+    "cycleId": "cycle_3e344d91-6e4a-466a-9ee8-76b14db52400",
+    "outDir": "artifacts/conference/rehearsal/adopter-http-run",
+    "evidenceIndex": "artifacts/conference/rehearsal/adopter-http-run/evidence-index.json"
+  },
+  "releaseSmoke": {
+    "name": "release-smoke",
+    "status": "pass",
+    "durationMs": 377,
+    "stdout": "{\n  \"ok\": true,\n  \"version\": \"0.1.0\",\n  \"protocolVersion\": \"0.1.0\",\n  \"requiredScripts\": [\n    \"build\",\n    \"typecheck\",\n    \"test\",\n    \"skills:audit\",\n    \"conformance:check\",\n    \"release:gate\",\n    \"dogfood:relay\",\n    \"conference:rehearsal\",\n    \"conference:foresight\",\n    \"completion:audit\"\n  ],\n  \"missingScripts\": []\n}",
+    "result": {
+      "ok": true,
+      "version": "0.1.0",
+      "protocolVersion": "0.1.0",
+      "requiredScripts": [
+        "build",
+        "typecheck",
+        "test",
+        "skills:audit",
+        "conformance:check",
+        "release:gate",
+        "dogfood:relay",
+        "conference:rehearsal",
+        "conference:foresight",
+        "completion:audit"
+      ],
+      "missingScripts": []
+    }
+  },
+  "checks": [
+    {
+      "name": "flagship-benchmark",
+      "status": "pass",
+      "durationMs": 1423,
+      "result": {
+        "mode": "comparison",
+        "benchmarkClass": "public-hearing-triage",
+        "outDir": "artifacts/conference/rehearsal/flagship-benchmark",
+        "bundleManifest": {
+          "bundleId": "acp-benchmark-public-hearing-triage",
+          "protocolVersion": "0.1.0",
+          "scenarioClass": "public-hearing-triage",
+          "surface": "batch",
+          "entries": {
+            "intervention": {
+              "scenario": "benchmarks/scenarios/public-hearing-triage/intervention.json",
+              "outDir": "artifacts/conference/rehearsal/flagship-benchmark/intervention"
+            },
+            "baseline": {
+              "scenario": "benchmarks/scenarios/public-hearing-triage/baseline.json",
+              "outDir": "artifacts/conference/rehearsal/flagship-benchmark/baseline"
+            }
+          }
+        },
+        "comparisonSummary": {
+          "bundleId": "acp-benchmark-public-hearing-triage",
+          "scenarioClass": "public-hearing-triage",
+          "title": "Public hearing triage",
+          "domain": "public hearings",
+          "description": "A hearing team sorts the most decision-relevant testimony from a crowded input set without erasing minority concerns.",
+          "conditions": {
+            "intervention": "intervention",
+            "baseline": "baseline_thread"
+          },
+          "pairSignals": {
+            "routingContrast": true,
+            "digestContrast": true,
+            "sharedParticipantCount": true,
+            "sharedContributionCount": true,
+            "stableExportSurface": true,
+            "criteriaEvidencePresent": true,
+            "engineV2TracePresent": true,
+            "engineV2CriticsPresent": true,
+            "proceduralLayerPresent": true,
+            "proceduralContestPointsPresent": true
+          },
+          "comparison": {
+            "contributionCountDelta": 0,
+            "responseCountDelta": 0,
+            "overloadDelta": -1,
+            "usefulnessDelta": 1,
+            "exchangeQualityDelta": 1,
+            "bridgeExposureDelta": 0.5,
+            "contributorCoverageDelta": 0
+          },
+          "criteria": {
+            "sharedWeights": {
+              "recipient_relevance": 0.55,
+              "prompt_relevance": 0.25,
+              "bridge_perspective": 0.15,
+              "load_balance": 0.05
+            },
+            "averageFactors": {
+              "recipientRelevance": 0.06,
+              "promptRelevance": 0.07,
+              "bridgePerspective": 0.07,
+              "loadCost": 0.5
+            },
+            "dominantCriteria": {
+              "recipient_relevance": 4,
+              "load_balance": 2
+            }
+          },
+          "engineV2": {
+            "present": true,
+            "engineMode": "recursive_engine_v2",
+            "provider": "offline-deterministic",
+            "primaryModel": "gpt-5.4-mini",
+            "arbitrationModel": "gpt-5.4",
+            "promptVersions": {
+              "contributionUnderstanding": "engine-v2.contribution-understanding.v1",
+              "pairwiseRoutingJudge": "engine-v2.pairwise-routing-judge.v1",
+              "setOptimizationCritic": "engine-v2.set-optimization-critic.v1",
+              "omissionCritic": "engine-v2.omission-critic.v1",
+              "fairnessCritic": "engine-v2.fairness-critic.v1",
+              "explanationSynthesis": "engine-v2.explanation-synthesis.v1",
+              "arbitration": "engine-v2.arbitration.v1"
+            },
+            "issueClusterCount": 3,
+            "contributionRecordCount": 3,
+            "criticSeverities": {
+              "omission": "low",
+              "fairness": "low"
+            },
+            "escalation": {
+              "confidence": 0.8333,
+              "abstain": false,
+              "recommendedAction": "release",
+              "reasons": [
+                "Issue coverage 1.",
+                "Stakeholder diversity 1.",
+                "Redundancy risk 0.5."
+              ]
+            },
+            "issueCoverageRate": 1,
+            "stakeholderDiversityRate": 1,
+            "modelAudit": {
+              "provider": "offline-deterministic",
+              "cacheHits": 0,
+              "calls": 8,
+              "totalLatencyMs": 0,
+              "estimatedCostUsd": 0
+            }
+          },
+          "proceduralLayer": {
+            "present": true,
+            "referenceCount": 6,
+            "artifactExpectationCount": 5,
+            "contestPointCount": 4,
+            "selectedProcedureCount": 6,
+            "expectedArtifactCoverage": 1,
+            "allRequiredArtifactsProduced": true,
+            "escalationSource": "engine_v2",
+            "escalationAction": "release",
+            "humanReviewRequired": false
+          },
+          "intervention": {
+            "scenarioId": "public-hearing-triage-intervention",
+            "title": "Public hearing triage",
+            "prompt": "A county team is reviewing testimony on a housing proposal. The practical question is which concerns need immediate discussion tonight and which can be logged for follow-up.",
+            "condition": "intervention",
+            "participantCount": 3,
+            "contributionCount": 3,
+            "responseCount": 1,
+            "feedbackCount": 1,
+            "routingDecisionCount": 6,
+            "digestCount": 3,
+            "auditEventCount": 13,
+            "telemetryEventCount": 15,
+            "exportModes": [
+              "analysis",
+              "audit",
+              "minimal"
+            ],
+            "metrics": {
+              "exposureConcentrationGini": 0,
+              "exposureTop20Share": 0.3333,
+              "replyConcentrationGini": 0.6667,
+              "replyTop20Share": 1,
+              "averageContributorCoverage": 2,
+              "bridgeExposureRate": 0.5,
+              "explanationEngagementRate": 0,
+              "abandonmentRate": 0,
+              "issueCoverageRate": 1,
+              "omissionRiskRate": 0,
+              "fairnessRiskRate": 0,
+              "escalationRate": 0,
+              "estimatedEngineCostUsd": 0,
+              "engineLatencyMs": 0,
+              "participantCount": 3,
+              "contributionCount": 3,
+              "responseCount": 1
+            },
+            "criteria": {
+              "criteria": [
+                {
+                  "id": "recipient_relevance",
+                  "label": "Recipient relevance",
+                  "description": "Prioritize contributions that connect to the recipient's stated concern.",
+                  "weight": 0.55
+                },
+                {
+                  "id": "prompt_relevance",
+                  "label": "Prompt relevance",
+                  "description": "Keep routed items anchored to the shared cycle prompt.",
+                  "weight": 0.25
+                },
+                {
+                  "id": "bridge_perspective",
+                  "label": "Bridge perspective",
+                  "description": "Reserve bounded room for relevant but less-obvious views.",
+                  "weight": 0.15
+                },
+                {
+                  "id": "load_balance",
+                  "label": "Load balance",
+                  "description": "Respect bounded reading burden for each participant.",
+                  "weight": 0.05
+                }
+              ],
+              "criteriaCount": 4,
+              "decisionsWithFactors": 6,
+              "decisionsWithCriteriaWeights": 6,
+              "dominantCriteria": {
+                "recipient_relevance": 4,
+                "load_balance": 2
+              },
+              "averageFactors": {
+                "recipientRelevance": 0.06,
+                "promptRelevance": 0.07,
+                "bridgePerspective": 0.07,
+                "loadCost": 0.5
+              },
+              "sharedWeights": {
+                "recipient_relevance": 0.55,
+                "prompt_relevance": 0.25,
+                "bridge_perspective": 0.15,
+                "load_balance": 0.05
+              }
+            },
+            "engineV2": {
+              "present": true,
+              "engineMode": "recursive_engine_v2",
+              "provider": "offline-deterministic",
+              "primaryModel": "gpt-5.4-mini",
+              "arbitrationModel": "gpt-5.4",
+              "promptVersions": {
+                "contributionUnderstanding": "engine-v2.contribution-understanding.v1",
+                "pairwiseRoutingJudge": "engine-v2.pairwise-routing-judge.v1",
+                "setOptimizationCritic": "engine-v2.set-optimization-critic.v1",
+                "omissionCritic": "engine-v2.omission-critic.v1",
+                "fairnessCritic": "engine-v2.fairness-critic.v1",
+                "explanationSynthesis": "engine-v2.explanation-synthesis.v1",
+                "arbitration": "engine-v2.arbitration.v1"
+              },
+              "issueClusterCount": 3,
+              "contributionRecordCount": 3,
+              "criticSeverities": {
+                "omission": "low",
+                "fairness": "low"
+              },
+              "escalation": {
+                "confidence": 0.8333,
+                "abstain": false,
+                "recommendedAction": "release",
+                "reasons": [
+                  "Issue coverage 1.",
+                  "Stakeholder diversity 1.",
+                  "Redundancy risk 0.5."
+                ]
+              },
+              "issueCoverageRate": 1,
+              "stakeholderDiversityRate": 1,
+              "modelAudit": {
+                "provider": "offline-deterministic",
+                "cacheHits": 0,
+                "calls": 8,
+                "totalLatencyMs": 0,
+                "estimatedCostUsd": 0
+              }
+            },
+            "proceduralLayer": {
+              "present": true,
+              "referenceCount": 6,
+              "artifactExpectationCount": 5,
+              "contestPointCount": 4,
+              "selectedProcedureCount": 6,
+              "expectedArtifactCoverage": 1,
+              "allRequiredArtifactsProduced": true,
+              "escalationSource": "engine_v2",
+              "escalationAction": "release",
+              "humanReviewRequired": false
+            },
+            "averageFeedback": {
+              "overload": 2,
+              "usefulness": 4,
+              "exchangeQuality": 4,
+              "explanationClarity": 5,
+              "returnWillingness": 4
+            },
+            "conformanceResult": "pass"
+          },
+          "baseline": {
+            "scenarioId": "public-hearing-triage-baseline",
+            "title": "Public hearing triage",
+            "prompt": "A county team is reviewing testimony on a housing proposal. The practical question is which concerns need immediate discussion tonight and which can be logged for follow-up.",
+            "condition": "baseline_thread",
+            "participantCount": 3,
+            "contributionCount": 3,
+            "responseCount": 1,
+            "feedbackCount": 1,
+            "routingDecisionCount": 0,
+            "digestCount": 0,
+            "auditEventCount": 12,
+            "telemetryEventCount": 12,
+            "exportModes": [
+              "analysis",
+              "minimal"
+            ],
+            "metrics": {
+              "exposureConcentrationGini": 0,
+              "exposureTop20Share": 0.3333,
+              "replyConcentrationGini": 0.6667,
+              "replyTop20Share": 1,
+              "averageContributorCoverage": 2,
+              "bridgeExposureRate": 0,
+              "explanationEngagementRate": 0,
+              "abandonmentRate": 0,
+              "participantCount": 3,
+              "contributionCount": 3,
+              "responseCount": 1
+            },
+            "criteria": {
+              "criteria": [
+                {
+                  "id": "recipient_relevance",
+                  "label": "Recipient relevance",
+                  "description": "Prioritize contributions that connect to the recipient's stated concern.",
+                  "weight": 0.55
+                },
+                {
+                  "id": "prompt_relevance",
+                  "label": "Prompt relevance",
+                  "description": "Keep routed items anchored to the shared cycle prompt.",
+                  "weight": 0.25
+                },
+                {
+                  "id": "bridge_perspective",
+                  "label": "Bridge perspective",
+                  "description": "Reserve bounded room for relevant but less-obvious views.",
+                  "weight": 0.15
+                },
+                {
+                  "id": "load_balance",
+                  "label": "Load balance",
+                  "description": "Respect bounded reading burden for each participant.",
+                  "weight": 0.05
+                }
+              ],
+              "criteriaCount": 4,
+              "decisionsWithFactors": 0,
+              "decisionsWithCriteriaWeights": 0,
+              "dominantCriteria": {},
+              "averageFactors": {},
+              "sharedWeights": {}
+            },
+            "engineV2": {
+              "present": false,
+              "engineMode": "recursive_engine_v2",
+              "issueClusterCount": 0,
+              "contributionRecordCount": 0,
+              "criticSeverities": {},
+              "escalation": null,
+              "issueCoverageRate": null,
+              "stakeholderDiversityRate": null,
+              "modelAudit": null
+            },
+            "proceduralLayer": {
+              "present": true,
+              "referenceCount": 2,
+              "artifactExpectationCount": 1,
+              "contestPointCount": 1,
+              "selectedProcedureCount": 2,
+              "expectedArtifactCoverage": 1,
+              "allRequiredArtifactsProduced": true,
+              "escalationSource": null,
+              "escalationAction": null,
+              "humanReviewRequired": null
+            },
+            "averageFeedback": {
+              "overload": 3,
+              "usefulness": 3,
+              "exchangeQuality": 3,
+              "explanationClarity": 3,
+              "returnWillingness": 3
+            },
+            "conformanceResult": "pass"
+          }
+        }
+      }
+    },
+    {
+      "name": "flagship-report",
+      "status": "pass",
+      "durationMs": 421,
+      "result": {
+        "outDir": "artifacts/conference/rehearsal/flagship-report",
+        "sourceType": "benchmark-comparison",
+        "requiredOutputs": [
+          "index.html",
+          "cycle-briefing.html",
+          "pilot-recap.html",
+          "compatibility-proof.html",
+          "protocol-explainer.html",
+          "evidence-index.json",
+          "operator-review.md",
+          "research-review.md",
+          "comparison-summary.json"
+        ],
+        "evidenceFiles": 22
+      }
+    },
+    {
+      "name": "dogfood-relay",
+      "status": "pass",
+      "durationMs": 899,
+      "result": {
+        "outDir": "artifacts/conference/rehearsal/dogfood-run",
+        "checks": 9,
+        "findings": 0
+      }
+    },
+    {
+      "name": "adopter-starter",
+      "status": "pass",
+      "durationMs": 760,
+      "result": {
+        "status": "pass",
+        "scenarioId": "adopter-intervention-starter",
+        "cycleId": "cycle_3e344d91-6e4a-466a-9ee8-76b14db52400",
+        "outDir": "artifacts/conference/rehearsal/adopter-http-run",
+        "evidenceIndex": "artifacts/conference/rehearsal/adopter-http-run/evidence-index.json"
+      }
+    },
+    {
+      "name": "release-smoke",
+      "status": "pass",
+      "durationMs": 377,
+      "result": {
+        "ok": true,
+        "version": "0.1.0",
+        "protocolVersion": "0.1.0",
+        "requiredScripts": [
+          "build",
+          "typecheck",
+          "test",
+          "skills:audit",
+          "conformance:check",
+          "release:gate",
+          "dogfood:relay",
+          "conference:rehearsal",
+          "conference:foresight",
+          "completion:audit"
+        ],
+        "missingScripts": []
+      }
+    }
+  ]
+}

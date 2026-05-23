@@ -1,6 +1,8 @@
 ---
 name: baseline-thread-runner
 description: Use this skill when you need to run or inspect the Relay baseline thread condition under the same canonical cycle model.
+category: surface-workflow
+maturity: S2
 ---
 
 # When to use this skill

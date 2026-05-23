@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "0.1",
+  "goldens": {
+    "routing-selection-001": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "routing-selection-002": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "routing-selection-003": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "digest-explanation-001": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "digest-explanation-002": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "digest-explanation-003": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "omission-critic-001": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "omission-critic-002": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "omission-critic-003": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "fairness-critic-001": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "fairness-critic-002": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "fairness-critic-003": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "abstention-001": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "abstention-002": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "abstention-003": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "protocol-review-001": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "protocol-review-002": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "protocol-review-003": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "public-hearing-001": { "shouldEscalate": false, "claimBoundaryOk": true },
+    "public-hearing-002": { "shouldEscalate": true, "claimBoundaryOk": true },
+    "public-hearing-003": { "shouldEscalate": true, "claimBoundaryOk": true }
+  }
+}

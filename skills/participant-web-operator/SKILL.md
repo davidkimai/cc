@@ -1,48 +1,87 @@
 ---
 name: participant-web-operator
-description: Use this skill when you need to operate the Relay web app, the first ACP implementation, for participant submission, digest reading, baseline thread reading, response flow, or operator UI QA.
+description: Use this skill to operate and QA the Relay web app for participant submission, digest reading, baseline thread reading, response flow, and operator review.
+category: surface-workflow
+maturity: S3
 ---
 
-# What this block is for
+# What this skill is for
 
-Use this block for browser-driven workflow execution against the Relay web surface.
+Use this skill when ACP must be verified through the rendered Relay web surface rather than only CLI or API outputs.
 
-# When to use this block
+# When to use it
 
-Use this block when the task depends on the rendered participant or operator web experience.
+- Participant submission workflow QA.
+- Digest or baseline thread reading workflow QA.
+- Operator UI inspection of Engine V2 issue maps, critics, and release state.
+- Browser/server mismatch investigation.
 
-Load `references/browser-workflows.md` when you need the canonical UI workflow checklist.
-Use `scripts/surface-preflight.mjs` before browser work when you need to confirm server readiness or inspect a participant view directly.
+# When not to use it
 
-# When not to use this block
-
-Do not use this block for protocol logic that can be executed directly through the CLI or API.
+- Do not use it for protocol logic that can be checked directly through CLI or schema.
+- Do not use it to bypass server lifecycle transitions.
+- Do not use it when no web surface is involved.
 
 # Inputs expected
 
-- local app URL
-- cycle id when targeting a specific flow
-- participant id when inspecting a participant view
+- Local app URL
+- Cycle id when targeting a specific workflow
+- Participant id when inspecting participant views
+- Expected server-side state
+
+# Preflight / prerequisites
+
+1. Confirm server readiness.
+2. Run `scripts/surface-preflight.mjs --base-url <url>` when state is uncertain.
+3. Know whether the task is observation-only or action-authorized.
+4. Keep screenshots or notes tied to the cycle id.
 
 # Workflow
 
-1. Run `scripts/surface-preflight.mjs --base-url <url>` before browser work if server readiness is uncertain.
-2. If needed, include `--cycle-id` and `--participant-id` to inspect the server-side participant view that should back the web surface.
-3. Open the app and select participant or operator mode.
-4. Navigate to the target cycle.
-5. Execute the intended workflow without bypassing server-side transitions.
-6. If the browser and server disagree, trust the server contract and report the mismatch.
+1. Inspect server readiness and participant view payloads.
+2. Open the app in the browser.
+3. Execute the specific participant or operator path.
+4. Compare rendered state against server contract.
+5. Report any mismatch with URL, cycle id, participant id, and expected server state.
+
+# Decision rules / judgment criteria
+
+- Server contract beats visual assumption.
+- UI polish is not success if lifecycle state is wrong.
+- Do not submit participant content unless the user asked for that action.
+- A browser-only observation is not enough for claim-bearing evidence.
+
+# Escalation rules
+
+Escalate when the browser and API disagree, when a participant can see the wrong condition surface, or when a UI path permits lifecycle bypass.
 
 # Available scripts
 
-- `scripts/surface-preflight.mjs --base-url <url> [--cycle-id <id>] [--participant-id <id>]`: readiness and participant-view helper for browser work
+- `scripts/surface-preflight.mjs --base-url <url> [--cycle-id <id>] [--participant-id <id>]`
 
 # Outputs
 
-- executed browser workflow
-- participant or operator UI observations
-- deterministic readiness snapshot when needed
+- Readiness snapshot
+- Browser workflow observations
+- Server/browser mismatch report
+- Operator QA notes
 
 # Failure handling
 
-If the browser surface disagrees with the server state, trust the server contract and report the mismatch.
+If the browser surface fails but the server is healthy, preserve both observations. If the server contract fails, stop browser QA and fix the backend surface first.
+
+# Trust / safety notes
+
+Participant-facing UI can alter trust in ACP. Treat condition leakage, stale digests, and misleading status labels as serious review findings.
+
+# Composition notes
+
+Use in `surface-preflight`, `pilot-cycle-review`, and Foresight demo rehearsals.
+
+# Examples to inspect next
+
+Read `examples/casebook.md` for happy path, failure path, ambiguity, and anti-pattern examples.
+
+# Evaluation hooks
+
+Run `scripts/surface-preflight.mjs` and `npm run skills:audit`.

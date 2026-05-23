@@ -1,0 +1,16 @@
+name: export-generation
+description: Generate one or more canonical ACP export modes for a cycle through a single repeatable operator entrypoint.
+intent: export_bundle
+blocks:
+  - research-cli-operator
+  - operator-audit
+entrypoint: run.sh
+inputs:
+  - cycle_id
+  - mode_or_all
+  - out_dir_optional
+outputs:
+  - export-response-analysis.json
+  - export-response-audit.json
+  - export-response-minimal.json
+  - export-manifest.json

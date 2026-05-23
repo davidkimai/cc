@@ -1,0 +1,23 @@
+table,scope,metric,value,notes
+experimental_measured_crossover,full_skill,primary_score,0.8772,Study A generation plus Study B adjudication
+experimental_measured_crossover,full_skill,claim_boundary_obedience,0.9085,surrogate adjudication
+experimental_measured_crossover,no_skill,primary_score,0.8696,Study A generation plus Study B adjudication
+experimental_measured_crossover,no_skill,claim_boundary_obedience,0.8800,surrogate adjudication
+experimental_measured_crossover,metadata_only,primary_score,0.8340,Study A generation plus Study B adjudication
+experimental_measured_crossover,metadata_only,claim_boundary_obedience,0.8921,surrogate adjudication
+experimental_measured_crossover,composition,primary_score,0.8542,Study A generation plus Study B adjudication
+experimental_measured_crossover,composition,claim_boundary_obedience,0.9000,surrogate adjudication
+adjudication_reliability,all,agreement_rate,0.6636,Judge A/B agreement
+adjudication_reliability,all,arbitration_count,18,gpt-5.4 arbitration
+adherence_itt,full_skill,primary_score,0.8521,intention-to-treat
+adherence_itt,no_skill,primary_score,0.8696,intention-to-treat
+adherence_itt,metadata_only,primary_score,0.8101,intention-to-treat
+adherence_itt,composition,primary_score,0.8542,intention-to-treat
+adherence_per_protocol,metadata_only,primary_score,0.8087,condition-adhered outputs
+adherence_per_protocol,full_skill,primary_score,0.8387,condition-adhered outputs
+adherence_per_protocol,no_skill,primary_score,0.8642,condition-adhered outputs
+adherence_per_protocol,composition,primary_score,0.8542,condition-adhered outputs
+pragmatic_live_cohort,label_or_escalation_mismatch,divergence_count,8,Study D live
+pragmatic_live_cohort,none,divergence_count,15,Study D live
+pragmatic_live_cohort,acceptable_bounded_divergence,divergence_count,5,Study D live
+generation,study_a,outputs,109,measured generated outputs

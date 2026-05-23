@@ -1,0 +1,73 @@
+{
+  "studyId": "skills-v3-behavioral-intervention-study",
+  "studyA": {
+    "design": "stratified within-subject crossover measured study",
+    "casesPerFamily": 5,
+    "sourceFiles": [
+      "evals/skills/tasks/v3-slice.json",
+      "evals/skills/tasks/v3-hard-cases.json",
+      "evals/skills/tasks/v3-measured-heldout.json"
+    ],
+    "caseIds": [
+      "routing-selection-001",
+      "routing-selection-002",
+      "routing-selection-003",
+      "routing-hard-003",
+      "routing-hard-004",
+      "digest-explanation-001",
+      "digest-explanation-002",
+      "digest-explanation-003",
+      "digest-hard-001",
+      "digest-hard-003",
+      "omission-critic-001",
+      "omission-critic-002",
+      "omission-critic-003",
+      "omission-hard-002",
+      "omission-hard-004",
+      "fairness-critic-001",
+      "fairness-critic-002",
+      "fairness-critic-003",
+      "fairness-hard-002",
+      "fairness-hard-003",
+      "abstention-001",
+      "abstention-002",
+      "abstention-003",
+      "abstention-hard-002",
+      "abstention-hard-004",
+      "protocol-review-001",
+      "protocol-review-002",
+      "protocol-review-003",
+      "protocol-hard-002",
+      "protocol-measured-001",
+      "public-hearing-001",
+      "public-hearing-002",
+      "public-hearing-003",
+      "public-hearing-measured-001",
+      "public-hearing-measured-002"
+    ]
+  },
+  "studyD": {
+    "design": "small enriched pragmatic live-provider cohort",
+    "conditions": ["metadata_only", "full_skill", "composition"],
+    "noSkillCaseIds": ["routing-hard-003", "public-hearing-measured-001"],
+    "sourceFiles": [
+      "evals/skills/tasks/v3-slice.json",
+      "evals/skills/tasks/v3-hard-cases.json",
+      "evals/skills/tasks/v3-measured-heldout.json"
+    ],
+    "caseIds": [
+      "routing-hard-003",
+      "routing-hard-004",
+      "digest-hard-001",
+      "digest-explanation-003",
+      "omission-hard-002",
+      "omission-hard-004",
+      "fairness-hard-002",
+      "fairness-hard-003",
+      "abstention-hard-002",
+      "protocol-hard-002",
+      "public-hearing-measured-001",
+      "public-hearing-measured-002"
+    ]
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "generatedAt": "2026-05-19T16:36:45.857Z",
+  "status": "pass",
+  "claims": [
+    {
+      "id": "explainable-without-relay",
+      "statement": "ACP can be explained without opening Relay UI code.",
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "docs/protocol/README.md",
+          "note": "public protocol guide",
+          "exists": true
+        },
+        {
+          "path": "protocol/acp-bundle.manifest.json",
+          "note": "machine-readable protocol bundle",
+          "exists": true
+        },
+        {
+          "path": "protocol/discovery.json",
+          "note": "artifact discovery registry",
+          "exists": true
+        },
+        {
+          "path": "protocol/EXTERNAL_IMPLEMENTER_GUIDE.md",
+          "note": "external implementer guide",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "checkable-without-trust",
+      "statement": "ACP can be checked without trusting the authors.",
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "scripts/conformance/check-acp.mjs",
+          "note": "conformance checker",
+          "exists": true
+        },
+        {
+          "path": "fixtures/replay/manifest.json",
+          "note": "replay fixtures",
+          "exists": true
+        },
+        {
+          "path": "tests/conformance.test.ts",
+          "note": "test coverage",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "runs-outside-browser",
+      "statement": "ACP can be run outside the main Relay browser flow.",
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "scripts/batch/run-batch.ts",
+          "note": "batch runner",
+          "exists": true
+        },
+        {
+          "path": "scripts/http-client/run-http-scenario.mjs",
+          "note": "HTTP runner",
+          "exists": true
+        },
+        {
+          "path": "adopters/typescript-http-starter/src/run.ts",
+          "note": "external starter",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "clear-outside-adoption-path",
+      "statement": "ACP can be adopted through a clear outside path.",
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "adopters/typescript-http-starter/README.md",
+          "note": "starter guide",
+          "exists": true
+        },
+        {
+          "path": "src/sdk/index.ts",
+          "note": "SDK surface",
+          "exists": true
+        },
+        {
+          "path": "protocol/compatibility/compatibility-matrix.json",
+          "note": "compatibility claims",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "inspectable-evidence",
+      "statement": "ACP can produce evidence others can inspect.",
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "benchmarks/manifest.json",
+          "note": "benchmark scenarios",
+          "exists": true
+        },
+        {
+          "path": "scripts/benchmark/run-benchmark.mjs",
+          "note": "comparison harness",
+          "exists": true
+        },
+        {
+          "path": "scripts/report/build-report-bundle.mjs",
+          "note": "institutional reports",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "production-discipline",
+      "statement": "Relay can be operated with credible production discipline.",
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "src/api/ops.ts",
+          "note": "ops counters and readiness checks",
+          "exists": true
+        },
+        {
+          "path": "scripts/release/run-release-gate.mjs",
+          "note": "release gate",
+          "exists": true
+        },
+        {
+          "path": "scripts/workspace/workspace-archive.mjs",
+          "note": "backup and import path",
+          "exists": true
+        }
+      ]
+    }
+  ]
+}

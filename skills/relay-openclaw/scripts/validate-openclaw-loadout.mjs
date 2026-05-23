@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const skillsRoot = path.resolve(__dirname, '../..');
+const repoRoot = path.resolve(skillsRoot, '..');
 const highValueBlocks = new Set([
   'research-cli-operator',
   'pilot-analysis',
@@ -47,11 +48,31 @@ const blocks = listDirectories(skillsRoot).map((name) => {
   };
 });
 
+const registryPath = path.join(skillsRoot, 'registry.json');
+const registry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
+const registryPackages = registry.packages.map((pkg) => {
+  const manifestPath = path.join(repoRoot, pkg.manifest);
+  const manifest = fs.existsSync(manifestPath)
+    ? JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    : null;
+  return {
+    name: pkg.name,
+    manifest: pkg.manifest,
+    manifestExists: fs.existsSync(manifestPath),
+    skillFileExists: manifest ? fs.existsSync(path.join(repoRoot, manifest.skillFile)) : false,
+    scriptFilesExist: manifest ? (manifest.scripts ?? []).every((script) => fs.existsSync(path.join(repoRoot, script))) : false,
+    status: manifest?.status ?? null,
+  };
+});
+
 const summary = {
   skillsRoot,
   blockCount: blocks.length,
   blocks,
+  registryPackageCount: registryPackages.length,
+  registryPackages,
   missingSkillFiles: blocks.filter((block) => !block.hasSkill).map((block) => block.name),
+  registryPackagingGaps: registryPackages.filter((pkg) => !pkg.manifestExists || !pkg.skillFileExists || !pkg.scriptFilesExist),
   highValuePackagingGaps: blocks
     .filter((block) => block.highValue)
     .filter((block) => block.references.length === 0 || block.scripts.length === 0)

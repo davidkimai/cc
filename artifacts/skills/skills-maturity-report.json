@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-05-23T01:04:03.899Z",
+  "status": "pass",
+  "standard": "docs/specs/RELAY_BLOCKS_SKILL_MATURITY_STANDARD.md",
+  "summary": {
+    "skillsTotal": 17,
+    "skillsPassing": 17,
+    "compositionsTotal": 7,
+    "compositionsPassing": 7,
+    "s3OrBetter": 14,
+    "s4": 3,
+    "constitutionalCore": 7
+  },
+  "skills": [
+    {
+      "name": "deliberation-cycle",
+      "maturity": "S3",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "epistemic-routing",
+      "maturity": "S4",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": true
+    },
+    {
+      "name": "digest-and-explanation",
+      "maturity": "S4",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": true
+    },
+    {
+      "name": "overload-governance",
+      "maturity": "S3",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "bridge-exposure",
+      "maturity": "S2",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "operator-audit",
+      "maturity": "S3",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "omission-critic",
+      "maturity": "S3",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": true
+    },
+    {
+      "name": "fairness-contestability-critic",
+      "maturity": "S3",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": true
+    },
+    {
+      "name": "abstention-escalation",
+      "maturity": "S3",
+      "category": "protocol",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": true
+    },
+    {
+      "name": "participant-web-operator",
+      "maturity": "S3",
+      "category": "surface-workflow",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "research-cli-operator",
+      "maturity": "S3",
+      "category": "surface-workflow",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "baseline-thread-runner",
+      "maturity": "S2",
+      "category": "surface-workflow",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "pilot-analysis",
+      "maturity": "S3",
+      "category": "surface-workflow",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "conference-foresight-packaging",
+      "maturity": "S3",
+      "category": "surface-workflow",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    },
+    {
+      "name": "public-hearing-triage",
+      "maturity": "S4",
+      "category": "institutional-domain",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": true
+    },
+    {
+      "name": "protocol-implementer-review",
+      "maturity": "S3",
+      "category": "ecosystem-adopter",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": true
+    },
+    {
+      "name": "relay-openclaw",
+      "maturity": "S2",
+      "category": "runtime-adapter",
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "constitutionalCore": false
+    }
+  ],
+  "compositions": [
+    {
+      "name": "pilot-cycle-review",
+      "status": "pass",
+      "failures": []
+    },
+    {
+      "name": "export-generation",
+      "status": "pass",
+      "failures": []
+    },
+    {
+      "name": "surface-preflight",
+      "status": "pass",
+      "failures": []
+    },
+    {
+      "name": "foresight-submission-prep",
+      "status": "pass",
+      "failures": []
+    },
+    {
+      "name": "public-hearing-end-to-end",
+      "status": "pass",
+      "failures": []
+    },
+    {
+      "name": "participatory-budget-end-to-end",
+      "status": "pass",
+      "failures": []
+    },
+    {
+      "name": "school-board-tradeoff-review",
+      "status": "pass",
+      "failures": []
+    }
+  ]
+}

@@ -1,0 +1,411 @@
+{
+  "generatedAt": "2026-05-23T01:04:04.193Z",
+  "thesis": "ACP skills are inspectable constitutional workflow modules for public reasoning under bounded attention. They encode routing discipline, explanation faithfulness, omission detection, contestability review, abstention, escalation, and protocol-boundary review without replacing protocol truth.",
+  "primaryOutcomes": [
+    "false-consensus reduction",
+    "omission detection",
+    "fairness and contestability preservation",
+    "escalation correctness",
+    "claim-boundary obedience",
+    "artifact trace legibility"
+  ],
+  "nonClaims": [
+    "not field efficacy",
+    "not fairness solved",
+    "not institutional legitimacy by default",
+    "not operator utility without human review",
+    "not broad comparative superiority across all tasks"
+  ],
+  "skills": [
+    {
+      "name": "epistemic-routing",
+      "constitutionalPurpose": "Coordinate participant attention without laundering disagreement into consensus.",
+      "failureModesTargeted": [
+        "false_consensus",
+        "unbounded_bridge_exposure",
+        "redundant_dominant_view_exposure",
+        "unsafe_release"
+      ],
+      "requiredEvidence": [
+        "closed intervention cycle",
+        "routing criteria",
+        "routing trace or routing decisions"
+      ],
+      "producedArtifacts": [
+        "routing decision summary",
+        "bridge exposure assessment",
+        "release/revise/escalate recommendation"
+      ],
+      "humanOverridePoints": [
+        "bridge budget exception",
+        "release veto",
+        "routing trace challenge"
+      ],
+      "category": "protocol",
+      "maturity": "S4",
+      "useWhen": [
+        "intervention routing",
+        "bridge exposure review",
+        "Engine V2 trace inspection"
+      ],
+      "dontUseWhen": [
+        "baseline thread release",
+        "participant content authoring",
+        "digest rendering"
+      ],
+      "outputsPromised": [
+        "routing decision review",
+        "bridge exposure assessment",
+        "routing risk flags"
+      ],
+      "surfaces": [
+        "operator_cli",
+        "operator_web",
+        "benchmark"
+      ],
+      "skillFile": "skills/epistemic-routing/SKILL.md"
+    },
+    {
+      "name": "digest-and-explanation",
+      "constitutionalPurpose": "Compress routed material without hiding uncertainty, disagreement, or evidence limits.",
+      "failureModesTargeted": [
+        "explanation_overclaim",
+        "false_consensus",
+        "untraceable_digest",
+        "unsafe_release"
+      ],
+      "requiredEvidence": [
+        "digest items",
+        "source references",
+        "routing explanations"
+      ],
+      "producedArtifacts": [
+        "digest quality assessment",
+        "explanation coverage summary",
+        "participant-facing risk notes"
+      ],
+      "humanOverridePoints": [
+        "digest revision",
+        "release hold",
+        "source-reference challenge"
+      ],
+      "category": "protocol",
+      "maturity": "S4",
+      "useWhen": [
+        "digest review",
+        "explanation inspection",
+        "release readiness"
+      ],
+      "dontUseWhen": [
+        "recipient selection",
+        "baseline-only thread review",
+        "protocol schema editing"
+      ],
+      "outputsPromised": [
+        "digest quality review",
+        "explanation coverage report",
+        "release/escalate recommendation"
+      ],
+      "surfaces": [
+        "participant_web",
+        "operator_web",
+        "operator_cli"
+      ],
+      "skillFile": "skills/digest-and-explanation/SKILL.md"
+    },
+    {
+      "name": "omission-critic",
+      "constitutionalPurpose": "Protect material issue coverage and minority-salience against compression loss.",
+      "failureModesTargeted": [
+        "issue_omission",
+        "stakeholder_omission",
+        "loud_redundancy",
+        "completeness_overclaim"
+      ],
+      "requiredEvidence": [
+        "issue map or cycle JSON",
+        "selected items",
+        "excluded but relevant material"
+      ],
+      "producedArtifacts": [
+        "missing issue list",
+        "underrepresented stakeholder notes",
+        "revise/release/escalate recommendation"
+      ],
+      "humanOverridePoints": [
+        "issue-materiality judgment",
+        "selection repair",
+        "release veto"
+      ],
+      "category": "protocol",
+      "maturity": "S3",
+      "useWhen": [
+        "omission review",
+        "issue coverage check",
+        "minority signal preservation"
+      ],
+      "dontUseWhen": [
+        "generic summarization",
+        "protocol schema editing"
+      ],
+      "outputsPromised": [
+        "missing issue list",
+        "revision recommendation"
+      ],
+      "surfaces": [
+        "operator_cli",
+        "operator_web"
+      ],
+      "skillFile": "skills/omission-critic/SKILL.md"
+    },
+    {
+      "name": "fairness-contestability-critic",
+      "constitutionalPurpose": "Surface minority-erasure, tokenistic bridge exposure, and false-neutrality risks before release.",
+      "failureModesTargeted": [
+        "minority_erasure",
+        "tokenistic_bridge_exposure",
+        "false_neutrality",
+        "contestability_gap"
+      ],
+      "requiredEvidence": [
+        "digest items",
+        "bridge flags",
+        "explanation text",
+        "source references"
+      ],
+      "producedArtifacts": [
+        "fairness risk notes",
+        "contestability gaps",
+        "revise/release/escalate recommendation"
+      ],
+      "humanOverridePoints": [
+        "contestability review",
+        "bridge justification review",
+        "release veto"
+      ],
+      "category": "protocol",
+      "maturity": "S3",
+      "useWhen": [
+        "fairness review",
+        "contestability check",
+        "bridge exposure critique"
+      ],
+      "dontUseWhen": [
+        "legal adequacy claims",
+        "generic moderation"
+      ],
+      "outputsPromised": [
+        "fairness risks",
+        "contestability gaps",
+        "escalation recommendation"
+      ],
+      "surfaces": [
+        "operator_cli",
+        "operator_web"
+      ],
+      "skillFile": "skills/fairness-contestability-critic/SKILL.md"
+    },
+    {
+      "name": "abstention-escalation",
+      "constitutionalPurpose": "Preserve safe human-steerable refusal and escalation when evidence or authority is insufficient.",
+      "failureModesTargeted": [
+        "unsafe_automation",
+        "low_confidence_release",
+        "critic_override",
+        "authority_mismatch"
+      ],
+      "requiredEvidence": [
+        "critic severities",
+        "confidence score",
+        "proposed action"
+      ],
+      "producedArtifacts": [
+        "action classification",
+        "escalation reason",
+        "operator handoff notes"
+      ],
+      "humanOverridePoints": [
+        "facilitator review",
+        "institutional signoff",
+        "manual abstention confirmation"
+      ],
+      "category": "protocol",
+      "maturity": "S3",
+      "useWhen": [
+        "low confidence",
+        "critic severity",
+        "operator escalation"
+      ],
+      "dontUseWhen": [
+        "generic exception handling",
+        "hiding inconvenient outputs"
+      ],
+      "outputsPromised": [
+        "action classification",
+        "escalation reason",
+        "handoff notes"
+      ],
+      "surfaces": [
+        "operator_cli",
+        "operator_web"
+      ],
+      "skillFile": "skills/abstention-escalation/SKILL.md"
+    },
+    {
+      "name": "protocol-implementer-review",
+      "constitutionalPurpose": "Keep interoperability honest by separating protocol compatibility from local convenience naming or adapter drift.",
+      "failureModesTargeted": [
+        "protocol_drift",
+        "compatibility_overclaim",
+        "naming_layer_confusion",
+        "missing_conformance_evidence"
+      ],
+      "requiredEvidence": [
+        "adapter path",
+        "protocol bundle references",
+        "conformance output when available"
+      ],
+      "producedArtifacts": [
+        "implementer review notes",
+        "compatibility gaps",
+        "conformance recommendation"
+      ],
+      "humanOverridePoints": [
+        "compatibility approval",
+        "spec escalation",
+        "adopter feedback gate"
+      ],
+      "category": "ecosystem-adopter",
+      "maturity": "S3",
+      "useWhen": [
+        "external adopter review",
+        "adapter review",
+        "protocol compatibility check"
+      ],
+      "dontUseWhen": [
+        "Relay UI QA",
+        "new protocol design"
+      ],
+      "outputsPromised": [
+        "compatibility gaps",
+        "review notes",
+        "conformance recommendation"
+      ],
+      "surfaces": [
+        "operator_cli",
+        "external_adopter"
+      ],
+      "skillFile": "skills/protocol-implementer-review/SKILL.md"
+    },
+    {
+      "name": "public-hearing-triage",
+      "constitutionalPurpose": "Demonstrate ACP's strongest civic denominator: overloaded public input routed into inspectable, claim-safe decision-support artifacts.",
+      "failureModesTargeted": [
+        "hearing_overload",
+        "minority_signal_burial",
+        "benchmark_overclaim",
+        "missing_scale_boundary"
+      ],
+      "requiredEvidence": [
+        "benchmark class or scenario",
+        "baseline and intervention requirements",
+        "claim boundary"
+      ],
+      "producedArtifacts": [
+        "benchmark summary",
+        "ablation summary",
+        "scale-band summary",
+        "claim-safe domain notes"
+      ],
+      "humanOverridePoints": [
+        "claim approval",
+        "scale-boundary approval",
+        "institutional framing review"
+      ],
+      "category": "institutional-domain",
+      "maturity": "S4",
+      "useWhen": [
+        "public-hearing triage",
+        "Foresight denominator",
+        "scale-band benchmark"
+      ],
+      "dontUseWhen": [
+        "public opinion measurement",
+        "legal hearing administration claims"
+      ],
+      "outputsPromised": [
+        "benchmark summary",
+        "ablation summary",
+        "scale-band notes"
+      ],
+      "surfaces": [
+        "operator_cli",
+        "benchmark",
+        "conference_packet"
+      ],
+      "skillFile": "skills/public-hearing-triage/SKILL.md"
+    }
+  ],
+  "compositions": [
+    {
+      "name": "public-hearing-end-to-end",
+      "maturity": "S3",
+      "intent": "domain_evidence",
+      "blocks": [
+        "public-hearing-triage",
+        "epistemic-routing",
+        "digest-and-explanation",
+        "omission-critic",
+        "fairness-contestability-critic",
+        "abstention-escalation"
+      ],
+      "outputs": [
+        "comparison-summary.json",
+        "ablation-summary.json",
+        "scale-summary.json",
+        "composition-summary.json"
+      ],
+      "entrypoint": "skills/compositions/public-hearing-end-to-end/run.sh"
+    },
+    {
+      "name": "participatory-budget-end-to-end",
+      "maturity": "S3",
+      "intent": "domain_evidence",
+      "blocks": [
+        "deliberation-cycle",
+        "epistemic-routing",
+        "digest-and-explanation",
+        "omission-critic",
+        "fairness-contestability-critic",
+        "abstention-escalation",
+        "pilot-analysis"
+      ],
+      "outputs": [
+        "comparison-summary.json",
+        "evidence-index.json",
+        "composition-summary.json"
+      ],
+      "entrypoint": "skills/compositions/participatory-budget-end-to-end/run.sh"
+    },
+    {
+      "name": "school-board-tradeoff-review",
+      "maturity": "S3",
+      "intent": "domain_evidence",
+      "blocks": [
+        "deliberation-cycle",
+        "epistemic-routing",
+        "digest-and-explanation",
+        "omission-critic",
+        "fairness-contestability-critic",
+        "abstention-escalation",
+        "operator-audit"
+      ],
+      "outputs": [
+        "comparison-summary.json",
+        "evidence-index.json",
+        "composition-summary.json"
+      ],
+      "entrypoint": "skills/compositions/school-board-tradeoff-review/run.sh"
+    }
+  ]
+}

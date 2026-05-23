@@ -1,0 +1,15 @@
+name: foresight-submission-prep
+description: Generate and review the Foresight Supercooperation pre-submission packet.
+intent: conference_prepackaging
+blocks:
+  - public-hearing-triage
+  - conference-foresight-packaging
+  - operator-audit
+  - pilot-analysis
+entrypoint: run.sh
+inputs:
+  - out_dir_optional
+outputs:
+  - foresight-package-summary.json
+  - composition-summary.json
+  - artifact-index.json

@@ -1,6 +1,8 @@
 ---
 name: relay-openclaw
 description: Use this skill when you need OpenClaw-specific guidance for loading or operating Relay Blocks over ACP in an Agent Skills-compatible runtime.
+category: runtime-adapter
+maturity: S2
 ---
 
 # What this block is for

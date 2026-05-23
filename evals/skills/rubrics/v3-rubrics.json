@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "0.1",
+  "dimensions": [
+    { "id": "skill_choice", "weight": 0.2, "description": "Selected skill matches the golden expectation." },
+    { "id": "composition_choice", "weight": 0.1, "description": "Selected composition matches the golden when one is required." },
+    { "id": "escalation_decision", "weight": 0.2, "description": "Escalation, abstention, or no-escalation decision matches the task evidence." },
+    { "id": "claim_boundary", "weight": 0.2, "description": "Forbidden field-efficacy, fairness-solved, consensus, and compatibility claims are rejected or absent." },
+    { "id": "artifact_completeness", "weight": 0.1, "description": "Expected artifacts or artifact intentions are recorded." },
+    { "id": "substantive_failure_detection", "weight": 0.2, "description": "Reviewer-relevant failure modes are detected, not merely action-label matched." }
+  ],
+  "failureModeSignals": {
+    "false_consensus": ["false_consensus_risk", "unresolved_dissent", "claim_boundary", "reject_field_claim", "non_claim_boundary"],
+    "omission": ["missing_issue", "underrepresented_stakeholder", "late_minority_signal", "loud_redundancy", "insufficient_evidence"],
+    "fairness_contestability": ["minority_erasure_risk", "contestability", "contestability_missing", "tokenistic_bridge", "manipulative_salience", "do_not_suppress_warning"],
+    "abstention_escalation": ["low_confidence", "operator_review", "review_required", "escalate_review", "conflicting_critics", "do_not_override_abstention"],
+    "explanation_faithfulness": ["explanation_text", "source_grounding", "uncertainty", "uncertainty_preserved", "explanation_overclaim", "explanation_faithfulness_risk"],
+    "protocol_drift": ["schema_alignment", "conformance_runner", "canonical_vocabulary", "reject_drift", "protocol_drift", "missing_conformance_artifacts"]
+  },
+  "familyThresholds": {
+    "routing-selection": 0.8,
+    "digest-explanation-review": 0.8,
+    "omission-critique": 0.8,
+    "fairness-contestability-critique": 0.8,
+    "abstention-escalation": 0.8,
+    "protocol-implementer-review": 0.8,
+    "public-hearing-end-to-end": 0.8
+  },
+  "sliceCompletion": {
+    "minimumCasesForV3_1Complete": 48,
+    "minimumCasesForFirstSlice": 14,
+    "requireNegativeControlPerFamily": true,
+    "requireAdversarialOrOverclaim": true
+  }
+}
