@@ -1,0 +1,298 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.1in, bottom=1.1in, left=1.1in, right=1.1in]{geometry}
+\usepackage{times}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage[normalem]{ulem} % Added to allow line breaks in underlined text
+
+% ----- Hyperref: blue links to match original -----
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+% ----- Repo-link helpers -----
+\newcommand{\repobase}{https://github.com/davidkimai/acp}
+\newcommand{\reporoot}[1]{\href{\repobase}{\nolinkurl{#1}}}
+\newcommand{\repodir}[2]{\href{\repobase/tree/main/#1}{\nolinkurl{#2}}}
+\newcommand{\repofile}[2]{\href{\repobase/blob/main/#1}{\nolinkurl{#2}}}
+
+% ----- Numbered section headers: bold, Large, "N." prefix -----
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection.}{0.5em}{}
+% Δ9: increase above-section space to match original breathing room
+\titlespacing*{\section}{0pt}{3ex plus 0.8ex minus 0.3ex}{1ex plus 0.2ex}
+
+% ----- Unnumbered sections (Code/Data, References, etc.) -----
+% \titleformat* applies the bold Large style to \section* (starred).
+% Spacing is inherited from the \section rule above — no separate call needed.
+\titleformat*{\section}{\normalfont\Large\bfseries}
+
+% ----- Δ10: Gray sub-headers (Limitations / Future Work) -----
+% More vertical breathing room than v1
+\newcommand{\subsectiongray}[1]{%
+  \vspace{2.5ex plus 0.5ex}%
+  \noindent{\normalfont\large\color{gray}#1}%
+  \vspace{0.6ex}\par\noindent%
+}
+
+\begin{document}
+
+% ========================= TITLE BLOCK =========================
+% Δ2: top breathing room before the thick rule
+\vspace*{0.2in}
+\hrule height 1.8pt
+% Δ3: increased space between thick rule and title
+\vspace{0.45in}
+\begin{center}
+% Δ1: \LARGE matches original title size better than \Huge
+{\LARGE\bfseries Collective Deliberation Is a Skill Issue\footnotemark[1] \par}
+\end{center}
+% Δ3: increased space between title and thin rule
+\vspace{0.3in}
+\hrule height 0.6pt
+% Δ4: increased space after thin rule
+\vspace{0.5in}
+
+% --------------------- FOOTNOTE FOR TITLE ----------------------
+\footnotetext[1]{Research conducted for the
+  \href{https://cordademocracy.org/}{CORDA Democracy Fellowship}, May 2026.
+  Repo:
+  \reporoot{github.com/davidkimai/acp}.}
+
+% ========================= AUTHOR BLOCK ========================
+\begin{center}
+\begin{tabular}{ccc}
+\begin{tabular}{c}
+Jason Tang \\
+CBAI AIxBio
+\end{tabular}
+&
+\begin{tabular}{c}
+Philipp Rachle \\
+ETH Zurich
+\end{tabular}
+&
+\begin{tabular}{c}
+Hayley Wu \\
+University of Cambridge
+\end{tabular}
+\end{tabular}
+
+\vspace{0.14in}
+
+\begin{tabular}{cc}
+\begin{tabular}{c}
+Amy Guo \\
+University of Toronto
+\end{tabular}
+&
+\begin{tabular}{c}
+Elizabeth Yan \\
+Wellesley
+\end{tabular}
+\end{tabular}
+\end{center}
+
+\vspace{0.35in}
+
+% ========================== ABSTRACT ===========================
+\begin{center}
+{\large\bfseries Abstract}
+\end{center}
+\vspace{0.12in}
+\begin{quote}
+Democratic institutions face a new coordination problem: they must process growing volumes of public input under tight attention constraints as AI systems become powerful enough to mediate that process at scale \cite{Dafoe2020OpenProblems,Ulnicane2024Governance}. Whether that shift strengthens collective deliberation or concentrates agenda-setting power depends not only on model capability, but on the procedural skills that govern routing, explanation, critique, and escalation. We present the \href{https://github.com/davidkimai/acp/tree/main/protocol}{Attention Coordination Protocol (ACP)} and \href{https://github.com/davidkimai/acp/tree/main/skills}{ACP Skills}, an inspectable procedural layer for those functions built on the Agent Skills standard \cite{Anthropic2025AgentSkills,AgentSkills2026Overview}. ACP is an open protocol for AI-assisted collective deliberation that treats public reasoning as an inspectable coordination problem rather than a black-box ranking problem. \href{https://github.com/davidkimai/acp/blob/main/docs/specs/RELAY_REFERENCE_IMPLEMENTATION_SPEC.md}{Relay} supports matched intervention and baseline-thread workflows for public-hearing deliberation, preserving inspectable traces and evidence without claiming to manufacture consensus. This design draws on practical digital-democracy precedents such as vTaiwan, Decidim, and Polis, while shifting the emphasis toward contestable workflow evidence and bounded AI assistance \cite{Hsiao2018vTaiwan,Aragon2017Decidim,Small2021Polis}. We evaluate ACP at two levels: a flagship \href{https://github.com/davidkimai/acp/tree/main/benchmarks/scenarios/public-hearing-triage}{\texttt{public-hearing-triage}} benchmark and a behavioral study of workflow modules (``skills'') as interventions. The study includes 35 cases, dual blinded surrogate adjudication, adherence analysis, and a live-provider cohort. Results are conservative: \texttt{full\_skill} guidance narrowly outperforms \texttt{no\_skill} guidance on the primary surrogate-adjudicated endpoint, but moderate adjudicator agreement (0.664), imperfect treatment fidelity, and missing human-review endpoints limit interpretation. ACP's contribution is not proof of field efficacy, but a protocol-first, auditable infrastructure for AI-assisted collective deliberation under bounded attention.
+\end{quote}
+
+\vspace{0.25in}
+
+\vspace{0.12in}
+
+% ==================== 1. INTRODUCTION ==========================
+\section{Introduction}
+
+AI's rapid progress is reopening an old democratic question in a new technical form: how can societies deliberate, coordinate, and govern under conditions of deep disagreement and limited attention without yielding more power to opaque intermediaries? We argue that this is not only a model-capability problem, but a procedural skill problem: collective deliberation quality depends on reusable, inspectable workflow safeguards for routing, explanation, omission review, contestability, abstention, and escalation. There is growing interest in AI for democracy and AI-assisted collective deliberation, but the opportunity is double-edged. Systems that help institutions process complex public input could also centralize agenda-setting power, compress disagreement into illegible rankings, or make cooperation depend on tools that the public cannot meaningfully inspect or contest \cite{Dafoe2020OpenProblems,Formosa2024DemocraticCitizenship,Ulnicane2024Governance,Verdegem2022AIcapitalism}. This framing closely matches the emerging Supercooperation agenda, which links AI tools for collective deliberation to questions of power concentration and democratic governance under rapid AI progress \cite{Foresight2026Supercooperation}. At the same time, democratic institutions on the ground already face a simpler and more immediate problem: too much uneven public input, too little time, and too much pressure to produce decision-ready outputs that remain legible, contestable, and accountable \cite{OECD2022Participation}.
+
+\vspace{0.1in}
+Many of the most important digital-democracy projects of the last decade---including vTaiwan, Decidim, and Polis---show that computational systems can help scale participation, structure discussion, and surface patterns in public reasoning \cite{Hsiao2018vTaiwan,Aragon2017Decidim,Barandiaran2024Decidim,Small2021Polis}. But they also reveal a persistent design challenge. Scale alone is not enough. Institutions still need ways to distinguish decision-relevant from merely loud input, preserve minority or quieter concerns without pretending consensus, and explain how a release-ready public briefing was assembled. In other words, the practical bottleneck is not just content generation; it is the governance of shared attention. We therefore treat public reasoning as a coordination problem rather than a summarization problem.
+
+\vspace{0.1in}
+We introduce the \href{https://github.com/davidkimai/acp/tree/main/protocol}{Attention Coordination Protocol (ACP)}, an open protocol for bounded shared reasoning, and \href{https://github.com/davidkimai/acp/tree/main/skills}{ACP Skills}, a constitutional procedural layer over that protocol. ACP is designed as protocol-first infrastructure for AI-assisted collective deliberation: participants contribute to a shared cycle, the system prepares either a routed digest or a chronological baseline thread, and the resulting workflow preserves explicit routing criteria, bridge exposure, explanations, audit events, and exportable evidence. \href{https://github.com/davidkimai/acp/blob/main/docs/specs/RELAY_REFERENCE_IMPLEMENTATION_SPEC.md}{Relay} is the first ACP reference implementation. It supports matched intervention and baseline conditions for public-hearing-style deliberation and pairs a canonical procedural layer in \repodir{skills}{skills/} with a thin study/runtime substrate in \repodir{src/skills}{src/skills/} that turns workflow guidance into measurable intervention conditions. Rather than claiming to manufacture agreement, ACP aims at pluralism-preserving compression: helping institutions move from overloaded public threads to contestable, decision-preparatory briefings.
+
+\vspace{0.1in}
+We evaluate ACP at two levels. First, we use a flagship \href{https://github.com/davidkimai/acp/tree/main/benchmarks/scenarios/public-hearing-triage}{\texttt{public-hearing-triage}} benchmark to compare intervention and baseline-thread workflows on the same cycle model. Second, we evaluate ACP skills as procedural interventions through a behavioral study program: a 35-case within-case measured generation study with 109 attempts and 107 outputs, dual blinded surrogate adjudication, adherence analysis, and an enriched live-provider cohort. The empirical picture is encouraging but deliberately bounded. \texttt{full\_skill} guidance narrowly outperforms \texttt{no\_skill} guidance on the primary surrogate-adjudicated endpoint, but moderate adjudicator agreement, imperfect treatment fidelity, and missing human-review endpoints limit broader interpretation. ACP's present contribution is therefore not proof of field efficacy or democratic success in practice. It is a protocol-first, auditable infrastructure and evidence program for AI-assisted collective deliberation under bounded attention.
+
+\vspace{0.1in}
+\textbf{Our main contributions are:}
+
+\begin{enumerate}[label=\arabic*.]
+    \item We present ACP as an open protocol and \href{https://github.com/davidkimai/acp/blob/main/docs/specs/RELAY_REFERENCE_IMPLEMENTATION_SPEC.md}{Relay} as a reference implementation for matched intervention and baseline-thread deliberation workflows, emphasizing inspectable routing, explanation, audit, and export surfaces rather than black-box optimization or consensus manufacture.
+    \item We formalize ACP skills as procedural interventions by combining canonical workflow content in \repodir{skills}{skills/} with a thin study/runtime substrate in \repodir{src/skills}{src/skills/} for condition materialization, blinding, adherence tracking, and trace preservation.
+    \item We provide a conservative evidence stack for AI-assisted collective deliberation: a flagship public-hearing benchmark, a measured behavioral intervention study, conformance and release-discipline surfaces, and explicit non-claims that separate inspectable workflow evidence from operator utility or field efficacy.
+\end{enumerate}
+
+% ==================== 2. RELATED WORK ==========================
+\section{Related Work}
+
+ACP sits at the intersection of four strands of prior work: cooperative AI, digital-democracy infrastructure, online deliberation design, and governance research on AI-era power concentration. The most important attractor across these strands is the idea that AI should expand collective capacity for cooperation and public reasoning rather than merely optimize private prediction or compress politics into opaque rankings. Cooperative AI research explicitly frames the problem this way, arguing that AI systems should help agents find common ground and foster cooperation in mixed human--machine settings \cite{Dafoe2020OpenProblems,Dafoe2021CommonGround}. ACP takes this cooperative framing seriously, but shifts it into a public-governance setting: not cooperation as unanimity, but cooperation as bounded, inspectable coordination across disagreement.
+
+\vspace{0.1in}
+A second strand comes from digital democratic infrastructures such as vTaiwan, Decidim, and Polis, which show that technology can help scale participation, structure discussion, and connect online input to institutional processes \cite{Hsiao2018vTaiwan,Aragon2017Decidim,Barandiaran2024Decidim,Small2021Polis}. This literature is essential for ACP because it demonstrates that democratic technology is not just an interface problem; it is political, technopolitical, and institutional. vTaiwan provides an influential model of open consultation linked to real governance. Decidim highlights the importance of platform design and democratic infrastructure as a public-common good. Polis shows how computational methods can synthesize large opinion spaces without reducing deliberation to simple majority aggregation. ACP builds on these systems, but differs in emphasis. Its central object is not only participation or opinion mapping, but the workflow by which overloaded public input becomes a release-ready, contestable briefing.
+
+\vspace{0.1in}
+A third strand studies online deliberation and AI-mediated public reasoning more directly. Work on deliberative platform design and online discussion quality shows that interface and workflow choices shape whether disagreement becomes productive or merely noisy \cite{Aragon2017Decidim,King2018OnlineDeliberation}. More recent work on AI and democracy argues that generative systems may transform democratic citizenship, while digital democratic innovations must be judged not only by scale and transparency but also by equality and facilitation quality \cite{Formosa2024DemocraticCitizenship,Mikhaylovskaya2024Enhancing}. Recent LLM-based deliberation tools, such as systems that raise ``missing perspectives'' through AI-generated personas, further suggest that AI can help surface absent viewpoints while also introducing new fidelity and legitimacy problems \cite{Fulay2025EmptyChair}. ACP aligns with this emerging literature in treating omission, bridge exposure, fairness, and contestability as first-class concerns. However, ACP deliberately uses more bounded workflow roles---routing, explanation, omission critique, fairness critique, abstention, and escalation---rather than treating synthetic generation alone as the main deliberative intervention.
+
+\vspace{0.1in}
+A closely adjacent systems strand comes from the emerging Agent Skills ecosystem, which standardizes lightweight, file-backed procedural modules that agents can discover and load on demand \cite{Anthropic2025AgentSkills,AgentSkills2026Overview}. ACP builds on that interface pattern, but redirects it from general agent extensibility toward contestable public-reasoning procedure under bounded attention.
+
+\vspace{0.1in}
+A fourth strand is the governance literature on rapid AI progress, power concentration, and democratic robustness. Recent work warns that AI governance is often dominated by a limited number of powerful actors, that public roles can remain narrow, and that AI-driven inequality or platform concentration may erode democratic institutions rather than strengthen them \cite{Ulnicane2024Governance,BellKorinek2023Economic,Verdegem2022AIcapitalism}. This strand is especially important for ACP's design philosophy. If AI systems increasingly mediate public reasoning, then inspectability, contestability, and non-claim discipline become governance requirements, not optional product features. ACP therefore treats open protocol semantics, auditability, conformance checks, exportable evidence, and matched baseline comparisons as central design commitments.
+
+\vspace{0.1in}
+The gap ACP addresses is the absence of a protocol-first, evidence-preserving system that links these strands together. Prior work gives us valuable precedents for consultation, platform design, collective-intelligence scaling, and AI-mediated deliberation. But, to our knowledge, it does not yet provide a single open workflow stack that combines: (i) matched intervention and baseline-thread conditions for the same deliberative task, (ii) inspectable routing criteria and explanation traces, (iii) procedural workflow modules that can be studied as interventions, and (iv) a conservative behavioral evidence ladder that distinguishes structural maturity, measured generation, blinded surrogate adjudication, treatment fidelity, and live portability. ACP is intended as a contribution at exactly this junction: constitutional middleware for shared reasoning under bounded attention, grounded in practical democratic workflows and explicit about what its current evidence does and does not establish.
+
+% ====================== 3. METHODS =============================
+\section{Methods}
+
+\textbf{System design and matched workflow comparison.} ACP is organized around a common cycle model rather than a single interface. In each cycle, participants submit one main contribution, the system prepares a release, participants respond after release, and the cycle is logged, audited, and exported. We compare two conditions on the same lifecycle. The \emph{intervention} condition prepares a routed digest with explanations, explicit routing criteria, and bounded bridge exposure. The \emph{baseline\_thread} condition releases the same cycle chronologically with no routing or digest layer. This matched design is important methodologically because it lets us ask whether structured attention coordination changes what institutions can inspect and act on, rather than merely comparing unrelated systems.
+
+\vspace{0.1in}
+\textbf{Inspectable coordination criteria.} In the intervention condition, Relay exposes four shared deliberative criteria inside the workflow: recipient relevance, prompt relevance, bridge perspective, and load balance. These criteria are carried into routing decisions, explanation traces, and exported evidence. This design reflects two substantive commitments. First, we wanted a system that could compress public input without erasing minority or quieter concerns. Second, we wanted the compression logic itself to remain contestable. For that reason, ACP is intentionally designed as auditable coordination infrastructure rather than as a black-box ranking engine.
+
+\vspace{0.1in}
+\textbf{Flagship denominator.} Our primary civic denominator is \href{https://github.com/davidkimai/acp/tree/main/benchmarks/scenarios/public-hearing-triage}{\texttt{public-hearing-triage}}. We chose this family because it concentrates the core institutional problem ACP is meant to address: high-volume, uneven, time-constrained public testimony that must be turned into a decision-ready issue map without pretending consensus. The benchmark surface uses matched intervention and baseline scenarios run through the same ACP cycle model. The generated evidence packet includes benchmark summaries, report bundles, criteria snapshots, audit traces, and export artifacts so that reviewers can inspect both what the system produced and how it produced it.
+
+\vspace{0.1in}
+\textbf{Procedural intervention layer.} ACP's canonical workflow content lives in \repodir{skills}{skills/}. These skill packages contain procedural instructions, examples, checklists, and compositions for tasks such as epistemic routing, digest and explanation review, omission critique, fairness and contestability critique, abstention and escalation, and end-to-end public-hearing handling. Structurally, this layer follows the open, file-backed Agent Skills pattern and its progressive-disclosure loading model, but repurposes both for public reasoning, bounded claim discipline, and measured workflow interventions \cite{Anthropic2025AgentSkills,AgentSkills2026Overview}. To make these modules experimentally tractable, we added a thin study/runtime substrate in \repodir{src/skills}{src/skills/} for registry loading, condition materialization, composition loading, trace generation, blinding, and adherence analysis. This split is deliberate: \repodir{skills}{skills/} remains the procedural source of truth, while \repodir{src/skills}{src/skills/} turns those procedures into measurable intervention conditions.
+
+\vspace{0.1in}
+\textbf{Behavioral study program.} We implemented a repo-local behavioral study program with frozen study configuration (\repofile{evals/skills/studies/v3-study-program.json}{evals/skills/studies/v3-study-program.json}) and orchestration runner (\repofile{scripts/evals/run-skills-study-program.mjs}{scripts/evals/run-skills-study-program.mjs}). Study A is a stratified within-case crossover measured-generation study with 35 cases, five per family, across seven task families: routing selection, digest-explanation review, omission critique, fairness-contestability critique, abstention-escalation, protocol-implementer review, and public-hearing end-to-end. Cases include routine, negative-control, adversarial-overclaim, and harder failure-mode scenarios such as false-consensus, load-overrun, conflicting-critic, schema-gap, and scale-overclaim cases. Each case is run across applicable intervention arms with deterministic randomized condition order by case ID. Applicable arms are \texttt{no\_skill}, \texttt{metadata\_only}, \texttt{full\_skill}, and \texttt{composition}. Generation uses \texttt{gpt-5.4-mini} by default. We preserve schema-validation failures instead of silently dropping them.
+
+\vspace{0.1in}
+\textbf{Adjudication and endpoints.} Because actual human reviewers were not yet available, Study B uses blinded surrogate adjudication rather than operator review. Baseline identity is hidden from judges through a preserved blinding map. Two independent mini-model judges score outputs, and \texttt{gpt-5.4} is reserved for disagreement, low-confidence, or flagship arbitration. Following the study protocol (\repofile{docs/strategy/ACP_SKILLS_V3_STUDY_PROTOCOL.md}{docs/strategy/ACP_SKILLS_V3_STUDY_PROTOCOL.md}), our primary endpoints are: substantive failure detection, escalation correctness, and claim-boundary obedience. Secondary endpoints are explanation faithfulness, omission catch, fairness/contestability catch, protocol-drift catch, artifact/trace legibility, latency, cost, and arbitration burden. This endpoint choice reflects our core claim that democratic workflow systems should be judged not only by output fluency, but by whether they catch the right failures, escalate when needed, and avoid overclaiming.
+
+\vspace{0.1in}
+\textbf{Treatment fidelity and live portability.} Study C separates assigned treatment from received treatment. We report intention-to-treat outcomes by assigned condition and per-protocol outcomes for outputs that actually adhered to the condition logic. Adherence analysis records selected skill or composition, prohibited leakage across condition boundaries, and whether the expected artifact class was produced. Study D then tests pragmatic live portability on an enriched cohort of 12 difficult or composition-eligible cases. This cohort focuses on portability, label-versus-substance divergence, latency, cost, and arbitration burden rather than broad live superiority.
+
+\vspace{0.1in}
+\textbf{Analysis and verification.} Our analysis plan uses small-sample descriptive effect logic rather than strong significance language: condition means, paired within-case comparisons where available, adjudicator agreement, arbitration burden, and intention-to-treat versus per-protocol contrasts. Human operator utility is treated as a missing endpoint rather than imputed from surrogate review. To strengthen reproducibility, all artifacts are generated through repo-local scripts and verified through build, typecheck, automated tests, skills audit, and the full release gate. The result is an end-to-end methods stack that makes ACP evaluable as both a democratic workflow system and a procedural intervention environment, while remaining explicit about the limits of its present evidence.
+
+% ====================== 4. RESULTS =============================
+\section{Results}
+
+\textbf{Infrastructure and evidence-readiness.} ACP's reference stack passed the full local verification surface used in this project: build, typecheck, automated tests, skills audit, and release gate. The current suite passed 30 test files and 65 tests, and the technical completion audit (\repofile{artifacts/completion/final/technical-completion-audit.md}{artifacts/completion/final/technical-completion-audit.md}) passed 6/6 top-level claims, including explainability without the Relay UI, checkability without trust, operation outside the browser flow, an external adoption path, inspectable evidence generation, and production-discipline surfaces. These are engineering results rather than democratic outcomes, but they matter because ACP's core claim is that public-facing AI workflows should be inspectable, reproducible, and reviewable rather than merely persuasive.
+
+\vspace{0.1in}
+\textbf{Flagship public-hearing comparison.} The flagship \texttt{public-hearing-triage} benchmark produces the clearest workflow-level contrast. Intervention and baseline conditions share participant count, contribution count, and response count, which makes the comparison interpretable as a change in coordination structure rather than a change in task denominator. Only the intervention condition produces routing decisions (6) and digest items (3). It also preserves explicit criteria weights and factor traces for all six routing decisions, whereas the baseline thread has no routing or digest layer. Bridge exposure is present and bounded in the intervention (rate 0.5) and absent in the baseline (0.0), while contributor coverage does not collapse (delta 0). The intervention bundle also produces a richer evidence surface, including audit export, criteria snapshot, and a 22-file report bundle for operator and research review. These results do not establish civic efficacy, but they do show that ACP can create a matched, inspectable comparison between chronological public input and structured attention coordination.
+
+\vspace{0.1in}
+\textbf{Behavioral intervention study.} The skills study adds measured evidence beyond fixture-level replay. Study A produced 109 case-condition attempts across 35 cases and 4 intervention arms, yielding 107 generated outputs and preserving 2 schema-validation failures. Study B adjudicated those 107 outputs under blinded surrogate review. On the primary endpoint family---substantive failure detection, escalation correctness, and claim-boundary obedience---\texttt{full\_skill} scored highest at 0.8772, followed closely by \texttt{no\_skill} at 0.8696, then \texttt{composition} at 0.8542 on only 4 outputs, and \texttt{metadata\_only} at 0.8340. This means the measured result is positive but narrow: full procedural guidance leads, but not by a margin large enough to support strong superiority claims.
+
+\vspace{0.1in}
+\textbf{Heterogeneity and adjudication burden.} The study is more informative when broken down by family rather than treated as one aggregate score. The strongest primary endpoint performance appears in the abstention/escalation family (0.9122) and the omission-critique family (0.8872), while protocol-implementer review is the weakest family (0.7565). Adjudicator reliability is moderate rather than decisive: overall judge agreement is 0.6636, with 18 \texttt{gpt-5.4} arbitrations. Agreement is relatively strong in public-hearing end-to-end (0.8333) and omission critique (0.8000), but much lower in fairness/contestability critique and protocol-implementer review (both 0.4667). Routing selection required the heaviest arbitration burden, with arbitration on 93.33\% of outputs in that family. This pattern suggests that the hardest cases are not simply cases where the model fails outright; they are often cases where evaluators themselves disagree about escalation, label boundaries, or protocol fit.
+
+\vspace{0.1in}
+\textbf{Treatment fidelity.} Study C shows that assigned treatment and received treatment are not interchangeable. Across 109 outputs, the adherence rate is 0.7890, prohibited leakage count is 23, and the expected artifact-class production rate is 0.4954. Under intention-to-treat scoring, \texttt{full\_skill} averages 0.8521 and \texttt{no\_skill} averages 0.8696; under per-protocol scoring, \texttt{full\_skill} averages 0.8387 and \texttt{no\_skill} averages 0.8642. The main result here is not that one arm cleanly dominates, but that treatment fidelity is itself a live scientific object. In this setting, strong generic model reasoning and imperfect condition adherence both shape the observed outcome.
+
+\vspace{0.1in}
+\textbf{Pragmatic live portability.} Study D evaluates a smaller enriched live-provider cohort of 12 difficult or composition-eligible cases, producing 28 live outputs with 10 arbitrations. The live primary scores are 0.8542 for \texttt{full\_skill}, 0.7882 for \texttt{metadata\_only}, 0.8334 for \texttt{no\_skill} on 2 outputs, and 0.7875 for \texttt{composition} on 2 outputs. The more informative live result is the divergence taxonomy: 15 outputs showed no meaningful divergence, 8 were label-or-escalation mismatches, 5 were acceptable bounded divergences, and 0 were classified as substantive misses under the current taxonomy. Total new provider spend for Studies A, B, and D was approximately \$3.62. Taken together, these live results suggest that ACP's current portability problem is more about action taxonomy and escalation calibration than wholesale collapse of substantive failure detection.
+
+\vspace{0.1in}
+\textbf{Overall result.} The evidence supports three bounded observations. First, ACP can already produce matched and inspectable intervention-versus-baseline deliberation workflows. Second, ACP skills can now be studied as procedural interventions with measurable fidelity, disagreement, and cost surfaces. Third, the empirical picture remains deliberately conservative: the project supports bounded claims about workflow structure, failure-mode handling, and evidence preservation, but it does not yet support claims of broad full-skill superiority, human operator utility, or field efficacy.
+
+% ============= 5. DISCUSSION AND LIMITATIONS ===================
+\section{Discussion and Limitations}
+
+The strongest interpretation of these results is not that ACP has already solved democratic deliberation, nor that skill-guided workflows have demonstrated decisive superiority over strong generic models. The stronger and more honest interpretation is that ACP now provides a credible \emph{governance substrate} for AI-assisted collective deliberation. It gives democratic workflows a protocol boundary, a matched intervention-versus-baseline comparison surface, explicit routing criteria, auditable traces, and a conservative evidence ladder for studying procedural interventions. For the Supercooperation agenda \cite{Foresight2026Supercooperation}, this matters because the central problem is not only whether AI can help groups coordinate, but also whether that coordination can remain inspectable, contestable, and robust against the concentration of agenda-setting power in opaque systems.
+
+\vspace{0.1in}
+Seen in that light, the flagship benchmark and behavioral study point in the same direction. The benchmark results show that ACP can create structured public-hearing briefings that are meaningfully different from a chronological baseline while preserving shared task denominator and reviewable evidence. The skills study shows that workflow modules can be treated as interventions rather than as vague prompt assets, and that their effects can be decomposed into failure detection, escalation, claim-boundary discipline, fidelity, disagreement burden, and live portability. Even the narrowness of the main effect is substantively informative. That \texttt{full\_skill} only narrowly leads \texttt{no\_skill} suggests that the important research object is not ``do instructions help at all?'' but rather: under what conditions do structured procedural workflows add value beyond strong generic reasoning, and how should democratic institutions evaluate that value?
+
+\vspace{0.1in}
+This is especially relevant for AI for democracy. If advanced AI systems are increasingly used to mediate public reasoning, then the main governance question is not only output quality; it is who gets to shape salience, how dissent is preserved, when escalation occurs, and whether the public or downstream operators can reconstruct how a release-ready account was assembled. ACP's protocol-first approach is an attempt to push against a failure mode that the Supercooperation community should care about: the gradual substitution of opaque AI mediation for contestable democratic process. By preserving criteria traces, bridge exposure, non-claim discipline, and matched baselines, ACP aims to make collective deliberation more legible without pretending that legibility alone settles legitimacy.
+
+\vspace{0.1in}
+The results also highlight a deeper methodological lesson. Some of the most difficult cases are not cases where the model simply fails, but cases where evaluators disagree about escalation, label boundaries, or protocol fit. This is visible in the moderate overall adjudicator agreement and especially in low-agreement families such as fairness-contestability critique and protocol-implementer review. For democratic applications, that is not a side issue. It suggests that contestability must apply to the evaluation layer as well as the generation layer. A system meant to support collective reasoning should make room not only for disagreement in public input, but also for disagreement about how AI-mediated workflow outputs ought to be interpreted.
+
+\subsectiongray{Limitations}
+
+This project has several important limitations. First, the behavioral study uses blinded surrogate adjudication rather than actual human operator review. That is a meaningful methodological step up from self-scoring or synthetic comparison, but it is still not a direct measure of operator utility, institutional usefulness, or democratic legitimacy. Human-review endpoints remain missing, and claims should remain bounded accordingly.
+
+\vspace{0.1in}
+Second, the measured study is still modest in scale. Thirty-five cases and 107 adjudicated outputs are enough to reveal patterns, disagreement surfaces, and fidelity problems, but not enough to justify broad claims of superiority across democratic workflows. This caution is particularly important for \texttt{composition}, which remains promising conceptually but underpowered empirically. Similarly, the pragmatic live cohort is intentionally narrow and enriched for hard cases; it provides portability evidence, not a general live comparative benchmark.
+
+\vspace{0.1in}
+Third, treatment fidelity is imperfect. Adherence below 0.8, nontrivial prohibited leakage, and low expected artifact-class production all indicate that assigned condition and received intervention are not the same thing. This weakens any simplistic reading of the aggregate scores. In democratic settings, this is more than a technical nuisance: it means that workflow governance depends not only on the nominal procedure but on whether the procedure is actually followed in a legible way.
+
+\vspace{0.1in}
+Fourth, the current benchmark and study family emphasize one flagship civic denominator: public-hearing triage. We view this as a strength for coherence, but it also limits external validity. Public hearings are a strong test case for bounded attention and public-input overload, yet they do not exhaust the space of democratic coordination problems. ACP has not yet demonstrated equivalent value in other institutional settings such as participatory budgeting, legislative consultation, or multi-stage assembly processes.
+
+\vspace{0.1in}
+Finally, ACP does not yet resolve the hardest normative problems it surfaces. It does not prove that bridge exposure is sufficient to preserve pluralism, that routed compression is fair, that legitimacy can be inferred from inspectability, or that protocol compliance implies democratic adequacy. The project is best understood as infrastructure for contestable workflow organization, not as a substitute for institutional judgment or democratic authorization.
+
+\subsectiongray{Future Work}
+
+The next priority is to add real human review to the evidence stack. The behavioral program has clarified where that review should focus first: low-agreement families, label-versus-escalation mismatch cases, and treatment-leakage cases. Human judgments are needed not only to validate outcome quality, but also to refine the action taxonomy itself and determine which disagreements are genuine workflow problems versus scorer artifacts.
+
+\vspace{0.1in}
+A second priority is to strengthen the procedural intervention layer rather than merely widen the benchmark. The current results suggest that future progress may come less from adding more skill text and more from improving adherence, tightening artifact expectations, clarifying escalation semantics, and better specifying composition boundaries. In other words, ACP should continue to evolve as contestable workflow infrastructure, not drift into generic prompt engineering.
+
+\vspace{0.1in}
+A third priority is to broaden practical democratic relevance while preserving claims discipline. That means targeted expansion into additional institutional workflows, more live-provider evaluation under bounded budget, and eventually field-facing pilots with real operators. But those extensions should follow, not precede, stronger human-review evidence. For the Supercooperation community, the most important long-run question is whether AI can help democratic institutions cooperate under conditions of rapid technological change without deepening concentration, opacity, or procedural disempowerment. ACP does not answer that question yet. What it offers now is a serious, inspectable, protocol-first way to study it.
+
+% ===================== 6. CONCLUSION ===========================
+\section{Conclusion}
+
+ACP starts from a simple but increasingly urgent premise: if AI is going to mediate collective deliberation, then democratic institutions need more than fluent outputs. They need workflow infrastructure that helps them coordinate under bounded attention while keeping the reasoning process inspectable, contestable, and resistant to premature consensus or opaque power concentration. In this paper we presented ACP as an open protocol for bounded shared reasoning, Relay as its reference implementation, and ACP skills as procedural workflow interventions that can now be studied rather than merely asserted. Across the flagship public-hearing benchmark and the behavioral intervention study, the most robust result is not that ACP has already proven democratic efficacy. It is that ACP can generate matched intervention-versus-baseline reasoning workflows, preserve evidence about how those workflows operate, and support a conservative evaluation program for omission handling, escalation, claim-boundary discipline, and live portability.
+
+\vspace{0.1in}
+For the Supercooperation agenda \cite{Foresight2026Supercooperation}, we see this as ACP's main relevance. AI for democracy should not only ask whether models can help groups cooperate; it should also ask whether the resulting coordination remains legible to the people and institutions who must live with it. ACP is an attempt to build that legibility into the protocol layer itself. Our current evidence remains bounded: the skills study is surrogate-adjudicated, human operator utility is still unmeasured, and the strongest comparative effects are narrow rather than sweeping. But this boundedness is part of the contribution rather than a distraction from it. At a moment when rapid AI progress could either strengthen democratic cooperation or deepen concentration and opacity, ACP offers a protocol-first, auditable way to study how AI might support collective deliberation without silently replacing democratic judgment.
+
+% ==================== CODE AND DATA ============================
+\section*{Code and Data}
+
+\begin{itemize}[label={-}, itemsep=2pt]
+    \item \textbf{Code repository:} \reporoot{github.com/davidkimai/acp}
+    \item \textbf{Protocol and implementation surfaces:} \repodir{protocol}{protocol/} and \href{https://github.com/davidkimai/acp/blob/main/docs/specs/RELAY_REFERENCE_IMPLEMENTATION_SPEC.md}{Relay implementation spec}
+    \item \textbf{Benchmark and study fixtures:} \repodir{benchmarks}{benchmarks/}, \repodir{evals/skills}{evals/skills/}, \href{https://github.com/davidkimai/acp/blob/main/evals/skills/studies/v3-study-program.json}{study program config}, \repodir{skills}{skills/}, and \repodir{src/skills}{src/skills/}
+    \item \textbf{Claims reproduction entrypoint:} \repofile{REPRODUCE.md}{REPRODUCE.md}
+    \item \textbf{Flagship benchmark artifacts:} \href{https://github.com/davidkimai/acp/blob/main/artifacts/conference/rehearsal/README.md}{conference rehearsal README} and \href{https://github.com/davidkimai/acp/blob/main/artifacts/conference/rehearsal/rehearsal-summary.json}{conference rehearsal summary}
+    \item \textbf{Behavioral study artifacts:} \href{https://github.com/davidkimai/acp/tree/main/artifacts/evals/skills/final}{final skills evidence packet}
+    \item \textbf{Data note:} The current paper is grounded in repo-local benchmarks, task fixtures, and generated artifacts. It does not release a real public-institution dataset or claim field evidence from live democratic deployment.
+\end{itemize}
+
+\section*{Author Contributions}
+
+Jason Tang led project framing, protocol and study design, implementation oversight, evaluation strategy, artifact review, and paper writing.
+
+\begin{thebibliography}{99}
+    \bibitem{Foresight2026Supercooperation} \textbf{Foresight Institute and Cooperative AI Foundation.} 2026. \textit{Supercooperation: The Future of AI for Democracy}. Event page. \href{https://foresight.org/events/supercooperation-the-future-of-ai-for-democracy/}{Online}.
+    \bibitem{Dafoe2020OpenProblems} \textbf{Dafoe, A., Hughes, E., Bachrach, Y., Collins, T., McKee, K. R., et al.} 2020. \textit{Open Problems in Cooperative AI}. \href{https://doi.org/10.48550/arxiv.2012.08630}{arXiv:2012.08630}.
+    \bibitem{Dafoe2021CommonGround} \textbf{Dafoe, A., Bachrach, Y., Hadfield, G. K., Horvitz, E., Larson, K., et al.} 2021. \textit{Cooperative AI: machines must learn to find common ground}. Nature. \href{https://doi.org/10.1038/d41586-021-01170-0}{Online}.
+    \bibitem{Anthropic2025AgentSkills} \textbf{Anthropic.} 2025. \textit{Equipping agents for the real world with Agent Skills}. Engineering blog. \href{https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills}{Online}.
+    \bibitem{AgentSkills2026Overview} \textbf{Agent Skills.} 2026. \textit{Agent Skills Overview}. Website. \href{https://agentskills.io/home}{Online}.
+    \bibitem{OECD2022Participation} \textbf{OECD.} 2022. \textit{OECD Guidelines for Citizen Participation Processes}. OECD Public Governance Reviews. \href{https://doi.org/10.1787/f765caf6-en}{Online}.
+    \bibitem{Hsiao2018vTaiwan} \textbf{Hsiao, Y.-T., Lin, S.-Y., Tang, A., Narayanan, D., and Sarahe, C.} 2018. \textit{vTaiwan: An Empirical Study of Open Consultation Process in Taiwan}. \href{https://doi.org/10.31235/osf.io/xyhft}{Online}.
+    \bibitem{Aragon2017Decidim} \textbf{Arag\'on, P., Kaltenbrunner, A., Calleja-L\'opez, A., Pereira, A., Monterde, A., Barandiaran, X. E., and G\'omez, V.} 2017. \textit{Deliberative Platform Design: The Case Study of the Online Discussions in Decidim Barcelona}. In \textit{Social Informatics}. \href{https://doi.org/10.1007/978-3-319-67256-4_22}{Online}.
+    \bibitem{Barandiaran2024Decidim} \textbf{Barandiaran, X. E., Calleja-L\'opez, A., Monterde, A., and Romero, C.} 2024. \textit{Decidim, a Technopolitical Network for Participatory Democracy}. SpringerBriefs in Political Science. \href{https://doi.org/10.1007/978-3-031-50784-7}{Online}.
+    \bibitem{King2018OnlineDeliberation} \textbf{King, M.} 2018. \textit{Deliberation and Decision Making Online: Evaluating Platform Design}. WestminsterResearch. \href{https://doi.org/10.34737/qqyvx}{Online}.
+    \bibitem{Small2021Polis} \textbf{Small, C. G.} 2021. \textit{Polis: Escalar de la deliberaci\'on mediante el mapeo de espacios de opini\'on de alta dimensi\'on}. \textit{Recerca Revista de pensament i an\`alisi}. \href{https://doi.org/10.6035/recerca.5516}{Online}.
+    \bibitem{Mikhaylovskaya2024Enhancing} \textbf{Mikhaylovskaya, A.} 2024. \textit{Enhancing Deliberation with Digital Democratic Innovations}. \textit{Philosophy \& Technology}. \href{https://doi.org/10.1007/s13347-023-00692-x}{Online}.
+    \bibitem{Formosa2024DemocraticCitizenship} \textbf{Formosa, P., Kashyap, B., and Sahebi, S.} 2024. \textit{Generative AI and the Future of Democratic Citizenship}. \textit{Digital Government: Research and Practice}. \href{https://doi.org/10.1145/3674844}{Online}.
+    \bibitem{Fulay2025EmptyChair} \textbf{Fulay, S., Dimitrakopoulou, D., and Roy, D.} 2025. \textit{The Empty Chair: Using LLMs to Raise Missing Perspectives in Policy Deliberations}. \href{https://doi.org/10.48550/arxiv.2503.13812}{arXiv:2503.13812}.
+    \bibitem{Ulnicane2024Governance} \textbf{Ulnicane, I.} 2024. \textit{Governance fix? Power and politics in controversies about governing generative AI}. \textit{Policy and Society}. \href{https://doi.org/10.1093/polsoc/puae022}{Online}.
+    \bibitem{BellKorinek2023Economic} \textbf{Bell, S., and Korinek, A.} 2023. \textit{AI's Economic Peril}. \textit{Journal of Democracy}. \href{https://doi.org/10.1353/jod.2023.a907696}{Online}.
+    \bibitem{Verdegem2022AIcapitalism} \textbf{Verdegem, P.} 2022. \textit{Dismantling AI capitalism: the commons as an alternative to the power concentration of Big Tech}. \textit{AI \& Society}. \href{https://doi.org/10.1007/s00146-022-01437-8}{Online}.
+\end{thebibliography}
+
+\section*{LLM Usage Statement}
+
+LLM assistance was used for generating hypotheses, literature synthesis, editing, and repository consistency checks. Technical claims, commands, metrics, and evidence statements in this paper were checked against repository artifacts including \repofile{REPRODUCE.md}{REPRODUCE.md}, the \href{https://github.com/davidkimai/acp/blob/main/artifacts/conference/rehearsal/rehearsal-summary.json}{conference rehearsal summary}, and the \href{https://github.com/davidkimai/acp/tree/main/artifacts/evals/skills/final}{final evidence packet}.
+
+\end{document}

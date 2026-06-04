@@ -12,18 +12,22 @@ ACP is a protocol-first system for **AI-assisted collective deliberation under b
 
 This repo also serves as the paper companion for **_Collective Deliberation Is a Skill Issue_**.
 
+- Paper PDF: [`acp.pdf`](acp.pdf)
+- Paper source: [`acp.tex`](acp.tex)
+
 ## Three ways to use this repo
 
 ### 1) Review ACP in 5 minutes
 Start here if you are reading the repository alongside a paper, workshop submission, or review packet.
 
-1. Read [`REVIEWER_START_HERE.md`](REVIEWER_START_HERE.md)
-2. Read [`SUBMISSION_REPO_MAP.md`](SUBMISSION_REPO_MAP.md)
-3. Read [`CLAIMS_AND_NON_CLAIMS.md`](CLAIMS_AND_NON_CLAIMS.md)
-4. Read [`REPRODUCE.md`](REPRODUCE.md) for the copy-paste reproduction path
-5. Read [`protocol/README.md`](protocol/README.md)
-6. Inspect the flagship rehearsal summary surface in [`artifacts/conference/rehearsal/README.md`](artifacts/conference/rehearsal/README.md) and [`artifacts/conference/rehearsal/rehearsal-summary.json`](artifacts/conference/rehearsal/rehearsal-summary.json)
-7. Inspect the skills evidence packet in [`artifacts/evals/skills/final/`](artifacts/evals/skills/final/)
+1. Open the paper: [`acp.pdf`](acp.pdf) (or source in [`acp.tex`](acp.tex))
+2. Read [`REVIEWER_START_HERE.md`](REVIEWER_START_HERE.md)
+3. Read [`SUBMISSION_REPO_MAP.md`](SUBMISSION_REPO_MAP.md)
+4. Read [`CLAIMS_AND_NON_CLAIMS.md`](CLAIMS_AND_NON_CLAIMS.md)
+5. Read [`REPRODUCE.md`](REPRODUCE.md) for the copy-paste reproduction path
+6. Read [`protocol/README.md`](protocol/README.md)
+7. Inspect the flagship rehearsal summary surface in [`artifacts/conference/rehearsal/README.md`](artifacts/conference/rehearsal/README.md) and [`artifacts/conference/rehearsal/rehearsal-summary.json`](artifacts/conference/rehearsal/rehearsal-summary.json)
+8. Inspect the skills evidence packet in [`artifacts/evals/skills/final/`](artifacts/evals/skills/final/)
 
 ### 2) Run the reference implementation
 Start here if you want to run Relay locally.
